@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Answers may arrive in the query string; never leak them via Referer. -->
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex">
+<title>How does your school compare? · Screens in Schools</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="page">
+  <header class="wrap top">
+    <section class="masthead">
+      <span class="masthead-emoji" aria-hidden="true">📊</span>
+      <h1>How does your school compare?</h1>
+    </section>
+  </header>
+
+  <main class="wrap">
+    <div id="sections" class="sections" aria-live="polite"></div>
+  </main>
+
+  <div class="wrap footer-note">
+    <p id="as-of"></p>
+  </div>
+  <div class="wrap contact">
+    <div>Questions?</div>
+    <a href="mailto:screensinschools@wharton.upenn.edu">screensinschools@wharton.upenn.edu</a>
+  </div>
+  <div style="height:56px"></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

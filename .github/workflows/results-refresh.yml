@@ -1,0 +1,38 @@
+# Secrets to add in repo Settings → Secrets and variables → Actions:
+#   QUALTRICS_TOKEN, QUALTRICS_DATACENTER (yul1), SURVEY_TEEN (SV_6LFWjsZ51O8XInY), SURVEY_EDUCATOR (SV_bxUuSACfns11z5s)
+name: Refresh results data
+on:
+  schedule:
+    - cron: "0 6 * * *"        # 06:00 UTC daily (~2am Eastern). Use "0 * * * *" for hourly.
+  workflow_dispatch:           # manual "Run workflow" button
+permissions:
+  contents: write
+concurrency:
+  group: results-refresh
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install requests
+      - name: Aggregate
+        env:
+          QUALTRICS_TOKEN: ${{ secrets.QUALTRICS_TOKEN }}
+          QUALTRICS_DATACENTER: ${{ secrets.QUALTRICS_DATACENTER }}
+          SURVEY_TEEN: ${{ secrets.SURVEY_TEEN }}
+          SURVEY_EDUCATOR: ${{ secrets.SURVEY_EDUCATOR }}
+          MIN_N: "10"
+          OUT: results/results-data.json
+        run: python export/results_export.py
+      - name: Commit if changed
+        run: |
+          git config user.name "results-bot"
+          git config user.email "results-bot@users.noreply.github.com"
+          git add results/results-data.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Refresh results data"
+            git push
+          fi
