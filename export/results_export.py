@@ -79,6 +79,17 @@ EDU = {
 ELEMENTARY_CODES = {1}  # QID44 "Mostly elementary school"; 4 = middle, 5 = high
 
 
+def check(r, what):
+    """Fail with Qualtrics' own error message (never response data, never the URL or token)."""
+    if r.ok:
+        return
+    try:
+        msg = r.json()["meta"]["error"]["errorMessage"]
+    except Exception:
+        msg = "(no message)"
+    sys.exit(f"Qualtrics returned {r.status_code} while {what}: {msg}")
+
+
 def export(survey_id, fields):
     """Qualtrics response export, restricted to the whitelisted QIDs. Returns list of {values:{...}} dicts."""
     body = {
@@ -89,12 +100,12 @@ def export(survey_id, fields):
         "surveyMetadataIds": ["finished", "distributionChannel"],
     }
     r = requests.post(f"{BASE}/surveys/{survey_id}/export-responses", headers=H, json=body, timeout=60)
-    r.raise_for_status()
+    check(r, f"starting the export for {fields is TEEN and 'SURVEY_TEEN' or 'SURVEY_EDUCATOR'}")
     pid = r.json()["result"]["progressId"]
     deadline = time.time() + 600
     while True:
         pr = requests.get(f"{BASE}/surveys/{survey_id}/export-responses/{pid}", headers=H, timeout=60)
-        pr.raise_for_status()
+        check(pr, "checking export progress")
         p = pr.json()["result"]
         if p["status"] == "complete":
             fid = p["fileId"]; break
@@ -104,7 +115,7 @@ def export(survey_id, fields):
             sys.exit(f"export timed out for {survey_id}")
         time.sleep(2)
     f = requests.get(f"{BASE}/surveys/{survey_id}/export-responses/{fid}/file", headers=H, timeout=120)
-    f.raise_for_status()
+    check(f, "downloading the export file")
     with zipfile.ZipFile(io.BytesIO(f.content)) as z:
         data = json.loads(z.read(z.namelist()[0]))
     rows = []
