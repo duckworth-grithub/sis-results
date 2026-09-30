@@ -9,8 +9,9 @@ Wrap URLs in single quotes: & and # mean something to the shell.
 
 For each link it reports the audience the page will show, every parameter that page reads (its value and
 whether the page recognizes it), which are missing, and anything the page ignores. The answer tables and
-parameter map are read from app.js itself, so this can't drift from the page. Exit status is 1 if any value
-is unrecognized or still contains unpiped Qualtrics text.
+parameter map are read from app.js itself, so this can't drift from the page. It accepts answers in #fragment or ?query and
+codes or labels, says which format it saw, and gives a verdict on whether a failure is Qualtrics-side (unpiped
+${q://…}, labels instead of codes, &amp;, empty values) or page-side. Exit status is 1 if anything wouldn't work.
 """
 import argparse
 import os
@@ -61,7 +62,7 @@ def read_url(url):
         h.setdefault(k, v)
     merged = dict(q)
     merged.update(h)
-    return merged, parts
+    return merged, parts, q, h
 
 
 def code(s):
@@ -69,9 +70,37 @@ def code(s):
     return int(s) if re.fullmatch(r"\d{1,3}", s) else None
 
 
+def norm(s):
+    """Lower-case text with HTML, curly quotes and extra spaces removed, for matching piped labels."""
+    s = re.sub(r"<[^>]+>", " ", str(s)).replace("\u2018", "'").replace("\u2019", "'").replace("&nbsp;", " ")
+    return re.sub(r"\s+", " ", s).strip().lower()
+
+
+def as_label(raw, table):
+    """If raw is choice text rather than a code, the option it matches (or None)."""
+    v = norm(raw)
+    for c, label in table.items():
+        l = norm(label)
+        if v == l or v.startswith(l) or l.startswith(v) or l.split(" (")[0] and v.startswith(l.split(" (")[0]):
+            return c, label
+    return None
+
+
+def unpiped(raw):
+    return "q://" in raw or "${" in raw or re.search(r"%7B|%7D|%24", raw, re.I)
+
+
 def check(url, params):
-    got, parts = read_url(url)
-    problems = 0
+    got, parts, q, h = read_url(url)
+    print(url.strip())
+    # Link-level problems that stop the page seeing anything
+    amp = [k for k in got if k.startswith("amp;")]
+    if amp:
+        print("  PROBLEM: '&amp;' in the link (keys " + ", ".join(amp) + "). The HTML-escaped & was copied into the href,")
+        print("           so the page sees 'amp;when' instead of 'when'. Retype the & signs in the link, not in the HTML.")
+        for k in amp:
+            got.setdefault(k[4:], got[k])
+    where = "#fragment" if h and not q else "?query" if q and not h else "both ?query and #fragment" if q and h else "nowhere"
     a = (got.get("a") or "").lower()
     audience = a if a in AUDIENCES else "student"
     level = str(got.get("level") or "").strip()
@@ -79,55 +108,81 @@ def check(url, params):
     if audience != "student" and level:
         audience = "elementary" if level == "1" else "educator"
         how += f", level={level} → {'elementary' if level == '1' else 'MS/HS'} page"
-    print(url.strip())
     print(f"  Audience: {audience}  ({how})")
     if parts.path and not parts.path.endswith("/") and not parts.path.endswith(".html"):
         print(f"  Note: path {parts.path!r} has no trailing slash; GitHub Pages will redirect it.")
-    if parts.query and parts.fragment:
+    if q and h:
         print("  Note: answers in both ?query and #fragment; the #fragment wins for any key in both.")
 
     spec = params[audience]
     ok = missing = bad = 0
+    kinds = {"codes": 0, "labels": 0, "placeholders": 0, "other": 0}
     for p, (key, kind, table) in spec.items():
         raw = got.get(p)
         shown = "" if raw is None else raw
         if raw is None or raw.strip() == "":
             status = "MISSING (not in link)" if raw is None else "MISSING (empty: not answered or not shown)"
             missing += 1
-        elif "${" in raw or "q://" in raw:
-            status = "NOT PIPED: Qualtrics placeholder text (copied from the editor or a preview?)"
-            bad += 1
+        elif unpiped(raw):
+            status, bad = "NOT PIPED: Qualtrics placeholder text reached the page (Qualtrics-side)", bad + 1
+            kinds["placeholders"] += 1
         elif kind == "scale":
             c = code(raw)
+            pct = re.match(r"\s*(\d{1,3})\s*%", raw)
             if c is not None and c <= 100 and c % 10 == 0:
                 status, ok = f"OK → {c // 10} on the 0–10 scale", ok + 1
+                kinds["codes"] += 1
+            elif pct:
+                status, bad = f"LABEL, not a code: page ignores it (would be {pct.group(1)}; use SelectedChoicesRecode)", bad + 1
+                kinds["labels"] += 1
             else:
                 hint = " (looks like a 0–10 value; the link should pipe the 0–100 recode)" if c is not None and c <= 10 else ""
                 status, bad = f"NOT RECOGNIZED: expected 0, 10, 20 … 100{hint}", bad + 1
-        elif kind == "multi":
-            pieces = [x for x in re.split(r"[\s,]+", raw) if x]
+                kinds["codes" if c is not None else "other"] += 1
+        else:
+            pieces = [x for x in re.split(r"[\s,]+", raw) if x] if kind == "multi" and all(code(x) is not None for x in re.split(r"[\s,]+", raw) if x) else [raw]
             hits = [table[c] for c in map(code, pieces) if c in table]
-            misses = [x for x in pieces if code(x) not in table]
             if hits:
-                status = "OK → " + "; ".join(dict.fromkeys(hits)) + " (YOU on each; headline uses the first)"
+                kinds["codes"] += 1
                 ok += 1
+                status = "OK → " + "; ".join(dict.fromkeys(hits))
+                if kind == "multi":
+                    status += " (YOU on each; headline uses the first)"
+                misses = [x for x in pieces if code(x) not in table]
                 if misses:
                     status += f"; ignored: {', '.join(misses)}"
             else:
-                status, bad = f"NOT RECOGNIZED: expected codes {sorted(table)}", bad + 1
-        else:
-            c = code(raw)
-            if c in table:
-                status, ok = f"OK → {table[c]}", ok + 1
-            else:
-                status, bad = "NOT RECOGNIZED: expected " + ", ".join(f"{k}={v}" for k, v in table.items()), bad + 1
-        print(f"  {p:<11}= {shown:<10} {status}")
-    extra = [k for k in got if k not in spec and k not in ("a", "level")]
+                lab = as_label(raw, table) if code(raw) is None else None
+                if lab:
+                    kinds["labels"] += 1
+                    status = f"LABEL, not a code: page ignores it (matches {lab[0]}={lab[1]!r}; use SelectedChoicesRecode)"
+                else:
+                    kinds["codes" if code(raw) is not None else "other"] += 1
+                    status = "NOT RECOGNIZED: expected " + ", ".join(f"{k}={v}" for k, v in table.items())
+                bad += 1
+        print(f"  {p:<11}= {shown[:40]:<10} {status}")
+    extra = [k for k in got if k not in spec and k not in ("a", "level") and not k.startswith("amp;")]
     if extra:
         print("  Not read on this page: " + ", ".join(f"{k}={got[k]}" for k in extra))
-    print(f"  Summary: {ok} recognized, {missing} missing, {bad} not recognized\n")
-    problems += bad
-    return problems
+    seen = ", ".join(f"{n} {k}" for k, n in kinds.items() if n) or "no values"
+    print(f"  Format: answers in {where}; values seen: {seen}")
+    print(f"  Summary: {ok} recognized, {missing} missing, {bad} not recognized"
+          + (" (recognized only once the &amp; is fixed; as-is the page reads none of them)" if amp else ""))
+    if kinds["placeholders"]:
+        print("  Verdict: Qualtrics-side. Piped text wasn't filled in (link copied from the editor/preview, or the")
+        print("           editor URL-encoded the ${…}). Check the href in the message's HTML view.")
+    elif kinds["labels"]:
+        print("  Verdict: Qualtrics-side. The link pipes choice text; change SelectedChoices to SelectedChoicesRecode.")
+    elif amp:
+        print("  Verdict: Qualtrics-side. Fix the &amp; in the href.")
+    elif ok == 0 and missing:
+        print("  Verdict: Qualtrics-side. Every answer is empty: wrong QIDs for this survey/branch, or questions not shown.")
+    elif bad:
+        print("  Verdict: some values are out of range for the page; see NOT RECOGNIZED lines.")
+    else:
+        print("  Verdict: the link is fine; the page will show YOU on every recognized answer that has a YOU chart.")
+    print()
+    return bad + len(amp)
 
 
 def main():
