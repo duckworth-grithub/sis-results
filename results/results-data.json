@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-30T17:04:57Z",
+ "generated_at": "2026-09-30T17:09:56Z",
  "min_n": 10,
  "audiences": {
   "student": {
@@ -191,7 +191,15 @@
       "More than 5 hours": 0.0
      }
     },
-    "view_screentime": null,
+    "view_screentime": {
+     "kind": "choice",
+     "n": 11,
+     "options": {
+      "Too low": 18.2,
+      "About right": 18.2,
+      "Too high": 63.6
+     }
+    },
     "view_hardcopy": {
      "kind": "choice",
      "n": 11,
@@ -346,11 +354,11 @@
     },
     "view_screentime": {
      "kind": "choice",
-     "n": 11,
+     "n": 20,
      "options": {
-      "Too low": 36.4,
-      "About right": 54.5,
-      "Too high": 9.1
+      "Too low": 20.0,
+      "About right": 30.0,
+      "Too high": 50.0
      }
     },
     "view_hardcopy": {
