@@ -69,6 +69,10 @@ no YOU mark, nothing piped into the results link.
 
 Parsed but not displayed (no chart in the design): `strict`, `enforce`, `takehome`.
 
+Check a real link from a test run (reads the page's own tables from `app.js`; quote the URL):
+`python3 tools/check_results_url.py 'https://duckworth-grithub.github.io/sis-results/#a=student&when=1&…'`
+It prints the audience, each parameter's value and whether the page recognizes it, and what's missing or ignored.
+
 Test links locally (`python3 -m http.server`, then open http://localhost:8000 plus):
 - `/#a=student&when=1&where=3&phone=20&laptop=30&teacher=1`
 - `/#a=educator&level=5&when=1&satisf=80&phone=20&between=20&laptop=40&screentime=3`
