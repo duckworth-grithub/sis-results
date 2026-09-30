@@ -169,7 +169,8 @@
     var h = new URLSearchParams(location.hash.replace(/^#/, ''));
     var get = function (k) { return h.has(k) ? h.get(k) : q.get(k); };
     var a = (get('a') || '').toLowerCase();
-    var audience = AUDIENCES.indexOf(a) >= 0 ? a : 'educator'; // no or unknown `a` → educator page
+    if (AUDIENCES.indexOf(a) < 0) return null; // no or unknown `a` → caller redirects to the survey
+    var audience = a;
     // One educator-survey link serves both pages: QID44 recode 1 = "Mostly elementary school".
     var level = String(get('level') || '').trim();
     if (audience !== 'student' && level) audience = level === '1' ? 'elementary' : 'educator';
@@ -195,7 +196,14 @@
     return { audience: audience, picks: picks };
   }
 
+  // Bare visits (no valid `a` in the #hash or the ?query) go to the survey instead, before any data is fetched.
+  // `a` is also read from the query because student links are `?a=student` and the page rewrites the address bar
+  // to `?a=<audience>` below, so reloads and shared links carry `a` there.
   var parsed = readParams();
+  if (!parsed) {
+    location.replace('https://screensinschools.org');
+    return;
+  }
   try {
     history.replaceState(null, '', location.pathname + '?a=' + parsed.audience);
   } catch (e) { /* file:// or sandboxed — nothing to scrub */ }

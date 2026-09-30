@@ -102,9 +102,13 @@ def check(url, params):
             got.setdefault(k[4:], got[k])
     where = "#fragment" if h and not q else "?query" if q and not h else "both ?query and #fragment" if q and h else "nowhere"
     a = (got.get("a") or "").lower()
-    audience = a if a in AUDIENCES else "educator"
+    if a not in AUDIENCES:
+        print(f"  Audience: none (a={a or '(missing)'}) → the page redirects to https://screensinschools.org")
+        print("  Verdict: this link never shows a report. Add a=educator, a=elementary or a=student.\n")
+        return 1
+    audience = a
     level = str(got.get("level") or "").strip()
-    how = f"a={a or '(none)'}" + ("" if a in AUDIENCES else " → not a known audience, page falls back to educator")
+    how = f"a={a}"
     if audience != "student" and level:
         audience = "elementary" if level == "1" else "educator"
         how += f", level={level} → {'elementary' if level == '1' else 'MS/HS'} page"
@@ -175,6 +179,8 @@ def check(url, params):
         print("  Verdict: Qualtrics-side. The link pipes choice text; change SelectedChoices to SelectedChoicesRecode.")
     elif amp:
         print("  Verdict: Qualtrics-side. Fix the &amp; in the href.")
+    elif ok == 0 and missing and ("preview" in got or audience == "student"):
+        print("  Verdict: generic view by design (" + ("preview link" if "preview" in got else "student links carry no answers") + "); no YOU marks.")
     elif ok == 0 and missing:
         print("  Verdict: Qualtrics-side. Every answer is empty: wrong QIDs for this survey/branch, or questions not shown.")
     elif bad:

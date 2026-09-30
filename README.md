@@ -111,9 +111,13 @@ Test links locally (`python3 -m http.server`, then open http://localhost:8000 pl
 - `/#a=educator&level=1&access=1,3&read=20&hw=10&pers=2&other=1&noninstr=1&screentime=3`
 - `/?a=student` (generic view: aggregates highlighted in green, no YOU marks)
 - `/results/?a=educator` (old address; should land on `/?a=educator`)
+- `/` (no `a`; should redirect to https://screensinschools.org)
 
 ## Behaviour
-- No `a` parameter, or an unknown value → educator page. `a=student` / `a=educator` / `a=elementary` pick their page.
+- No `a` parameter (in the `#hash` or the `?query`), or an unknown value → redirect to https://screensinschools.org, before
+  any data is fetched. `a=student` / `a=educator` / `a=elementary` pick their page, with or without answers.
+- Demos: add `preview=1` to show any page without answers, e.g. `https://results.screensinschools.org/#a=educator&preview=1`
+  (or `#a=elementary&preview=1`, `#a=student&preview=1`). The page ignores `preview`; it only needs a valid `a`.
 - Unknown recodes / off-grid scale values → treated as missing (generic sentence, no YOU mark).
 - `results/results-data.json` fails to load → baked-in sample numbers, footer says "Sample data".
 - No minimum sample size (`MIN_N` is 0): any question with at least one answer is published. A question nobody
