@@ -45,9 +45,9 @@
     ['No device access', 'say students have no device access', 5]
   ];
   var SCREEN = [
-    ['Too high', 'of educators also say screen time is too high.', 3],
-    ['About right', 'of educators say screen time is about right.', 2],
-    ['Too low', 'of educators say screen time is too low.', 1]
+    ['Too high', 'say screen time is too high.', 3],
+    ['About right', 'say screen time is about right.', 2],
+    ['Too low', 'say screen time is too low.', 1]
   ];
   // Old 5-point labels (before the Sep 2026 edit), folded into the three groups if a data file carries them.
   var SCREEN_OLD = { 'Too high': ['A little too high', 'Much too high'], 'About right': [], 'Too low': ['A little too low', 'Much too low'] };
@@ -399,7 +399,8 @@
         '<div class="callout" style="align-items:' + s.ai + '"><div class="callout-tick" style="align-self:center"></div>' +
         '<div class="callout-body" style="align-self:' + s.ai + ';align-items:' + s.ai + '"><b>' + s.p + '%</b><span>' + esc(s.label) + '</span></div></div></div>';
     }).join('');
-    var head = num(groups[mi]) + ' ' + SCREEN[mi][1];
+    // Headline is the majority view; "also" only when that's the respondent's own answer.
+    var head = num(groups[mi]) + ' of educators ' + (yi === mi ? 'also ' : '') + SCREEN[mi][1];
     return section('', 'screenTime', '<h3>' + head + '</h3><div class="stack-wrap"><div class="stack">' + bar + '</div><div class="stack-under">' + under + '</div></div>');
   }
 
