@@ -1,61 +1,61 @@
 {
- "generated_at": "2026-09-30T19:54:02Z",
+ "generated_at": "2026-09-30T20:30:08Z",
  "min_n": 0,
  "audiences": {
   "student": {
-   "n": 16,
+   "n": 17,
    "questions": {
     "wyr_read": {
      "kind": "choice",
-     "n": 16,
+     "n": 17,
      "options": {
-      "Read things in hard copy": 37.5,
-      "Read things on a screen": 62.5
+      "Read things in hard copy": 41.2,
+      "Read things on a screen": 58.8
      }
     },
     "wyr_homework": {
      "kind": "choice",
-     "n": 16,
+     "n": 17,
      "options": {
-      "Do more homework on a computer": 75.0,
-      "Do more homework on paper": 25.0
+      "Do more homework on a computer": 70.6,
+      "Do more homework on paper": 29.4
      }
     },
     "policy_when": {
      "kind": "choice",
-     "n": 16,
+     "n": 17,
      "options": {
-      "Bell-to-bell": 56.2,
-      "Schedule-based restriction": 37.5,
-      "No school-wide restriction": 6.2
+      "Bell-to-bell": 52.9,
+      "Schedule-based restriction": 41.2,
+      "No school-wide restriction": 5.9
      }
     },
     "policy_where": {
      "kind": "choice",
-     "n": 16,
+     "n": 17,
      "options": {
       "Phones cannot be brought into school at all": 0.0,
-      "Centralized collection": 6.2,
-      "Yondr pouches or similar": 6.2,
-      "Lockers only": 18.8,
-      "Classroom collection": 18.8,
-      "'No show' (out of sight)": 31.2,
-      "No school-wide policy": 18.8
+      "Centralized collection": 5.9,
+      "Yondr pouches or similar": 5.9,
+      "Lockers only": 17.6,
+      "Classroom collection": 23.5,
+      "'No show' (out of sight)": 29.4,
+      "No school-wide policy": 17.6
      }
     },
     "use_phone_class": {
      "kind": "scale",
-     "n": 16,
-     "mean": 2.62,
+     "n": 17,
+     "mean": 2.53,
      "dist": [
-      18.8,
-      25.0,
-      6.2,
-      25.0,
-      6.2,
+      17.6,
+      29.4,
+      5.9,
+      23.5,
+      5.9,
       0.0,
-      6.2,
-      12.5,
+      5.9,
+      11.8,
       0.0,
       0.0,
       0.0
@@ -63,242 +63,242 @@
     },
     "use_laptop_class": {
      "kind": "scale",
-     "n": 16,
-     "mean": 3.44,
+     "n": 17,
+     "mean": 3.35,
      "dist": [
-      12.5,
-      12.5,
-      12.5,
-      18.8,
-      12.5,
-      12.5,
+      11.8,
+      11.8,
+      17.6,
+      17.6,
+      11.8,
+      11.8,
       0.0,
-      12.5,
-      6.2,
+      11.8,
+      5.9,
       0.0,
       0.0
      ]
     },
     "use_teacher_phone": {
      "kind": "choice",
-     "n": 16,
+     "n": 17,
      "options": {
       "Never": 0.0,
-      "Once per week": 43.8,
-      "A few times per week": 31.2,
-      "Most days of the week": 12.5,
-      "Every day": 12.5
+      "Once per week": 47.1,
+      "A few times per week": 29.4,
+      "Most days of the week": 11.8,
+      "Every day": 11.8
      }
     },
     "policy_strict": {
      "kind": "choice",
-     "n": 16,
+     "n": 17,
      "options": {
-      "More strict": 12.5,
-      "Just right": 43.8,
-      "Less strict": 43.8
+      "More strict": 17.6,
+      "Just right": 41.2,
+      "Less strict": 41.2
      }
     }
    }
   },
   "elementary": {
-   "n": 12,
+   "n": 13,
    "questions": {
     "tech_access": {
      "kind": "multi",
-     "n": 12,
+     "n": 13,
      "options": {
-      "1:1 devices": 58.3,
-      "Cart or library checkout": 25.0,
-      "Computer lab": 8.3,
-      "Bring your own device": 16.7,
-      "No device access": 8.3
+      "1:1 devices": 53.8,
+      "Cart or library checkout": 30.8,
+      "Computer lab": 7.7,
+      "Bring your own device": 15.4,
+      "No device access": 7.7
      }
     },
     "tech_take_home": {
      "kind": "scale",
-     "n": 10,
-     "mean": 4.5,
+     "n": 11,
+     "mean": 4.18,
      "dist": [
-      20.0,
-      10.0,
-      10.0,
-      10.0,
-      10.0,
-      10.0,
+      18.2,
+      18.2,
+      9.1,
+      9.1,
+      9.1,
+      9.1,
       0.0,
       0.0,
       0.0,
       0.0,
-      30.0
+      27.3
      ]
     },
     "tech_screen_read": {
      "kind": "scale",
-     "n": 11,
-     "mean": 3.0,
+     "n": 12,
+     "mean": 2.83,
      "dist": [
-      9.1,
-      36.4,
-      18.2,
-      9.1,
+      8.3,
+      41.7,
+      16.7,
+      8.3,
       0.0,
       0.0,
-      9.1,
-      9.1,
+      8.3,
+      8.3,
       0.0,
-      9.1,
+      8.3,
       0.0
      ]
     },
     "tech_screen_hw": {
      "kind": "scale",
-     "n": 11,
-     "mean": 3.0,
+     "n": 12,
+     "mean": 2.83,
      "dist": [
-      9.1,
-      27.3,
-      9.1,
-      18.2,
-      27.3,
+      8.3,
+      33.3,
+      8.3,
+      16.7,
+      25.0,
       0.0,
       0.0,
       0.0,
       0.0,
       0.0,
-      9.1
+      8.3
      ]
     },
     "use_instr_personal": {
      "kind": "choice",
-     "n": 12,
+     "n": 13,
      "options": {
-      "None": 16.7,
-      "Up to 1 hour": 16.7,
-      "1 to 2 hours": 25.0,
-      "2 to 3 hours": 16.7,
-      "3 to 4 hours": 16.7,
-      "4 to 5 hours": 8.3,
+      "None": 15.4,
+      "Up to 1 hour": 15.4,
+      "1 to 2 hours": 30.8,
+      "2 to 3 hours": 15.4,
+      "3 to 4 hours": 15.4,
+      "4 to 5 hours": 7.7,
       "More than 5 hours": 0.0
      }
     },
     "use_instr_other": {
      "kind": "choice",
-     "n": 12,
+     "n": 13,
      "options": {
-      "None": 8.3,
-      "Up to 1 hour": 25.0,
-      "1 to 2 hours": 25.0,
-      "2 to 3 hours": 8.3,
-      "3 to 4 hours": 8.3,
-      "4 to 5 hours": 16.7,
-      "More than 5 hours": 8.3
+      "None": 7.7,
+      "Up to 1 hour": 30.8,
+      "1 to 2 hours": 23.1,
+      "2 to 3 hours": 7.7,
+      "3 to 4 hours": 7.7,
+      "4 to 5 hours": 15.4,
+      "More than 5 hours": 7.7
      }
     },
     "use_noninstr": {
      "kind": "choice",
-     "n": 12,
+     "n": 13,
      "options": {
-      "None": 8.3,
-      "Up to 1 hour": 58.3,
+      "None": 15.4,
+      "Up to 1 hour": 53.8,
       "1 to 2 hours": 0.0,
-      "2 to 3 hours": 25.0,
-      "3 to 4 hours": 8.3,
+      "2 to 3 hours": 23.1,
+      "3 to 4 hours": 7.7,
       "4 to 5 hours": 0.0,
       "More than 5 hours": 0.0
      }
     },
     "view_screentime": {
      "kind": "choice",
-     "n": 12,
+     "n": 13,
      "options": {
-      "Too low": 16.7,
-      "About right": 16.7,
-      "Too high": 66.7
+      "Too low": 23.1,
+      "About right": 15.4,
+      "Too high": 61.5
      }
     },
     "view_hardcopy": {
      "kind": "choice",
-     "n": 12,
+     "n": 13,
      "options": {
-      "Yes": 50.0,
-      "No": 50.0
+      "Yes": 46.2,
+      "No": 53.8
      }
     },
     "view_ban_hw": {
      "kind": "choice",
-     "n": 12,
+     "n": 13,
      "options": {
-      "Yes": 41.7,
-      "No": 58.3
+      "Yes": 46.2,
+      "No": 53.8
      }
     },
     "view_ban_device": {
      "kind": "choice",
-     "n": 12,
+     "n": 13,
      "options": {
-      "Yes": 66.7,
-      "No": 33.3
+      "Yes": 61.5,
+      "No": 38.5
      }
     }
    }
   },
   "educator": {
-   "n": 107,
+   "n": 110,
    "questions": {
     "policy_when": {
      "kind": "choice",
-     "n": 22,
+     "n": 23,
      "options": {
-      "Bell-to-bell": 45.5,
-      "Schedule-based restriction": 31.8,
-      "No school-wide restriction": 22.7
+      "Bell-to-bell": 43.5,
+      "Schedule-based restriction": 30.4,
+      "No school-wide restriction": 26.1
      }
     },
     "policy_where": {
      "kind": "choice",
-     "n": 22,
+     "n": 23,
      "options": {
-      "Phones cannot be brought into school at all": 22.7,
-      "Centralized collection": 27.3,
-      "Yondr pouches or similar": 18.2,
-      "Lockers only": 9.1,
-      "Classroom collection": 9.1,
+      "Phones cannot be brought into school at all": 21.7,
+      "Centralized collection": 26.1,
+      "Yondr pouches or similar": 17.4,
+      "Lockers only": 13.0,
+      "Classroom collection": 8.7,
       "'No show' (out of sight)": 0.0,
-      "No school-wide policy": 13.6
+      "No school-wide policy": 13.0
      }
     },
     "policy_enforce": {
      "kind": "scale",
-     "n": 20,
-     "mean": 2.2,
+     "n": 21,
+     "mean": 2.19,
      "dist": [
-      15.0,
-      20.0,
-      35.0,
-      20.0,
+      14.3,
+      19.0,
+      38.1,
+      19.0,
       0.0,
       0.0,
-      5.0,
+      4.8,
       0.0,
-      5.0,
+      4.8,
       0.0,
       0.0
      ]
     },
     "use_between": {
      "kind": "scale",
-     "n": 22,
-     "mean": 2.64,
+     "n": 23,
+     "mean": 2.61,
      "dist": [
-      9.1,
-      22.7,
-      18.2,
-      22.7,
-      13.6,
-      4.5,
-      4.5,
-      4.5,
+      8.7,
+      21.7,
+      21.7,
+      21.7,
+      13.0,
+      4.3,
+      4.3,
+      4.3,
       0.0,
       0.0,
       0.0
@@ -306,111 +306,111 @@
     },
     "use_phone_class": {
      "kind": "scale",
-     "n": 22,
-     "mean": 3.45,
+     "n": 23,
+     "mean": 3.3,
      "dist": [
-      0.0,
-      13.6,
-      18.2,
-      18.2,
-      31.8,
-      13.6,
-      0.0,
-      0.0,
+      4.3,
+      13.0,
+      17.4,
+      17.4,
+      30.4,
+      13.0,
       0.0,
       0.0,
-      4.5
+      0.0,
+      0.0,
+      4.3
      ]
     },
     "use_laptop_class": {
      "kind": "scale",
-     "n": 22,
-     "mean": 4.18,
+     "n": 23,
+     "mean": 4.13,
      "dist": [
       0.0,
-      9.1,
-      13.6,
-      18.2,
-      31.8,
+      8.7,
+      13.0,
+      21.7,
+      30.4,
       0.0,
-      9.1,
-      9.1,
-      4.5,
+      8.7,
+      8.7,
+      4.3,
       0.0,
-      4.5
+      4.3
      ]
     },
     "policy_satisf": {
      "kind": "scale",
-     "n": 22,
-     "mean": 4.5,
+     "n": 23,
+     "mean": 4.39,
      "dist": [
-      4.5,
-      4.5,
-      13.6,
-      13.6,
-      18.2,
-      22.7,
+      4.3,
+      4.3,
+      17.4,
+      13.0,
+      17.4,
+      21.7,
       0.0,
-      9.1,
-      4.5,
+      8.7,
+      4.3,
       0.0,
-      9.1
+      8.7
      ]
     },
     "policy_strict": {
      "kind": "choice",
-     "n": 22,
+     "n": 23,
      "options": {
-      "Much more restrictive": 18.2,
-      "A little more restrictive": 31.8,
-      "The policy is just right": 27.3,
-      "A little less restrictive": 18.2,
-      "Much less restrictive": 4.5
+      "Much more restrictive": 21.7,
+      "A little more restrictive": 30.4,
+      "The policy is just right": 26.1,
+      "A little less restrictive": 17.4,
+      "Much less restrictive": 4.3
      }
     },
     "view_screentime": {
      "kind": "choice",
-     "n": 22,
+     "n": 23,
      "options": {
-      "Too low": 22.7,
-      "About right": 27.3,
-      "Too high": 50.0
+      "Too low": 26.1,
+      "About right": 26.1,
+      "Too high": 47.8
      }
     },
     "view_hardcopy": {
      "kind": "choice",
-     "n": 22,
+     "n": 23,
      "options": {
-      "Yes": 50.0,
-      "No": 50.0
+      "Yes": 47.8,
+      "No": 52.2
      }
     },
     "view_ban_hw": {
      "kind": "choice",
-     "n": 22,
+     "n": 23,
      "options": {
-      "Yes": 54.5,
-      "No": 45.5
+      "Yes": 52.2,
+      "No": 47.8
      }
     },
     "view_ban_device": {
      "kind": "choice",
-     "n": 22,
+     "n": 23,
      "options": {
-      "Yes": 68.2,
-      "No": 31.8
+      "Yes": 65.2,
+      "No": 34.8
      }
     },
     "view_ai": {
      "kind": "matrix",
-     "n": 3,
+     "n": 4,
      "rows": {
       "Look up facts": 100.0,
-      "Get explanations of difficult concepts": 66.7,
-      "Write the first draft of an essay": 66.7,
-      "Revise an essay they drafted on their own": 66.7,
-      "Summarize books/texts instead of reading them": 66.7
+      "Get explanations of difficult concepts": 75.0,
+      "Write the first draft of an essay": 75.0,
+      "Revise an essay they drafted on their own": 75.0,
+      "Summarize books/texts instead of reading them": 75.0
      }
     }
    }
