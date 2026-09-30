@@ -2,7 +2,7 @@
 """Check a Screens in Schools results link the way the page reads it.
 
 Usage:
-    python3 tools/check_results_url.py 'https://…/sis-results/#a=educator&when=1&…'
+    python3 tools/check_results_url.py 'https://results.screensinschools.org/#a=educator&when=1&…'
     pbpaste | python3 tools/check_results_url.py          # one URL per line on stdin
 
 Wrap URLs in single quotes: & and # mean something to the shell.

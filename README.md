@@ -1,6 +1,6 @@
 # Screens in Schools — results site
 
-Static results page + daily Qualtrics aggregation job. Live at https://duckworth-grithub.github.io/sis-results/
+Static results page + daily Qualtrics aggregation job. Live at https://results.screensinschools.org/
 (`/?a=student`, `/?a=educator`, `/?a=elementary`).
 
 ```
@@ -18,10 +18,15 @@ tools/check_results_url.py  checks a results link the way the page reads it
 
 All paths in the page are relative, so it works at any host or sub-path.
 
+The old address `https://duckworth-grithub.github.io/sis-results/…` redirects to `https://results.screensinschools.org/…`
+with the same path and `?query`, and the browser keeps the `#answers` across the redirect, so existing links keep
+working.
+
 ## Deploy (GitHub Pages)
 1. Push this folder as the root of a repo.
 2. Settings → Pages → Deploy from branch → `main` / root.
-3. No custom domain for now: the repo must not contain a `CNAME` file (GitHub would redirect to that domain).
+3. Custom domain `results.screensinschools.org`: set in Settings → Pages (with "Enforce HTTPS"), DNS `CNAME`
+   record `results` → `duckworth-grithub.github.io`. Keep the repo's `CNAME` file; it holds the domain.
 4. Settings → Secrets → Actions: `QUALTRICS_TOKEN`, `QUALTRICS_DATACENTER`, `SURVEY_TEEN`, `SURVEY_EDUCATOR`.
    Optional variable (Variables tab): `SCREEN_5PT_UNTIL` — see "Screen time" below.
 5. Actions → "Refresh results data" → Run workflow once to replace the sample JSON.
@@ -37,17 +42,17 @@ rewrites the address bar to `?a=<audience>`. (A `?` query string is still accept
 **Students** see the generic report only; no student answers are piped anywhere. The student survey redirects to
 the giveaway form (plain link, no parameters), and the giveaway's thank-you message links to:
 ```
-https://duckworth-grithub.github.io/sis-results/?a=student
+https://results.screensinschools.org/?a=student
 ```
 
 **Educators** (SV_bxUuSACfns11z5s): the flow has one End of Survey per QID44 branch, each with its own link.
 MS/HS ending (12 parameters):
 ```
-https://duckworth-grithub.github.io/sis-results/#a=educator&when=${q://QID58/SelectedChoicesRecode}&where=${q://QID59/SelectedChoicesRecode}&enforce=${q://QID63/SelectedChoicesRecode}&between=${q://QID64/SelectedChoicesRecode}&phone=${q://QID65/SelectedChoicesRecode}&laptop=${q://QID66/SelectedChoicesRecode}&satisf=${q://QID67/SelectedChoicesRecode}&strict=${q://QID68/SelectedChoicesRecode}&screentime=${q://QID49/SelectedChoicesRecode}&hardcopy=${q://QID51/SelectedChoicesRecode}&banhw=${q://QID52/SelectedChoicesRecode}&bandevice=${q://QID53/SelectedChoicesRecode}
+https://results.screensinschools.org/#a=educator&when=${q://QID58/SelectedChoicesRecode}&where=${q://QID59/SelectedChoicesRecode}&enforce=${q://QID63/SelectedChoicesRecode}&between=${q://QID64/SelectedChoicesRecode}&phone=${q://QID65/SelectedChoicesRecode}&laptop=${q://QID66/SelectedChoicesRecode}&satisf=${q://QID67/SelectedChoicesRecode}&strict=${q://QID68/SelectedChoicesRecode}&screentime=${q://QID49/SelectedChoicesRecode}&hardcopy=${q://QID51/SelectedChoicesRecode}&banhw=${q://QID52/SelectedChoicesRecode}&bandevice=${q://QID53/SelectedChoicesRecode}
 ```
 Elementary ending (11 parameters):
 ```
-https://duckworth-grithub.github.io/sis-results/#a=elementary&access=${q://QID20/SelectedChoicesRecode}&takehome=${q://QID21/SelectedChoicesRecode}&read=${q://QID22/SelectedChoicesRecode}&hw=${q://QID23/SelectedChoicesRecode}&pers=${q://QID25/SelectedChoicesRecode}&other=${q://QID26/SelectedChoicesRecode}&noninstr=${q://QID27/SelectedChoicesRecode}&screentime=${q://QID36/SelectedChoicesRecode}&hardcopy=${q://QID38/SelectedChoicesRecode}&banhw=${q://QID39/SelectedChoicesRecode}&bandevice=${q://QID40/SelectedChoicesRecode}
+https://results.screensinschools.org/#a=elementary&access=${q://QID20/SelectedChoicesRecode}&takehome=${q://QID21/SelectedChoicesRecode}&read=${q://QID22/SelectedChoicesRecode}&hw=${q://QID23/SelectedChoicesRecode}&pers=${q://QID25/SelectedChoicesRecode}&other=${q://QID26/SelectedChoicesRecode}&noninstr=${q://QID27/SelectedChoicesRecode}&screentime=${q://QID36/SelectedChoicesRecode}&hardcopy=${q://QID38/SelectedChoicesRecode}&banhw=${q://QID39/SelectedChoicesRecode}&bandevice=${q://QID40/SelectedChoicesRecode}
 ```
 (A single combined link also works: `#a=educator&level=${q://QID44/SelectedChoicesRecode}&…` with both sets; `level=1`
 switches to the elementary page.)
@@ -56,11 +61,11 @@ switches to the elementary page.)
 QIDs, piped into the same parameter names. Librarian responses are **not** in the aggregates: they compare
 themselves with educators. MS/HS librarians:
 ```
-https://duckworth-grithub.github.io/sis-results/#a=educator&when=${q://QID295/SelectedChoicesRecode}&where=${q://QID296/SelectedChoicesRecode}&satisf=${q://QID130/SelectedChoicesRecode}&strict=${q://QID177/SelectedChoicesRecode}&screentime=${q://QID414/SelectedChoicesRecode}&hardcopy=${q://QID416/SelectedChoicesRecode}&banhw=${q://QID417/SelectedChoicesRecode}&bandevice=${q://QID418/SelectedChoicesRecode}
+https://results.screensinschools.org/#a=educator&when=${q://QID295/SelectedChoicesRecode}&where=${q://QID296/SelectedChoicesRecode}&satisf=${q://QID130/SelectedChoicesRecode}&strict=${q://QID177/SelectedChoicesRecode}&screentime=${q://QID414/SelectedChoicesRecode}&hardcopy=${q://QID416/SelectedChoicesRecode}&banhw=${q://QID417/SelectedChoicesRecode}&bandevice=${q://QID418/SelectedChoicesRecode}
 ```
 Elementary-only librarians (`l_serves` QID411 = Elementary selected, Middle and High not selected):
 ```
-https://duckworth-grithub.github.io/sis-results/#a=elementary&screentime=${q://QID414/SelectedChoicesRecode}&hardcopy=${q://QID416/SelectedChoicesRecode}&banhw=${q://QID417/SelectedChoicesRecode}&bandevice=${q://QID418/SelectedChoicesRecode}
+https://results.screensinschools.org/#a=elementary&screentime=${q://QID414/SelectedChoicesRecode}&hardcopy=${q://QID416/SelectedChoicesRecode}&banhw=${q://QID417/SelectedChoicesRecode}&bandevice=${q://QID418/SelectedChoicesRecode}
 ```
 Librarian answer codes match the educator ones (checked against the Sep 30 export; QID130 satisfaction uses
 recodes 0, 10 … 100 like the educator's QID67). On a librarian's MS/HS page the charts they weren't asked
@@ -97,7 +102,7 @@ no YOU mark, nothing piped into the results link.
 Parsed but not displayed (no chart in the design): `strict`, `enforce`, `takehome`.
 
 Check a real link from a test run (reads the page's own tables from `app.js`; quote the URL):
-`python3 tools/check_results_url.py 'https://duckworth-grithub.github.io/sis-results/#a=educator&when=1&…'`
+`python3 tools/check_results_url.py 'https://results.screensinschools.org/#a=educator&when=1&…'`
 It prints the audience, each parameter's value and whether the page recognizes it, and what's missing or ignored.
 
 Test links locally (`python3 -m http.server`, then open http://localhost:8000 plus):
