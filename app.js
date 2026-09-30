@@ -390,9 +390,8 @@
       .filter(Boolean).sort(function (a, b) { return b.yes - a.yes; });
     if (!rows.length) return emptySection('inCharge', title);
     var body = rows.map(function (r) {
-      // Always the Yes share and "would …". Generic view: the Yes arc is green when Yes is the majority;
-      // otherwise the ring is the usual #444444 arc on #DADADA.
-      var p = GENERIC && r.yes >= 50 ? pie(r.yes, GREEN, '#DADADA') : pie(r.yes);
+      // Always the Yes share and "would …". Generic view: green Yes arc on #DADADA; with answers, #444444.
+      var p = GENERIC ? pie(r.yes, GREEN, '#DADADA') : pie(r.yes);
       return '<div class="charge-row">' + p + '<div class="charge-label">would ' + esc(lc1(r.label)) + '</div></div>';
     }).join('');
     return section('charge', 'inCharge', '<h3>' + title + '</h3><div class="charge-list">' + body + '</div>');
