@@ -32,7 +32,12 @@ jobs:
           git config user.name "results-bot"
           git config user.email "results-bot@users.noreply.github.com"
           git add results/results-data.json
-          if ! git diff --cached --quiet; then
-            git commit -m "Refresh results data"
-            git push
-          fi
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Refresh results data"
+          # Someone may have pushed while the export ran: replay on top of it and retry.
+          # Only this job writes results-data.json, so the rebase can't conflict.
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && exit 0
+            sleep 10
+          done
+          exit 1
