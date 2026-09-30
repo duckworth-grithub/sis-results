@@ -62,11 +62,13 @@ Elementary-only librarians (`l_serves` QID411 = Elementary selected, Middle and 
 ```
 https://duckworth-grithub.github.io/sis-results/#a=elementary&screentime=${q://QID414/SelectedChoicesRecode}&hardcopy=${q://QID416/SelectedChoicesRecode}&banhw=${q://QID417/SelectedChoicesRecode}&bandevice=${q://QID418/SelectedChoicesRecode}
 ```
-Librarian answer codes match the educator ones except **QID130 (satisfaction)**, which has no recode values and so
-records 1–11 for 0%–100%. Set its recode values to 0, 10, 20 … 100 (Qualtrics: question → Recode values), as on
-the educator's QID67; until then a librarian's satisfaction shows wrong (90% reads as 10%) or not at all.
-On a librarian's MS/HS page the charts they weren't asked (enforce, between, phone, laptop) show the aggregate
-with no YOU mark.
+Librarian answer codes match the educator ones (checked against the Sep 30 export; QID130 satisfaction uses
+recodes 0, 10 … 100 like the educator's QID67). On a librarian's MS/HS page the charts they weren't asked
+(enforce, between, phone, laptop) show the aggregate with no YOU mark. In the current flow the "Your View" block
+(QID414–418) is only shown to elementary-only librarians, so for MS/HS and district librarians `screentime`,
+`hardcopy`, `banhw` and `bandevice` arrive empty and screen time shows no YOU mark.
+The "If educators were in charge" pies never show a YOU mark for anyone, so `hardcopy`, `banhw` and `bandevice`
+don't change what those pies look like; they only switch the page out of the generic view.
 
 Parameters the page reads: student `when where phone laptop teacher strict read hw` (supported, but no survey
 sends them); educator `when where enforce between
