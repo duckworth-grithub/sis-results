@@ -1,0 +1,171 @@
+tag,qid,kind,audience,data_key,code,label,note
+e_role_level,QID44,route,educator+elementary,,1,Mostly elementary school,"routing only; 1 = elementary page, else MS/HS page; not published"
+e_role_level,QID44,route,educator+elementary,,4,Mostly middle school,"routing only; 1 = elementary page, else MS/HS page; not published"
+e_role_level,QID44,route,educator+elementary,,5,Mostly high school,"routing only; 1 = elementary page, else MS/HS page; not published"
+e_policy_when,QID58,choice,educator,policy_when,1,Bell-to-bell,
+e_policy_when,QID58,choice,educator,policy_when,2,Schedule-based restriction,
+e_policy_when,QID58,choice,educator,policy_when,3,No school-wide restriction,
+e_policy_where,QID59,choice,educator,policy_where,1,Phones cannot be brought into school at all,
+e_policy_where,QID59,choice,educator,policy_where,2,Centralized collection,
+e_policy_where,QID59,choice,educator,policy_where,3,Yondr pouches or similar,
+e_policy_where,QID59,choice,educator,policy_where,4,Lockers only,
+e_policy_where,QID59,choice,educator,policy_where,5,Classroom collection,
+e_policy_where,QID59,choice,educator,policy_where,6,'No show' (out of sight),
+e_policy_where,QID59,choice,educator,policy_where,7,No school-wide policy,
+e_policy_enforce,QID63,scale,educator,policy_enforce,0,0,0%-100% dropdown published as 0-10
+e_policy_enforce,QID63,scale,educator,policy_enforce,10,1,0%-100% dropdown published as 0-10
+e_policy_enforce,QID63,scale,educator,policy_enforce,20,2,0%-100% dropdown published as 0-10
+e_policy_enforce,QID63,scale,educator,policy_enforce,30,3,0%-100% dropdown published as 0-10
+e_policy_enforce,QID63,scale,educator,policy_enforce,40,4,0%-100% dropdown published as 0-10
+e_policy_enforce,QID63,scale,educator,policy_enforce,50,5,0%-100% dropdown published as 0-10
+e_policy_enforce,QID63,scale,educator,policy_enforce,60,6,0%-100% dropdown published as 0-10
+e_policy_enforce,QID63,scale,educator,policy_enforce,70,7,0%-100% dropdown published as 0-10
+e_policy_enforce,QID63,scale,educator,policy_enforce,80,8,0%-100% dropdown published as 0-10
+e_policy_enforce,QID63,scale,educator,policy_enforce,90,9,0%-100% dropdown published as 0-10
+e_policy_enforce,QID63,scale,educator,policy_enforce,100,10,0%-100% dropdown published as 0-10
+e_use_between,QID64,scale,educator,use_between,0,0,0%-100% dropdown published as 0-10
+e_use_between,QID64,scale,educator,use_between,10,1,0%-100% dropdown published as 0-10
+e_use_between,QID64,scale,educator,use_between,20,2,0%-100% dropdown published as 0-10
+e_use_between,QID64,scale,educator,use_between,30,3,0%-100% dropdown published as 0-10
+e_use_between,QID64,scale,educator,use_between,40,4,0%-100% dropdown published as 0-10
+e_use_between,QID64,scale,educator,use_between,50,5,0%-100% dropdown published as 0-10
+e_use_between,QID64,scale,educator,use_between,60,6,0%-100% dropdown published as 0-10
+e_use_between,QID64,scale,educator,use_between,70,7,0%-100% dropdown published as 0-10
+e_use_between,QID64,scale,educator,use_between,80,8,0%-100% dropdown published as 0-10
+e_use_between,QID64,scale,educator,use_between,90,9,0%-100% dropdown published as 0-10
+e_use_between,QID64,scale,educator,use_between,100,10,0%-100% dropdown published as 0-10
+e_use_phone_class,QID65,scale,educator,use_phone_class,0,0,0%-100% dropdown published as 0-10
+e_use_phone_class,QID65,scale,educator,use_phone_class,10,1,0%-100% dropdown published as 0-10
+e_use_phone_class,QID65,scale,educator,use_phone_class,20,2,0%-100% dropdown published as 0-10
+e_use_phone_class,QID65,scale,educator,use_phone_class,30,3,0%-100% dropdown published as 0-10
+e_use_phone_class,QID65,scale,educator,use_phone_class,40,4,0%-100% dropdown published as 0-10
+e_use_phone_class,QID65,scale,educator,use_phone_class,50,5,0%-100% dropdown published as 0-10
+e_use_phone_class,QID65,scale,educator,use_phone_class,60,6,0%-100% dropdown published as 0-10
+e_use_phone_class,QID65,scale,educator,use_phone_class,70,7,0%-100% dropdown published as 0-10
+e_use_phone_class,QID65,scale,educator,use_phone_class,80,8,0%-100% dropdown published as 0-10
+e_use_phone_class,QID65,scale,educator,use_phone_class,90,9,0%-100% dropdown published as 0-10
+e_use_phone_class,QID65,scale,educator,use_phone_class,100,10,0%-100% dropdown published as 0-10
+e_use_laptop_class,QID66,scale,educator,use_laptop_class,0,0,0%-100% dropdown published as 0-10
+e_use_laptop_class,QID66,scale,educator,use_laptop_class,10,1,0%-100% dropdown published as 0-10
+e_use_laptop_class,QID66,scale,educator,use_laptop_class,20,2,0%-100% dropdown published as 0-10
+e_use_laptop_class,QID66,scale,educator,use_laptop_class,30,3,0%-100% dropdown published as 0-10
+e_use_laptop_class,QID66,scale,educator,use_laptop_class,40,4,0%-100% dropdown published as 0-10
+e_use_laptop_class,QID66,scale,educator,use_laptop_class,50,5,0%-100% dropdown published as 0-10
+e_use_laptop_class,QID66,scale,educator,use_laptop_class,60,6,0%-100% dropdown published as 0-10
+e_use_laptop_class,QID66,scale,educator,use_laptop_class,70,7,0%-100% dropdown published as 0-10
+e_use_laptop_class,QID66,scale,educator,use_laptop_class,80,8,0%-100% dropdown published as 0-10
+e_use_laptop_class,QID66,scale,educator,use_laptop_class,90,9,0%-100% dropdown published as 0-10
+e_use_laptop_class,QID66,scale,educator,use_laptop_class,100,10,0%-100% dropdown published as 0-10
+e_policy_satisf,QID67,scale,educator,policy_satisf,0,0,0%-100% dropdown published as 0-10
+e_policy_satisf,QID67,scale,educator,policy_satisf,10,1,0%-100% dropdown published as 0-10
+e_policy_satisf,QID67,scale,educator,policy_satisf,20,2,0%-100% dropdown published as 0-10
+e_policy_satisf,QID67,scale,educator,policy_satisf,30,3,0%-100% dropdown published as 0-10
+e_policy_satisf,QID67,scale,educator,policy_satisf,40,4,0%-100% dropdown published as 0-10
+e_policy_satisf,QID67,scale,educator,policy_satisf,50,5,0%-100% dropdown published as 0-10
+e_policy_satisf,QID67,scale,educator,policy_satisf,60,6,0%-100% dropdown published as 0-10
+e_policy_satisf,QID67,scale,educator,policy_satisf,70,7,0%-100% dropdown published as 0-10
+e_policy_satisf,QID67,scale,educator,policy_satisf,80,8,0%-100% dropdown published as 0-10
+e_policy_satisf,QID67,scale,educator,policy_satisf,90,9,0%-100% dropdown published as 0-10
+e_policy_satisf,QID67,scale,educator,policy_satisf,100,10,0%-100% dropdown published as 0-10
+e_policy_strict,QID68,choice,educator,policy_strict,1,Much more restrictive,
+e_policy_strict,QID68,choice,educator,policy_strict,2,A little more restrictive,
+e_policy_strict,QID68,choice,educator,policy_strict,3,The policy is just right,
+e_policy_strict,QID68,choice,educator,policy_strict,4,A little less restrictive,
+e_policy_strict,QID68,choice,educator,policy_strict,5,Much less restrictive,
+e_view_screentime_ms,QID49,choice,educator,view_screentime,1,Too low,current 3-point version
+e_view_screentime_ms,QID49,choice,educator,view_screentime,2,About right,current 3-point version
+e_view_screentime_ms,QID49,choice,educator,view_screentime,3,Too high,current 3-point version
+e_view_screentime_ms,QID49,choice,educator,view_screentime,1,Too low,old 5-point 'Much too low' (before SCREEN_5PT_UNTIL); without the cutoff only 4-5 are read this way
+e_view_screentime_ms,QID49,choice,educator,view_screentime,2,Too low,old 5-point 'A little too low' (before SCREEN_5PT_UNTIL); without the cutoff only 4-5 are read this way
+e_view_screentime_ms,QID49,choice,educator,view_screentime,3,About right,old 5-point 'About right' (before SCREEN_5PT_UNTIL); without the cutoff only 4-5 are read this way
+e_view_screentime_ms,QID49,choice,educator,view_screentime,4,Too high,old 5-point 'A little too high' (before SCREEN_5PT_UNTIL); without the cutoff only 4-5 are read this way
+e_view_screentime_ms,QID49,choice,educator,view_screentime,5,Too high,old 5-point 'Much too high' (before SCREEN_5PT_UNTIL); without the cutoff only 4-5 are read this way
+e_view_hardcopy_ms,QID51,choice,educator,view_hardcopy,1,Yes,
+e_view_hardcopy_ms,QID51,choice,educator,view_hardcopy,0,No,
+e_view_ban_hw_ms,QID52,choice,educator,view_ban_hw,1,Yes,
+e_view_ban_hw_ms,QID52,choice,educator,view_ban_hw,0,No,
+e_view_ban_device_ms,QID53,choice,educator,view_ban_device,1,Yes,
+e_view_ban_device_ms,QID53,choice,educator,view_ban_device,0,No,
+e_view_ai_ms,QID110_1,matrix,educator,view_ai,1,Look up facts: Approve,published as % Approve per statement
+e_view_ai_ms,QID110_1,matrix,educator,view_ai,2,Look up facts: Disapprove,published as % Approve per statement
+e_view_ai_ms,QID110_2,matrix,educator,view_ai,1,Get explanations of difficult concepts: Approve,published as % Approve per statement
+e_view_ai_ms,QID110_2,matrix,educator,view_ai,2,Get explanations of difficult concepts: Disapprove,published as % Approve per statement
+e_view_ai_ms,QID110_3,matrix,educator,view_ai,1,Write the first draft of an essay: Approve,published as % Approve per statement
+e_view_ai_ms,QID110_3,matrix,educator,view_ai,2,Write the first draft of an essay: Disapprove,published as % Approve per statement
+e_view_ai_ms,QID110_4,matrix,educator,view_ai,1,Revise an essay they drafted on their own: Approve,published as % Approve per statement
+e_view_ai_ms,QID110_4,matrix,educator,view_ai,2,Revise an essay they drafted on their own: Disapprove,published as % Approve per statement
+e_view_ai_ms,QID110_5,matrix,educator,view_ai,1,Summarize books/texts instead of reading them: Approve,published as % Approve per statement
+e_view_ai_ms,QID110_5,matrix,educator,view_ai,2,Summarize books/texts instead of reading them: Disapprove,published as % Approve per statement
+e_tech_access,QID20,multi,elementary,tech_access,1,1:1 devices,
+e_tech_access,QID20,multi,elementary,tech_access,2,Cart or library checkout,
+e_tech_access,QID20,multi,elementary,tech_access,3,Computer lab,
+e_tech_access,QID20,multi,elementary,tech_access,4,Bring your own device,
+e_tech_access,QID20,multi,elementary,tech_access,5,No device access,
+e_tech_take_home,QID21,scale,elementary,tech_take_home,0,0,0%-100% dropdown published as 0-10
+e_tech_take_home,QID21,scale,elementary,tech_take_home,10,1,0%-100% dropdown published as 0-10
+e_tech_take_home,QID21,scale,elementary,tech_take_home,20,2,0%-100% dropdown published as 0-10
+e_tech_take_home,QID21,scale,elementary,tech_take_home,30,3,0%-100% dropdown published as 0-10
+e_tech_take_home,QID21,scale,elementary,tech_take_home,40,4,0%-100% dropdown published as 0-10
+e_tech_take_home,QID21,scale,elementary,tech_take_home,50,5,0%-100% dropdown published as 0-10
+e_tech_take_home,QID21,scale,elementary,tech_take_home,60,6,0%-100% dropdown published as 0-10
+e_tech_take_home,QID21,scale,elementary,tech_take_home,70,7,0%-100% dropdown published as 0-10
+e_tech_take_home,QID21,scale,elementary,tech_take_home,80,8,0%-100% dropdown published as 0-10
+e_tech_take_home,QID21,scale,elementary,tech_take_home,90,9,0%-100% dropdown published as 0-10
+e_tech_take_home,QID21,scale,elementary,tech_take_home,100,10,0%-100% dropdown published as 0-10
+e_tech_screen_read,QID22,scale,elementary,tech_screen_read,0,0,0%-100% dropdown published as 0-10
+e_tech_screen_read,QID22,scale,elementary,tech_screen_read,10,1,0%-100% dropdown published as 0-10
+e_tech_screen_read,QID22,scale,elementary,tech_screen_read,20,2,0%-100% dropdown published as 0-10
+e_tech_screen_read,QID22,scale,elementary,tech_screen_read,30,3,0%-100% dropdown published as 0-10
+e_tech_screen_read,QID22,scale,elementary,tech_screen_read,40,4,0%-100% dropdown published as 0-10
+e_tech_screen_read,QID22,scale,elementary,tech_screen_read,50,5,0%-100% dropdown published as 0-10
+e_tech_screen_read,QID22,scale,elementary,tech_screen_read,60,6,0%-100% dropdown published as 0-10
+e_tech_screen_read,QID22,scale,elementary,tech_screen_read,70,7,0%-100% dropdown published as 0-10
+e_tech_screen_read,QID22,scale,elementary,tech_screen_read,80,8,0%-100% dropdown published as 0-10
+e_tech_screen_read,QID22,scale,elementary,tech_screen_read,90,9,0%-100% dropdown published as 0-10
+e_tech_screen_read,QID22,scale,elementary,tech_screen_read,100,10,0%-100% dropdown published as 0-10
+e_tech_screen_hw,QID23,scale,elementary,tech_screen_hw,0,0,0%-100% dropdown published as 0-10
+e_tech_screen_hw,QID23,scale,elementary,tech_screen_hw,10,1,0%-100% dropdown published as 0-10
+e_tech_screen_hw,QID23,scale,elementary,tech_screen_hw,20,2,0%-100% dropdown published as 0-10
+e_tech_screen_hw,QID23,scale,elementary,tech_screen_hw,30,3,0%-100% dropdown published as 0-10
+e_tech_screen_hw,QID23,scale,elementary,tech_screen_hw,40,4,0%-100% dropdown published as 0-10
+e_tech_screen_hw,QID23,scale,elementary,tech_screen_hw,50,5,0%-100% dropdown published as 0-10
+e_tech_screen_hw,QID23,scale,elementary,tech_screen_hw,60,6,0%-100% dropdown published as 0-10
+e_tech_screen_hw,QID23,scale,elementary,tech_screen_hw,70,7,0%-100% dropdown published as 0-10
+e_tech_screen_hw,QID23,scale,elementary,tech_screen_hw,80,8,0%-100% dropdown published as 0-10
+e_tech_screen_hw,QID23,scale,elementary,tech_screen_hw,90,9,0%-100% dropdown published as 0-10
+e_tech_screen_hw,QID23,scale,elementary,tech_screen_hw,100,10,0%-100% dropdown published as 0-10
+e_use_instr_personal,QID25,choice,elementary,use_instr_personal,0,None,
+e_use_instr_personal,QID25,choice,elementary,use_instr_personal,1,Up to 1 hour,
+e_use_instr_personal,QID25,choice,elementary,use_instr_personal,2,1 to 2 hours,
+e_use_instr_personal,QID25,choice,elementary,use_instr_personal,3,2 to 3 hours,
+e_use_instr_personal,QID25,choice,elementary,use_instr_personal,4,3 to 4 hours,
+e_use_instr_personal,QID25,choice,elementary,use_instr_personal,5,4 to 5 hours,
+e_use_instr_personal,QID25,choice,elementary,use_instr_personal,6,More than 5 hours,
+e_use_instr_other,QID26,choice,elementary,use_instr_other,0,None,
+e_use_instr_other,QID26,choice,elementary,use_instr_other,1,Up to 1 hour,
+e_use_instr_other,QID26,choice,elementary,use_instr_other,2,1 to 2 hours,
+e_use_instr_other,QID26,choice,elementary,use_instr_other,3,2 to 3 hours,
+e_use_instr_other,QID26,choice,elementary,use_instr_other,4,3 to 4 hours,
+e_use_instr_other,QID26,choice,elementary,use_instr_other,5,4 to 5 hours,
+e_use_instr_other,QID26,choice,elementary,use_instr_other,6,More than 5 hours,
+e_use_noninstr,QID27,choice,elementary,use_noninstr,0,None,
+e_use_noninstr,QID27,choice,elementary,use_noninstr,1,Up to 1 hour,
+e_use_noninstr,QID27,choice,elementary,use_noninstr,2,1 to 2 hours,
+e_use_noninstr,QID27,choice,elementary,use_noninstr,3,2 to 3 hours,
+e_use_noninstr,QID27,choice,elementary,use_noninstr,4,3 to 4 hours,
+e_use_noninstr,QID27,choice,elementary,use_noninstr,5,4 to 5 hours,
+e_use_noninstr,QID27,choice,elementary,use_noninstr,6,More than 5 hours,
+e_view_screentime_el,QID36,choice,elementary,view_screentime,1,Too low,current 3-point version
+e_view_screentime_el,QID36,choice,elementary,view_screentime,2,About right,current 3-point version
+e_view_screentime_el,QID36,choice,elementary,view_screentime,3,Too high,current 3-point version
+e_view_screentime_el,QID36,choice,elementary,view_screentime,1,Too low,old 5-point 'Much too low' (before SCREEN_5PT_UNTIL); without the cutoff only 4-5 are read this way
+e_view_screentime_el,QID36,choice,elementary,view_screentime,2,Too low,old 5-point 'A little too low' (before SCREEN_5PT_UNTIL); without the cutoff only 4-5 are read this way
+e_view_screentime_el,QID36,choice,elementary,view_screentime,3,About right,old 5-point 'About right' (before SCREEN_5PT_UNTIL); without the cutoff only 4-5 are read this way
+e_view_screentime_el,QID36,choice,elementary,view_screentime,4,Too high,old 5-point 'A little too high' (before SCREEN_5PT_UNTIL); without the cutoff only 4-5 are read this way
+e_view_screentime_el,QID36,choice,elementary,view_screentime,5,Too high,old 5-point 'Much too high' (before SCREEN_5PT_UNTIL); without the cutoff only 4-5 are read this way
+e_view_hardcopy_el,QID38,choice,elementary,view_hardcopy,1,Yes,
+e_view_hardcopy_el,QID38,choice,elementary,view_hardcopy,0,No,
+e_view_ban_hw_el,QID39,choice,elementary,view_ban_hw,1,Yes,
+e_view_ban_hw_el,QID39,choice,elementary,view_ban_hw,0,No,
+e_view_ban_device_el,QID40,choice,elementary,view_ban_device,1,Yes,
+e_view_ban_device_el,QID40,choice,elementary,view_ban_device,0,No,

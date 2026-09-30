@@ -3,7 +3,7 @@
  * 1. Read audience + the respondent's answers from the URL (#hash, or query as a fallback),
  *    then immediately strip them from the address bar. Answers live in memory only.
  *    Answers arrive as Qualtrics recode values (${q://QIDnn/SelectedChoicesRecode}).
- * 2. Fetch ./results-data.json (no-store). Fall back to the baked-in SNAPSHOT if it fails.
+ * 2. Fetch ./results/results-data.json (no-store). Fall back to the baked-in SNAPSHOT if it fails.
  * 3. Render. Sentence logic and phrasing tables follow the v10 design references.
  */
 (function () {
@@ -49,6 +49,8 @@
     ['About right', 'of educators say screen time is about right.', 2],
     ['Too low', 'of educators say screen time is too low.', 1]
   ];
+  // Old 5-point labels (before the Sep 2026 edit), folded into the three groups if a data file carries them.
+  var SCREEN_OLD = { 'Too high': ['A little too high', 'Much too high'], 'About right': [], 'Too low': ['A little too low', 'Much too low'] };
   var HRS = ['None', 'Up to 1 hour', '1 to 2 hours', '2 to 3 hours', '3 to 4 hours', '4 to 5 hours', 'More than 5 hours'];
   var HOURS = HRS.map(function (l, k) { return [l, '', k]; });
   var WYR_READ = [['Read things in hard copy', '', 1], ['Read things on a screen', '', 2]];
@@ -354,7 +356,9 @@
       ? 'I think the time my students spend on computers or tablets during school hours is…'
       : 'During school hours, I think the time my students spend on computers or tablets is…';
     if (!q) return emptySection('screenTime', title);
-    var groups = SCREEN.map(function (s) { return r0(q.options[s[0]]); });
+    var groups = SCREEN.map(function (s) {
+      return r0([s[0]].concat(SCREEN_OLD[s[0]]).reduce(function (t, l) { return t + (Number(q.options[l]) || 0); }, 0));
+    });
     var yi = SCREEN.map(function (s) { return s[0]; }).indexOf(pick);
     var mi = argmax(groups);
     var tot = sum(groups) || 1;
@@ -386,9 +390,11 @@
       .filter(Boolean).sort(function (a, b) { return b.yes - a.yes; });
     if (!rows.length) return emptySection('inCharge', title);
     var body = rows.map(function (r) {
-      // Generic view: the majority slice (yes or no) is green; the other keeps its usual colour.
-      var p = !GENERIC ? pie(r.yes) : r.yes >= 50 ? pie(r.yes, GREEN, '#DADADA') : pie(r.yes, '#444444', GREEN);
-      return '<div class="charge-row">' + p + '<div class="charge-label">would ' + esc(lc1(r.label)) + '</div></div>';
+      // Generic view: the majority is green and its share is the number shown. When "No" wins, the
+      // green slice is the No share, the centre shows it, and the line reads "would not …" to match.
+      var noWins = GENERIC && r.yes < 50;
+      var p = !GENERIC ? pie(r.yes) : noWins ? pie(100 - r.yes, GREEN, '#444444') : pie(r.yes, GREEN, '#DADADA');
+      return '<div class="charge-row">' + p + '<div class="charge-label">would ' + (noWins ? 'not ' : '') + esc(lc1(r.label)) + '</div></div>';
     }).join('');
     return section('charge', 'inCharge', '<h3>' + title + '</h3><div class="charge-list">' + body + '</div>');
   }
@@ -477,7 +483,7 @@
 
   if (AUD === 'educator') document.title = 'Compare my classroom · Screens in Schools';
 
-  fetch('./results-data.json', { cache: 'no-store' })
+  fetch('./results/results-data.json', { cache: 'no-store' })
     .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(function (data) {
       if (!data || !data.audiences) throw new Error('bad shape');

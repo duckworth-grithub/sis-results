@@ -19,6 +19,8 @@ TOKEN = os.environ["QUALTRICS_TOKEN"]
 DC = os.environ["QUALTRICS_DATACENTER"]
 MIN_N = int(os.environ.get("MIN_N", "10"))
 OUT = os.environ.get("OUT", "results-data.json")
+# When the 3-point screen-time question went live (ISO time, e.g. "2026-09-25T14:00:00Z"). Optional; see SCREEN_5PT.
+SCREEN_5PT_UNTIL = os.environ.get("SCREEN_5PT_UNTIL", "").strip() or None
 BASE = f"https://{DC}.qualtrics.com/API/v3"
 H = {"X-API-TOKEN": TOKEN, "Content-Type": "application/json"}
 
@@ -30,6 +32,18 @@ WHERE = {1: "Phones cannot be brought into school at all", 2: "Centralized colle
          4: "Lockers only", 5: "Classroom collection", 6: "'No show' (out of sight)", 7: "No school-wide policy"}
 YESNO = {1: "Yes", 0: "No"}
 SCREEN = {1: "Too low", 2: "About right", 3: "Too high"}
+# QID49/QID36 were 5-point until the week of Sep 21-28, 2026, and the edit reused codes 1-3 with new meanings:
+# old 1 Much too low, 2 A little too low, 3 About right, 4 A little too high, 5 Much too high.
+SCREEN_5PT = {1: "Too low", 2: "Too low", 3: "About right", 4: "Too high", 5: "Too high"}
+# Without SCREEN_5PT_UNTIL we can't tell an old 2/3 from a new one, so 1-3 are read as current and only
+# 4/5 (which exist only in the old version) are folded into "Too high".
+SCREEN_ANY = {**SCREEN, 4: "Too high", 5: "Too high"}
+
+
+def screen_book(row):
+    """Per-response codebook for the screen-time questions."""
+    return SCREEN_5PT if row.get("_5pt") else SCREEN_ANY
+screen_book.labels = list(SCREEN.values())
 HOURS = {0: "None", 1: "Up to 1 hour", 2: "1 to 2 hours", 3: "2 to 3 hours", 4: "3 to 4 hours", 5: "4 to 5 hours", 6: "More than 5 hours"}
 # Matrix: statement (column suffix QID110_<n>) -> label, and answer code -> label. Approve = 1, Disapprove = 2.
 AI_USES = {"rows": {1: "Look up facts", 2: "Get explanations of difficult concepts", 3: "Write the first draft of an essay",
@@ -64,7 +78,7 @@ EDU = {
     "e_policy_satisf": ("QID67", "scale", None, MS),
     "e_policy_strict": ("QID68", "choice", {1: "Much more restrictive", 2: "A little more restrictive", 3: "The policy is just right",
                                             4: "A little less restrictive", 5: "Much less restrictive"}, MS),
-    "e_view_screentime_ms": ("QID49", "choice", SCREEN, MS),
+    "e_view_screentime_ms": ("QID49", "choice", screen_book, MS),
     "e_view_hardcopy_ms": ("QID51", "choice", YESNO, MS),
     "e_view_ban_hw_ms": ("QID52", "choice", YESNO, MS),
     "e_view_ban_device_ms": ("QID53", "choice", YESNO, MS),
@@ -77,7 +91,7 @@ EDU = {
     "e_use_instr_personal": ("QID25", "choice", HOURS, EL),
     "e_use_instr_other": ("QID26", "choice", HOURS, EL),
     "e_use_noninstr": ("QID27", "choice", HOURS, EL),
-    "e_view_screentime_el": ("QID36", "choice", SCREEN, EL),
+    "e_view_screentime_el": ("QID36", "choice", screen_book, EL),
     "e_view_hardcopy_el": ("QID38", "choice", YESNO, EL),
     "e_view_ban_hw_el": ("QID39", "choice", YESNO, EL),
     "e_view_ban_device_el": ("QID40", "choice", YESNO, EL),
@@ -103,7 +117,8 @@ def export(survey_id, fields):
         "compress": True,
         "questionIds": [f[0] for f in fields.values()],
         "embeddedDataIds": [],          # none — no school/NCES/email
-        "surveyMetadataIds": ["finished", "distributionChannel"],
+        # recordedDate only when the screen-time cutoff is set; it stays in memory and is never published.
+        "surveyMetadataIds": ["finished", "distributionChannel"] + (["recordedDate"] if SCREEN_5PT_UNTIL else []),
     }
     r = requests.post(f"{BASE}/surveys/{survey_id}/export-responses", headers=H, json=body, timeout=60)
     check(r, f"starting the export for {fields is TEEN and 'SURVEY_TEEN' or 'SURVEY_EDUCATOR'}")
@@ -138,8 +153,19 @@ def export(survey_id, fields):
                 row[qid] = {k: v.get(f"{qid}_{k}") for k in book["rows"]}
             else:
                 row[qid] = v.get(qid)
+        if SCREEN_5PT_UNTIL:
+            row["_5pt"] = before(v.get("recordedDate"), SCREEN_5PT_UNTIL)
         rows.append(row)
     return rows
+
+
+def before(recorded, cutoff):
+    """True if an ISO timestamp is earlier than the cutoff. Unparseable dates count as current."""
+    try:
+        p = lambda t: datetime.fromisoformat(str(t).strip().replace("Z", "+00:00"))
+        return p(recorded) < p(cutoff)
+    except (TypeError, ValueError):
+        return False
 
 
 def code(v):
@@ -153,20 +179,29 @@ def code(v):
 unmapped = {}  # tag -> count of values missing from the codebook (logged as counts only)
 
 
+legacy = {}  # tag -> count of old 5-point screen-time codes 4/5 read without a cutoff (logged as counts only)
+
+
 def choice(rows, qid, book, tag):
+    """book: {code: label}, or a function(row) -> {code: label} with a .labels list (per-response codebooks)."""
+    pick = book if callable(book) else (lambda r: book)
+    labels = book.labels if callable(book) else list(dict.fromkeys(book.values()))
     vals = []
     for r in rows:
         k = code(r.get(qid))
         if k is None:
             continue
-        if k not in book:
+        b = pick(r)
+        if k not in b:
             unmapped[tag] = unmapped.get(tag, 0) + 1
             continue
-        vals.append(book[k])
+        if b is SCREEN_ANY and k not in SCREEN:
+            legacy[tag] = legacy.get(tag, 0) + 1
+        vals.append(b[k])
     n = len(vals)
     if n < MIN_N:
         return None
-    counts = {label: 0 for label in book.values()}
+    counts = {label: 0 for label in labels}
     for label in vals:
         counts[label] += 1
     return {"kind": "choice", "n": n, "options": {k: round(c / n * 100, 1) for k, c in counts.items()}}
@@ -297,6 +332,9 @@ def main():
     print("wrote", OUT, {k: v["n"] for k, v in audiences.items()})  # counts only — never row data
     if unmapped:
         print("WARNING values not in codebook (survey changed?):", unmapped)
+    if legacy:
+        print("NOTE old 5-point screen-time answers (codes 4-5) counted as 'Too high'; set SCREEN_5PT_UNTIL "
+              "to also re-read old codes 2-3:", legacy)
 
 
 if __name__ == "__main__":
