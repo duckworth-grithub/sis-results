@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-30T20:30:08Z",
+ "generated_at": "2026-09-30T20:42:32Z",
  "min_n": 0,
  "audiences": {
   "student": {
@@ -244,7 +244,7 @@
    }
   },
   "educator": {
-   "n": 110,
+   "n": 111,
    "questions": {
     "policy_when": {
      "kind": "choice",
