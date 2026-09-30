@@ -390,11 +390,10 @@
       .filter(Boolean).sort(function (a, b) { return b.yes - a.yes; });
     if (!rows.length) return emptySection('inCharge', title);
     var body = rows.map(function (r) {
-      // Generic view: the majority is green and its share is the number shown. When "No" wins, the
-      // green slice is the No share, the centre shows it, and the line reads "would not …" to match.
-      var noWins = GENERIC && r.yes < 50;
-      var p = !GENERIC ? pie(r.yes) : noWins ? pie(100 - r.yes, GREEN, '#444444') : pie(r.yes, GREEN, '#DADADA');
-      return '<div class="charge-row">' + p + '<div class="charge-label">would ' + (noWins ? 'not ' : '') + esc(lc1(r.label)) + '</div></div>';
+      // Always the Yes share and "would …". Generic view: the Yes arc is green when Yes is the majority;
+      // otherwise the ring is the usual #444444 arc on #DADADA.
+      var p = GENERIC && r.yes >= 50 ? pie(r.yes, GREEN, '#DADADA') : pie(r.yes);
+      return '<div class="charge-row">' + p + '<div class="charge-label">would ' + esc(lc1(r.label)) + '</div></div>';
     }).join('');
     return section('charge', 'inCharge', '<h3>' + title + '</h3><div class="charge-list">' + body + '</div>');
   }

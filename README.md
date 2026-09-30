@@ -56,8 +56,8 @@ About right → About right), set the repo variable `SCREEN_5PT_UNTIL` to when t
 (ISO time, e.g. `2026-09-25T14:00:00Z`); responses recorded before it use the 5-point meanings. This makes the
 job request each response's `recordedDate`, which stays in memory and is never published.
 
-"If educators were in charge" pies, generic view: the majority is green and its share is the number shown; when
-"No" wins, the line reads "would not …".
+"If educators were in charge" pies always show the Yes share and read "would …". Generic view: the Yes arc is
+green when Yes is the majority; otherwise it's the usual #444444 arc on #DADADA.
 
 Hours per day (elementary QID25–27): AVERAGE is the mean of the bucket midpoints (0, 0.5, 1.5 … 5.5 hrs),
 shown as the answer bucket it falls in (e.g. 1.9 → "1–2 hrs"), with the same labels and midpoint bar height as YOU.
