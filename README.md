@@ -11,6 +11,8 @@ results/results-data.json   aggregates written by the export job, fetched as ./r
 results/index.html          redirect from the old /results/ address to / (keeps ?query and #answers)
 export/results_export.py    Qualtrics → results/results-data.json (whitelisted QIDs only)
 export/codebook-educator.csv  educator QIDs, answer codes and published labels (generated from the script)
+results-data-spec.md        data contract: fields pulled, JSON shape, page behaviour
+tools/check_results_url.py  checks a results link the way the page reads it
 .github/workflows/results-refresh.yml   daily cron + manual run; commits the JSON
 ```
 
@@ -32,19 +34,42 @@ web server, and recodes avoid the HTML and explainer sub-lines in the live choic
 rewrites the address bar to `?a=<audience>`. (A `?` query string is still accepted as a fallback, and old
 `/results/…` links redirect to `/…` with their query and `#` intact.)
 
-Student survey (SV_6LFWjsZ51O8XInY):
+**Students** see the generic report only; no student answers are piped anywhere. The student survey redirects to
+the giveaway form (plain link, no parameters), and the giveaway's thank-you message links to:
 ```
-https://duckworth-grithub.github.io/sis-results/#a=student&when=${q://QID13/SelectedChoicesRecode}&where=${q://QID14/SelectedChoicesRecode}&phone=${q://QID16/SelectedChoicesRecode}&laptop=${q://QID17/SelectedChoicesRecode}&teacher=${q://QID18/SelectedChoicesRecode}&strict=${q://QID20/SelectedChoicesRecode}&read=${q://QID2/SelectedChoicesRecode}&hw=${q://QID3/SelectedChoicesRecode}
+https://duckworth-grithub.github.io/sis-results/?a=student
 ```
 
-Educator survey (SV_bxUuSACfns11z5s): one link for both pages. `level` (QID44) picks the page:
-recode 1 ("Mostly elementary school") shows the elementary page, anything else the MS/HS page.
-The view questions exist twice (`_ms` / `_el`) and each respondent only sees one set, so both
-are piped into the same parameter and the unanswered one comes through empty.
+**Educators** (SV_bxUuSACfns11z5s): the flow has one End of Survey per QID44 branch, each with its own link.
+MS/HS ending (12 parameters):
 ```
-https://duckworth-grithub.github.io/sis-results/#a=educator&level=${q://QID44/SelectedChoicesRecode}&when=${q://QID58/SelectedChoicesRecode}&where=${q://QID59/SelectedChoicesRecode}&enforce=${q://QID63/SelectedChoicesRecode}&between=${q://QID64/SelectedChoicesRecode}&phone=${q://QID65/SelectedChoicesRecode}&laptop=${q://QID66/SelectedChoicesRecode}&satisf=${q://QID67/SelectedChoicesRecode}&strict=${q://QID68/SelectedChoicesRecode}&access=${q://QID20/SelectedChoicesRecode}&takehome=${q://QID21/SelectedChoicesRecode}&read=${q://QID22/SelectedChoicesRecode}&hw=${q://QID23/SelectedChoicesRecode}&pers=${q://QID25/SelectedChoicesRecode}&other=${q://QID26/SelectedChoicesRecode}&noninstr=${q://QID27/SelectedChoicesRecode}&screentime=${q://QID49/SelectedChoicesRecode}${q://QID36/SelectedChoicesRecode}&hardcopy=${q://QID51/SelectedChoicesRecode}${q://QID38/SelectedChoicesRecode}&banhw=${q://QID52/SelectedChoicesRecode}${q://QID39/SelectedChoicesRecode}&bandevice=${q://QID53/SelectedChoicesRecode}${q://QID40/SelectedChoicesRecode}
+https://duckworth-grithub.github.io/sis-results/#a=educator&when=${q://QID58/SelectedChoicesRecode}&where=${q://QID59/SelectedChoicesRecode}&enforce=${q://QID63/SelectedChoicesRecode}&between=${q://QID64/SelectedChoicesRecode}&phone=${q://QID65/SelectedChoicesRecode}&laptop=${q://QID66/SelectedChoicesRecode}&satisf=${q://QID67/SelectedChoicesRecode}&strict=${q://QID68/SelectedChoicesRecode}&screentime=${q://QID49/SelectedChoicesRecode}&hardcopy=${q://QID51/SelectedChoicesRecode}&banhw=${q://QID52/SelectedChoicesRecode}&bandevice=${q://QID53/SelectedChoicesRecode}
 ```
-Parameters: student `when where phone laptop teacher strict read hw`; educator `when where enforce between
+Elementary ending (11 parameters):
+```
+https://duckworth-grithub.github.io/sis-results/#a=elementary&access=${q://QID20/SelectedChoicesRecode}&takehome=${q://QID21/SelectedChoicesRecode}&read=${q://QID22/SelectedChoicesRecode}&hw=${q://QID23/SelectedChoicesRecode}&pers=${q://QID25/SelectedChoicesRecode}&other=${q://QID26/SelectedChoicesRecode}&noninstr=${q://QID27/SelectedChoicesRecode}&screentime=${q://QID36/SelectedChoicesRecode}&hardcopy=${q://QID38/SelectedChoicesRecode}&banhw=${q://QID39/SelectedChoicesRecode}&bandevice=${q://QID40/SelectedChoicesRecode}
+```
+(A single combined link also works: `#a=educator&level=${q://QID44/SelectedChoicesRecode}&…` with both sets; `level=1`
+switches to the elementary page.)
+
+**Librarians** (SV_9BO9iR0YKZ2lVie) use the educator pages. Their survey asks the same questions under different
+QIDs, piped into the same parameter names. Librarian responses are **not** in the aggregates: they compare
+themselves with educators. MS/HS librarians:
+```
+https://duckworth-grithub.github.io/sis-results/#a=educator&when=${q://QID295/SelectedChoicesRecode}&where=${q://QID296/SelectedChoicesRecode}&satisf=${q://QID130/SelectedChoicesRecode}&strict=${q://QID177/SelectedChoicesRecode}&screentime=${q://QID414/SelectedChoicesRecode}&hardcopy=${q://QID416/SelectedChoicesRecode}&banhw=${q://QID417/SelectedChoicesRecode}&bandevice=${q://QID418/SelectedChoicesRecode}
+```
+Elementary-only librarians (`l_serves` QID411 = Elementary selected, Middle and High not selected):
+```
+https://duckworth-grithub.github.io/sis-results/#a=elementary&screentime=${q://QID414/SelectedChoicesRecode}&hardcopy=${q://QID416/SelectedChoicesRecode}&banhw=${q://QID417/SelectedChoicesRecode}&bandevice=${q://QID418/SelectedChoicesRecode}
+```
+Librarian answer codes match the educator ones except **QID130 (satisfaction)**, which has no recode values and so
+records 1–11 for 0%–100%. Set its recode values to 0, 10, 20 … 100 (Qualtrics: question → Recode values), as on
+the educator's QID67; until then a librarian's satisfaction shows wrong (90% reads as 10%) or not at all.
+On a librarian's MS/HS page the charts they weren't asked (enforce, between, phone, laptop) show the aggregate
+with no YOU mark.
+
+Parameters the page reads: student `when where phone laptop teacher strict read hw` (supported, but no survey
+sends them); educator `when where enforce between
 phone laptop satisf strict screentime hardcopy banhw bandevice`; elementary `access takehome read hw pers other
 noninstr screentime hardcopy banhw bandevice`. Scales are recodes 0–100 in steps of 10; `access` is a
 comma-separated list; YOU marks every pick and the headline sentence uses the first. The recode tables live in `app.js` and `export/results_export.py` and must match.
@@ -64,17 +89,16 @@ shown as the answer bucket it falls in (e.g. 1.9 → "1–2 hrs"), with the same
 
 AI uses (MS/HS educators only, QID110 `e_view_AI`): a Qualtrics matrix exported as `QID110_1`…`QID110_5`
 (1 = Approve, 2 = Disapprove). Published as `view_ai` = `{"kind": "matrix", "n": …, "rows": {statement: % approve}}`;
-statements with fewer than 10 answers are dropped, and the question is null if none are left. Aggregate only:
+statements nobody answered are dropped, and the question is null if none are left. Aggregate only:
 no YOU mark, nothing piped into the results link.
 
 Parsed but not displayed (no chart in the design): `strict`, `enforce`, `takehome`.
 
 Check a real link from a test run (reads the page's own tables from `app.js`; quote the URL):
-`python3 tools/check_results_url.py 'https://duckworth-grithub.github.io/sis-results/#a=student&when=1&…'`
+`python3 tools/check_results_url.py 'https://duckworth-grithub.github.io/sis-results/#a=educator&when=1&…'`
 It prints the audience, each parameter's value and whether the page recognizes it, and what's missing or ignored.
 
 Test links locally (`python3 -m http.server`, then open http://localhost:8000 plus):
-- `/#a=student&when=1&where=3&phone=20&laptop=30&teacher=1`
 - `/#a=educator&level=5&when=1&satisf=80&phone=20&between=20&laptop=40&screentime=3`
 - `/#a=educator&level=1&access=1,3&read=20&hw=10&pers=2&other=1&noninstr=1&screentime=3`
 - `/?a=student` (generic view: aggregates highlighted in green, no YOU marks)
@@ -83,7 +107,8 @@ Test links locally (`python3 -m http.server`, then open http://localhost:8000 pl
 ## Behaviour
 - Unknown recodes / off-grid scale values → treated as missing (generic sentence, no YOU mark).
 - `results/results-data.json` fails to load → baked-in sample numbers, footer says "Sample data".
-- A question is `null` (n < 10) → "Not enough responses yet". Sample numbers are never mixed into live data.
+- No minimum sample size (`MIN_N` is 0): any question with at least one answer is published. A question nobody
+  answered is `null` → "Not enough responses yet". Sample numbers are never mixed into live data.
 
 ## Export job notes
 - Requests `format: json` and reads each row's recode `values`, mapped through the codebooks at the top of the
@@ -95,6 +120,7 @@ Test links locally (`python3 -m http.server`, then open http://localhost:8000 pl
   The script accepts it either as one field (list or comma-joined) or as one 0/1 column per choice (`QID20_1`…).
 - `tech_screen_read` / `tech_screen_hw` (QID22/23) are `scale`, not `choice` as the updated spec lists them:
   in the survey they are 0%–100% dropdowns like the other scales, and the design shows them as YOU% vs AVERAGE%.
+- `MIN_N` (workflow env, default 0): 0 means never suppress. Set it above 0 to withhold questions with fewer answers.
 - Only the whitelisted QIDs are requested (`embeddedDataIds: []`), and rows are reduced to those QIDs immediately after download. Nothing row-level is written to disk; logs print counts only.
-- Still to confirm with the live survey: that `distributionChannel` is populated for the anonymous link, and that
-  the `_ms` view questions (QID49/51–53) never show to elementary respondents (the piped link relies on it).
+- Only the student and educator surveys are exported; the librarian survey is never pulled.
+- Still to confirm with the live survey: that `distributionChannel` is populated for the anonymous link.

@@ -24,7 +24,7 @@ jobs:
           QUALTRICS_DATACENTER: ${{ secrets.QUALTRICS_DATACENTER }}
           SURVEY_TEEN: ${{ secrets.SURVEY_TEEN }}
           SURVEY_EDUCATOR: ${{ secrets.SURVEY_EDUCATOR }}
-          MIN_N: "10"
+          MIN_N: "0"   # no small-n suppression; only questions nobody answered are null
           # Optional repo variable (Settings → Secrets and variables → Actions → Variables): when the 3-point
           # screen-time question went live, e.g. 2026-09-25T14:00:00Z. Empty = read codes 1-3 as current.
           SCREEN_5PT_UNTIL: ${{ vars.SCREEN_5PT_UNTIL }}

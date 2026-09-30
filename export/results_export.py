@@ -8,7 +8,7 @@ Env vars (set as scheduler secrets):
   QUALTRICS_DATACENTER   "yul1" (from Account Settings → Qualtrics IDs)
   SURVEY_TEEN            SV_6LFWjsZ51O8XInY  (from SIS_Student_2026-2027.qsf)
   SURVEY_EDUCATOR        SV_bxUuSACfns11z5s
-  MIN_N                  default 10
+  MIN_N                  default 0 = never suppress (only questions nobody answered are null)
   OUT                    default results-data.json
 """
 import io, json, os, sys, time, zipfile
@@ -17,7 +17,12 @@ import requests
 
 TOKEN = os.environ["QUALTRICS_TOKEN"]
 DC = os.environ["QUALTRICS_DATACENTER"]
-MIN_N = int(os.environ.get("MIN_N", "10"))
+MIN_N = int(os.environ.get("MIN_N", "0"))
+
+
+def too_few(n):
+    """A question (or matrix row) is withheld if nobody answered it, or if it's under MIN_N when MIN_N > 0."""
+    return n == 0 or n < MIN_N
 OUT = os.environ.get("OUT", "results-data.json")
 # When the 3-point screen-time question went live (ISO time, e.g. "2026-09-25T14:00:00Z"). Optional; see SCREEN_5PT.
 SCREEN_5PT_UNTIL = os.environ.get("SCREEN_5PT_UNTIL", "").strip() or None
@@ -199,7 +204,7 @@ def choice(rows, qid, book, tag):
             legacy[tag] = legacy.get(tag, 0) + 1
         vals.append(b[k])
     n = len(vals)
-    if n < MIN_N:
+    if too_few(n):
         return None
     counts = {label: 0 for label in labels}
     for label in vals:
@@ -237,7 +242,7 @@ def multi(rows, qid, book, tag):
             n += 1
             for label in labels:
                 counts[label] += 1
-    if n < MIN_N:
+    if too_few(n):
         return None
     return {"kind": "multi", "n": n, "options": {k: round(c / n * 100, 1) for k, c in counts.items()}}
 
@@ -254,7 +259,7 @@ def scale(rows, qid, tag):
             continue
         vals.append(k // 10)
     n = len(vals)
-    if n < MIN_N:
+    if too_few(n):
         return None
     dist = [0] * 11
     for k in vals:
@@ -264,7 +269,7 @@ def scale(rows, qid, tag):
 
 def matrix(rows, qid, book, tag):
     """Percent choosing answer code 1 (Approve) per statement, among those who answered that statement.
-    Statements under MIN_N are dropped; the whole question is null if none are left."""
+    Statements nobody answered (or under MIN_N, if set) are dropped; the question is null if none are left."""
     out, anyone = {}, 0
     counts = {k: [0, 0] for k in book["rows"]}  # statement -> [approve, answered]
     for r in rows:
@@ -281,7 +286,7 @@ def matrix(rows, qid, book, tag):
             answered = True
         anyone += answered
     for k, (yes, n) in counts.items():
-        if n >= MIN_N:
+        if not too_few(n):
             out[book["rows"][k]] = round(yes / n * 100, 1)
     if not out:
         return None
