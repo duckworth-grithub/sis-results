@@ -1,6 +1,6 @@
 {
- "generated_at": "2026-09-30T17:59:11Z",
- "min_n": 10,
+ "generated_at": "2026-09-30T18:09:57Z",
+ "min_n": 0,
  "audiences": {
   "student": {
    "n": 16,
@@ -115,7 +115,24 @@
       "No device access": 9.1
      }
     },
-    "tech_take_home": null,
+    "tech_take_home": {
+     "kind": "scale",
+     "n": 9,
+     "mean": 3.89,
+     "dist": [
+      22.2,
+      11.1,
+      11.1,
+      11.1,
+      11.1,
+      11.1,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      22.2
+     ]
+    },
     "tech_screen_read": {
      "kind": "scale",
      "n": 10,
@@ -385,7 +402,17 @@
       "No": 30.0
      }
     },
-    "view_ai": null
+    "view_ai": {
+     "kind": "matrix",
+     "n": 1,
+     "rows": {
+      "Look up facts": 100.0,
+      "Get explanations of difficult concepts": 100.0,
+      "Write the first draft of an essay": 0.0,
+      "Revise an essay they drafted on their own": 0.0,
+      "Summarize books/texts instead of reading them": 0.0
+     }
+    }
    }
   }
  }
