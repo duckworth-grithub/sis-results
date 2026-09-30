@@ -1,6 +1,6 @@
 # Screens in Schools — results site
 
-Static results page + daily Qualtrics aggregation job. Live at https://results.screensinschools.org/
+Static results page + daily Qualtrics aggregation job. Live at https://duckworth-grithub.github.io/sis-results/
 (`/?a=student`, `/?a=educator`, `/?a=elementary`).
 
 ```
@@ -19,9 +19,7 @@ All paths in the page are relative, so it works at any host or sub-path.
 ## Deploy (GitHub Pages)
 1. Push this folder as the root of a repo.
 2. Settings → Pages → Deploy from branch → `main` / root.
-3. Custom domain: Settings → Pages → Custom domain → `results.screensinschools.org`, with a DNS `CNAME` record
-   for `results` pointing to `<org>.github.io`. GitHub commits the `CNAME` file when you save; then tick
-   "Enforce HTTPS" once the certificate is issued.
+3. No custom domain for now: the repo must not contain a `CNAME` file (GitHub would redirect to that domain).
 4. Settings → Secrets → Actions: `QUALTRICS_TOKEN`, `QUALTRICS_DATACENTER`, `SURVEY_TEEN`, `SURVEY_EDUCATOR`.
    Optional variable (Variables tab): `SCREEN_5PT_UNTIL` — see "Screen time" below.
 5. Actions → "Refresh results data" → Run workflow once to replace the sample JSON.
@@ -36,7 +34,7 @@ rewrites the address bar to `?a=<audience>`. (A `?` query string is still accept
 
 Student survey (SV_6LFWjsZ51O8XInY):
 ```
-https://results.screensinschools.org/#a=student&when=${q://QID13/SelectedChoicesRecode}&where=${q://QID14/SelectedChoicesRecode}&phone=${q://QID16/SelectedChoicesRecode}&laptop=${q://QID17/SelectedChoicesRecode}&teacher=${q://QID18/SelectedChoicesRecode}&strict=${q://QID20/SelectedChoicesRecode}&read=${q://QID2/SelectedChoicesRecode}&hw=${q://QID3/SelectedChoicesRecode}
+https://duckworth-grithub.github.io/sis-results/#a=student&when=${q://QID13/SelectedChoicesRecode}&where=${q://QID14/SelectedChoicesRecode}&phone=${q://QID16/SelectedChoicesRecode}&laptop=${q://QID17/SelectedChoicesRecode}&teacher=${q://QID18/SelectedChoicesRecode}&strict=${q://QID20/SelectedChoicesRecode}&read=${q://QID2/SelectedChoicesRecode}&hw=${q://QID3/SelectedChoicesRecode}
 ```
 
 Educator survey (SV_bxUuSACfns11z5s): one link for both pages. `level` (QID44) picks the page:
@@ -44,7 +42,7 @@ recode 1 ("Mostly elementary school") shows the elementary page, anything else t
 The view questions exist twice (`_ms` / `_el`) and each respondent only sees one set, so both
 are piped into the same parameter and the unanswered one comes through empty.
 ```
-https://results.screensinschools.org/#a=educator&level=${q://QID44/SelectedChoicesRecode}&when=${q://QID58/SelectedChoicesRecode}&where=${q://QID59/SelectedChoicesRecode}&enforce=${q://QID63/SelectedChoicesRecode}&between=${q://QID64/SelectedChoicesRecode}&phone=${q://QID65/SelectedChoicesRecode}&laptop=${q://QID66/SelectedChoicesRecode}&satisf=${q://QID67/SelectedChoicesRecode}&strict=${q://QID68/SelectedChoicesRecode}&access=${q://QID20/SelectedChoicesRecode}&takehome=${q://QID21/SelectedChoicesRecode}&read=${q://QID22/SelectedChoicesRecode}&hw=${q://QID23/SelectedChoicesRecode}&pers=${q://QID25/SelectedChoicesRecode}&other=${q://QID26/SelectedChoicesRecode}&noninstr=${q://QID27/SelectedChoicesRecode}&screentime=${q://QID49/SelectedChoicesRecode}${q://QID36/SelectedChoicesRecode}&hardcopy=${q://QID51/SelectedChoicesRecode}${q://QID38/SelectedChoicesRecode}&banhw=${q://QID52/SelectedChoicesRecode}${q://QID39/SelectedChoicesRecode}&bandevice=${q://QID53/SelectedChoicesRecode}${q://QID40/SelectedChoicesRecode}
+https://duckworth-grithub.github.io/sis-results/#a=educator&level=${q://QID44/SelectedChoicesRecode}&when=${q://QID58/SelectedChoicesRecode}&where=${q://QID59/SelectedChoicesRecode}&enforce=${q://QID63/SelectedChoicesRecode}&between=${q://QID64/SelectedChoicesRecode}&phone=${q://QID65/SelectedChoicesRecode}&laptop=${q://QID66/SelectedChoicesRecode}&satisf=${q://QID67/SelectedChoicesRecode}&strict=${q://QID68/SelectedChoicesRecode}&access=${q://QID20/SelectedChoicesRecode}&takehome=${q://QID21/SelectedChoicesRecode}&read=${q://QID22/SelectedChoicesRecode}&hw=${q://QID23/SelectedChoicesRecode}&pers=${q://QID25/SelectedChoicesRecode}&other=${q://QID26/SelectedChoicesRecode}&noninstr=${q://QID27/SelectedChoicesRecode}&screentime=${q://QID49/SelectedChoicesRecode}${q://QID36/SelectedChoicesRecode}&hardcopy=${q://QID51/SelectedChoicesRecode}${q://QID38/SelectedChoicesRecode}&banhw=${q://QID52/SelectedChoicesRecode}${q://QID39/SelectedChoicesRecode}&bandevice=${q://QID53/SelectedChoicesRecode}${q://QID40/SelectedChoicesRecode}
 ```
 Parameters: student `when where phone laptop teacher strict read hw`; educator `when where enforce between
 phone laptop satisf strict screentime hardcopy banhw bandevice`; elementary `access takehome read hw pers other
