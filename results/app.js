@@ -343,7 +343,10 @@
 
   var RAMP3 = [['#6B6B6B', '#FFFFFF'], ['#B4B4B4', '#1A1A1A'], ['#E0E0E0', '#1A1A1A']];
   function screenTimeSection(q, pick) {
-    var title = 'During school hours, I think the time my students spend on computers or tablets is…';
+    // Wording follows each survey: QID49 (MS/HS) was reworded 2026-09-30; QID36 (elementary) was not.
+    var title = AUD === 'educator'
+      ? 'I think the time my students spend on computers or tablets during school hours is…'
+      : 'During school hours, I think the time my students spend on computers or tablets is…';
     if (!q) return emptySection('screenTime', title);
     var groups = SCREEN.map(function (s) { return r0(q.options[s[0]]); });
     var yi = SCREEN.map(function (s) { return s[0]; }).indexOf(pick);
