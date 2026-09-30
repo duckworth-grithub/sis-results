@@ -112,6 +112,7 @@ Test links locally (`python3 -m http.server`, then open http://localhost:8000 pl
 - `/results/?a=educator` (old address; should land on `/?a=educator`)
 
 ## Behaviour
+- No `a` parameter, or an unknown value → educator page. `a=student` / `a=educator` / `a=elementary` pick their page.
 - Unknown recodes / off-grid scale values → treated as missing (generic sentence, no YOU mark).
 - `results/results-data.json` fails to load → baked-in sample numbers, footer says "Sample data".
 - No minimum sample size (`MIN_N` is 0): any question with at least one answer is published. A question nobody

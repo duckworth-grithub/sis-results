@@ -102,9 +102,9 @@ def check(url, params):
             got.setdefault(k[4:], got[k])
     where = "#fragment" if h and not q else "?query" if q and not h else "both ?query and #fragment" if q and h else "nowhere"
     a = (got.get("a") or "").lower()
-    audience = a if a in AUDIENCES else "student"
+    audience = a if a in AUDIENCES else "educator"
     level = str(got.get("level") or "").strip()
-    how = f"a={a or '(none)'}" + ("" if a in AUDIENCES else " → not a known audience, page falls back to student")
+    how = f"a={a or '(none)'}" + ("" if a in AUDIENCES else " → not a known audience, page falls back to educator")
     if audience != "student" and level:
         audience = "elementary" if level == "1" else "educator"
         how += f", level={level} → {'elementary' if level == '1' else 'MS/HS'} page"

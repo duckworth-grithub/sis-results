@@ -158,7 +158,7 @@
     var h = new URLSearchParams(location.hash.replace(/^#/, ''));
     var get = function (k) { return h.has(k) ? h.get(k) : q.get(k); };
     var a = (get('a') || '').toLowerCase();
-    var audience = AUDIENCES.indexOf(a) >= 0 ? a : 'student';
+    var audience = AUDIENCES.indexOf(a) >= 0 ? a : 'educator'; // no or unknown `a` → educator page
     // One educator-survey link serves both pages: QID44 recode 1 = "Mostly elementary school".
     var level = String(get('level') || '').trim();
     if (audience !== 'student' && level) audience = level === '1' ? 'elementary' : 'educator';
