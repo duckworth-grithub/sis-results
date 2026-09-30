@@ -247,7 +247,9 @@
         : AUD === 'student' ? 'No other students chose “' + esc(y.label) + '.”'
         : 'No other educators ' + esc(y.tail) + '.';
     } else {
+      // No answer in the URL → highlight the most common response (no "also": it isn't theirs).
       var m = rows[argmax(pcts)];
+      m.you = true;
       head = num(m.pct) + ' of ' + NOUN + ' ' + esc(m.tail) + '.';
     }
     var body = rows.map(function (r) {
