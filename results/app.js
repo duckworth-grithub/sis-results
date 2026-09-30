@@ -189,6 +189,9 @@
 
   var AUD = parsed.audience;
   var P = parsed.picks;
+  // Generic view: no valid answers in the URL. Then green marks the aggregate (most common / average);
+  // otherwise green means YOU only and aggregates stay grey/dark.
+  var GENERIC = Object.keys(P).length === 0;
   var NOUN = AUD === 'student' ? 'students' : 'educators';
 
   // ---------------------------------------------------------------------------
@@ -216,14 +219,17 @@
   function emptySection(id, title) {
     return section('', id, '<h3>' + esc(title) + '</h3>' + EMPTY);
   }
-  function pie(pct) {
-    return '<div class="pie" style="background:conic-gradient(#444444 0 ' + pct + '%, #DADADA 0)">' +
-      '<div class="pie-core">' + pct + '%</div></div>';
+  // pct fills with `fill`, the remainder with `rest`; the centre number uses `ink`.
+  function pie(pct, fill, rest, ink) {
+    return '<div class="pie" style="background:conic-gradient(' + (fill || '#444444') + ' 0 ' + pct + '%, ' + (rest || '#DADADA') + ' 0)">' +
+      '<div class="pie-core"' + (ink ? ' style="color:' + ink + '"' : '') + '>' + pct + '%</div></div>';
   }
-  function card(k, color, pct, text) {
+  // `accent` (optional) recolours the big number and progress fill, leaving the small label as `color`.
+  function card(k, color, pct, text, accent) {
+    var a = accent || color;
     return '<div class="card"><div class="card-k" style="color:' + color + '">' + k + '</div>' +
-      '<div class="card-v" style="color:' + color + '">' + pct + '%</div>' +
-      '<div class="card-track"><div style="width:' + pct + '%;background:' + color + '"></div></div>' +
+      '<div class="card-v" style="color:' + a + '">' + pct + '%</div>' +
+      '<div class="card-track"><div style="width:' + pct + '%;background:' + a + '"></div></div>' +
       (text ? '<div class="card-t">' + text + '</div>' : '') + '</div>';
   }
 
@@ -249,7 +255,7 @@
     } else {
       // No answer in the URL → highlight the most common response (no "also": it isn't theirs).
       var m = rows[argmax(pcts)];
-      m.you = true;
+      m.you = GENERIC;
       head = num(m.pct) + ' of ' + NOUN + ' ' + esc(m.tail) + '.';
     }
     var body = rows.map(function (r) {
@@ -305,7 +311,7 @@
         '<div class="cols">' + youCol + avgCol + '</div><div class="col-keys">' + keys + '</div>' +
         '<div class="hbars">' + hYou + hAvg + '</div></div>';
     }).join('');
-    return section('multi-q', id, '<h3>' + esc(title) + '</h3>' + legend + '<div class="multi">' + body + '</div>');
+    return section('multi-q' + (GENERIC ? ' agg' : ''), id, '<h3>' + esc(title) + '</h3>' + legend + '<div class="multi">' + body + '</div>');
   }
 
   // Elementary "How much is done on a screen?": one heading + YOU/AVERAGE cards per question
@@ -313,7 +319,7 @@
     var body = rows.map(function (r) {
       var inner = !r.q ? EMPTY : '<div class="cards">' +
         (typeof r.val === 'number' ? card('YOU', GREEN, r.val * 10) : '') +
-        card('AVERAGE', '#5E5E5E', Math.round(meanOf(r.q) * 10)) + '</div>';
+        card('AVERAGE', '#5E5E5E', Math.round(meanOf(r.q) * 10), '', GENERIC && GREEN) + '</div>';
       return '<div class="box"><h3>' + esc(r.title) + '</h3>' + inner + '</div>';
     }).join('');
     return section('boxes-q', id, '<div class="boxes">' + body + '</div>');
@@ -325,7 +331,7 @@
       if (!q) return '';
       var lp = r0(q.options[t[0][0]]), rp = r0(q.options[t[1][0]]);
       var pick = lp >= rp ? [t[0][0], lp] : [t[1][0], rp];
-      return '<div style="display:flex"><div class="wyr-item">' + pie(pick[1]) +
+      return '<div style="display:flex"><div class="wyr-item">' + (GENERIC ? pie(pick[1], GREEN, '#DADADA', GREEN) : pie(pick[1])) +
         '<div class="wyr-label">' + esc(lc1(pick[0])) + '</div></div></div>';
     }).join('');
     var title = 'Students would rather...';
@@ -337,7 +343,7 @@
     var title = 'How satisfied are you with your policy?';
     if (!q) return emptySection('satisfaction', title);
     var cards = (typeof val === 'number' ? card('YOU', GREEN, val * 10, 'satisfied with your phone policy') : '') +
-      card('AVERAGE', '#5E5E5E', Math.round(meanOf(q) * 10), 'satisfied with their phone policy');
+      card('AVERAGE', '#5E5E5E', Math.round(meanOf(q) * 10), 'satisfied with their phone policy', GENERIC && GREEN);
     return section('', 'satisfaction', '<h3>' + title + '</h3><div class="cards">' + cards + '</div>');
   }
 
@@ -352,10 +358,11 @@
     var yi = SCREEN.map(function (s) { return s[0]; }).indexOf(pick);
     var mi = argmax(groups);
     var tot = sum(groups) || 1;
+    var hi = GENERIC ? mi : yi; // green segment: largest in the generic view, else the respondent's
     var segs = groups.map(function (p, k) {
-      var w = p / tot * 100, you = k === yi;
+      var w = p / tot * 100, you = k === yi, g = k === hi;
       return { p: p, w: w, label: SCREEN[k][0], narrow: w < 16,
-        bg: you ? GREEN : RAMP3[k][0], fg: you ? '#FFFFFF' : RAMP3[k][1], you: you,
+        bg: g ? GREEN : RAMP3[k][0], fg: g ? '#FFFFFF' : RAMP3[k][1], you: you,
         ai: k === 0 ? 'flex-start' : k === groups.length - 1 ? 'flex-end' : 'center' };
     });
     var bar = segs.map(function (s) {
@@ -379,7 +386,9 @@
       .filter(Boolean).sort(function (a, b) { return b.yes - a.yes; });
     if (!rows.length) return emptySection('inCharge', title);
     var body = rows.map(function (r) {
-      return '<div class="charge-row">' + pie(r.yes) + '<div class="charge-label">would ' + esc(lc1(r.label)) + '</div></div>';
+      // Generic view: the majority slice (yes or no) is green; the other keeps its usual colour.
+      var p = !GENERIC ? pie(r.yes) : r.yes >= 50 ? pie(r.yes, GREEN, '#DADADA') : pie(r.yes, '#444444', GREEN);
+      return '<div class="charge-row">' + p + '<div class="charge-label">would ' + esc(lc1(r.label)) + '</div></div>';
     }).join('');
     return section('charge', 'inCharge', '<h3>' + title + '</h3><div class="charge-list">' + body + '</div>');
   }
