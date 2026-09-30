@@ -384,6 +384,20 @@
     return section('charge', 'inCharge', '<h3>' + title + '</h3><div class="charge-list">' + body + '</div>');
   }
 
+  // MS/HS only: aggregate approval per AI use (QID110). No comparison, no YOU, nothing from the URL.
+  function aiSection(q) {
+    var title = 'Educators think students should be allowed to use AI to…';
+    var rows = q && q.rows ? Object.keys(q.rows).map(function (k) { return { label: k, pct: r0(q.rows[k]) }; }) : [];
+    if (!rows.length) return emptySection('aiUse', title);
+    rows.sort(function (a, b) { return b.pct - a.pct; });
+    var body = rows.map(function (r) {
+      return '<div class="ai-row"><div class="ai-label">' + esc(r.label) + '</div>' +
+        '<div class="ai-bar"><div class="fill" style="width:' + r.pct + '%"></div><span class="pct">' + r.pct + '%</span></div></div>';
+    }).join('');
+    return section('ai', 'aiUse', '<h3>' + title + '</h3><div class="ai-sub">Percent of educators who approve</div>' +
+      '<div class="ai-rows">' + body + '</div>');
+  }
+
   // ---------------------------------------------------------------------------
   // 2. Load data, 3. render
   // ---------------------------------------------------------------------------
@@ -393,7 +407,7 @@
     var qs = aud.questions || {};
     function Q(key) {
       var v = qs[key];
-      return v && (v.options || v.dist) ? v : null;
+      return v && (v.options || v.dist || v.rows) ? v : null;
     }
     var WHEN_T = 'Officially, when is the personal use of phones restricted?';
     var WHERE_T = 'Officially, where are students allowed to keep their phones?';
@@ -421,7 +435,8 @@
           scaleRow('...using laptops during class?', Q('use_laptop_class'), P.use_laptop_class)
         ]),
         screenTimeSection(Q('view_screentime'), P.view_screentime),
-        chargeSection([Q('view_hardcopy'), Q('view_ban_hw'), Q('view_ban_device')])
+        chargeSection([Q('view_hardcopy'), Q('view_ban_hw'), Q('view_ban_device')]),
+        aiSection(Q('view_ai'))
       ];
     } else {
       html = [

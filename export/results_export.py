@@ -31,11 +31,16 @@ WHERE = {1: "Phones cannot be brought into school at all", 2: "Centralized colle
 YESNO = {1: "Yes", 0: "No"}
 SCREEN = {1: "Too low", 2: "About right", 3: "Too high"}
 HOURS = {0: "None", 1: "Up to 1 hour", 2: "1 to 2 hours", 3: "2 to 3 hours", 4: "3 to 4 hours", 5: "4 to 5 hours", 6: "More than 5 hours"}
+# Matrix: statement (column suffix QID110_<n>) -> label, and answer code -> label. Approve = 1, Disapprove = 2.
+AI_USES = {"rows": {1: "Look up facts", 2: "Get explanations of difficult concepts", 3: "Write the first draft of an essay",
+                    4: "Revise an essay they drafted on their own", 5: "Summarize books/texts instead of reading them"},
+           "answers": {1: "Approve", 2: "Disapprove"}}
 ACCESS = {1: "1:1 devices", 2: "Cart or library checkout", 3: "Computer lab", 4: "Bring your own device", 5: "No device access"}
 
 # --- Whitelist: the only fields that leave Qualtrics ------------------------
 # tag -> (QID, kind, codebook, audiences). kind: "choice" | "multi" (select-all) | "scale" (0-100% dropdown,
-# published as 0-10) | "route" (used for filtering, never published). audiences: which pages get it.
+# published as 0-10) | "matrix" (one column per statement) | "route" (used for filtering, never published).
+# audiences: which pages get it.
 TEEN = {
     "s_wyr_read": ("QID2", "choice", {1: "Read things in hard copy", 2: "Read things on a screen"}, {"student"}),
     "s_wyr_homework": ("QID3", "choice", {1: "Do more homework on a computer", 2: "Do more homework on paper"}, {"student"}),
@@ -63,6 +68,7 @@ EDU = {
     "e_view_hardcopy_ms": ("QID51", "choice", YESNO, MS),
     "e_view_ban_hw_ms": ("QID52", "choice", YESNO, MS),
     "e_view_ban_device_ms": ("QID53", "choice", YESNO, MS),
+    "e_view_ai_ms": ("QID110", "matrix", AI_USES, MS),  # e_view_AI in Qualtrics; MS/HS block only
     # Elementary educators
     "e_tech_access": ("QID20", "multi", ACCESS, EL),
     "e_tech_take_home": ("QID21", "scale", None, EL),
@@ -124,7 +130,15 @@ def export(survey_id, fields):
         if v.get("finished") not in (1, True, "1", "True", "true") or v.get("distributionChannel") == "preview":
             continue
         # Keep whitelisted QIDs only; everything else in the row is dropped here.
-        rows.append({f[0]: (multi_value(v, f[0]) if f[1] == "multi" else v.get(f[0])) for f in fields.values()})
+        row = {}
+        for qid, kind, book, _ in fields.values():
+            if kind == "multi":
+                row[qid] = multi_value(v, qid)
+            elif kind == "matrix":  # QID110_1 ... QID110_5
+                row[qid] = {k: v.get(f"{qid}_{k}") for k in book["rows"]}
+            else:
+                row[qid] = v.get(qid)
+        rows.append(row)
     return rows
 
 
@@ -213,6 +227,32 @@ def scale(rows, qid, tag):
     return {"kind": "scale", "n": n, "mean": round(sum(vals) / n, 2), "dist": [round(d / n * 100, 1) for d in dist]}
 
 
+def matrix(rows, qid, book, tag):
+    """Percent choosing answer code 1 (Approve) per statement, among those who answered that statement.
+    Statements under MIN_N are dropped; the whole question is null if none are left."""
+    out, anyone = {}, 0
+    counts = {k: [0, 0] for k in book["rows"]}  # statement -> [approve, answered]
+    for r in rows:
+        answered = False
+        for k, v in (r.get(qid) or {}).items():
+            c = code(v)
+            if c is None:
+                continue
+            if c not in book["answers"]:
+                unmapped[tag] = unmapped.get(tag, 0) + 1
+                continue
+            counts[k][1] += 1
+            counts[k][0] += c == 1
+            answered = True
+        anyone += answered
+    for k, (yes, n) in counts.items():
+        if n >= MIN_N:
+            out[book["rows"][k]] = round(yes / n * 100, 1)
+    if not out:
+        return None
+    return {"kind": "matrix", "n": anyone, "rows": out}
+
+
 def aggregate(rows, fields, audience):
     out = {}
     for tag, (qid, kind, book, auds) in fields.items():
@@ -223,6 +263,8 @@ def aggregate(rows, fields, audience):
             key = key[:-3]
         if kind == "scale":
             out[key] = scale(rows, qid, tag)
+        elif kind == "matrix":
+            out[key] = matrix(rows, qid, book, tag)
         elif kind == "multi":
             out[key] = multi(rows, qid, book, tag)
         else:

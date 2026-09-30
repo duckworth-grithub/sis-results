@@ -44,6 +44,11 @@ comma-separated list; YOU marks every pick and the headline sentence uses the fi
 Hours per day (elementary QID25–27): AVERAGE is the mean of the bucket midpoints (0, 0.5, 1.5 … 5.5 hrs),
 shown as the answer bucket it falls in (e.g. 1.9 → "1–2 hrs"), with the same labels and midpoint bar height as YOU.
 
+AI uses (MS/HS educators only, QID110 `e_view_AI`): a Qualtrics matrix exported as `QID110_1`…`QID110_5`
+(1 = Approve, 2 = Disapprove). Published as `view_ai` = `{"kind": "matrix", "n": …, "rows": {statement: % approve}}`;
+statements with fewer than 10 answers are dropped, and the question is null if none are left. Aggregate only:
+no YOU mark, nothing piped into the results link.
+
 Parsed but not displayed (no chart in the design): `strict`, `enforce`, `takehome`.
 
 Test links locally (`python3 -m http.server -d .`, then open):
