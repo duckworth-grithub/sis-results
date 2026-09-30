@@ -153,6 +153,17 @@
   // 1. Read answers, then scrub the URL before anything else happens
   // ---------------------------------------------------------------------------
   function toCode(s) { return /^\d{1,3}$/.test(s) ? +s : null; }
+  // 0–10 scale answers (satisf, enforce, between, phone, laptop, takehome, read, hw). Qualtrics sends the recode
+  // 0, 10 … 100; also accept a label that starts with a percentage ("70%", "0% (not at all satisfied)") and a bare
+  // 1–9 already on the 0–10 scale. "10" is read as the recode (10% → 1), never as 10/10. Anything else → missing.
+  function toScale(raw) {
+    var s = String(raw).trim(), m = s.match(/^(\d{1,3})\s*%/);
+    if (m) s = m[1];
+    else if (!/^\d{1,3}$/.test(s)) return null;
+    var n = +s;
+    if (n <= 100 && n % 10 === 0) return n / 10;
+    return !m && n >= 1 && n <= 9 ? n : null;
+  }
   function readParams() {
     var q = new URLSearchParams(location.search);
     var h = new URLSearchParams(location.hash.replace(/^#/, ''));
@@ -170,8 +181,8 @@
       var key = spec[param][0], kind = spec[param][1], table = spec[param][2];
       var byCode = function (c) { return (table.filter(function (o) { return o[2] === c; })[0] || [])[0]; };
       if (kind === 'scale') {
-        var c = toCode(String(raw).trim());
-        if (c !== null && c <= 100 && c % 10 === 0) picks[key] = c / 10;
+        var v = toScale(raw);
+        if (v !== null) picks[key] = v;
       } else if (kind === 'multi') {
         // Select-all arrives comma-joined. YOU marks every pick; the headline uses the first.
         var hits = String(raw).split(/[\s,]+/).map(toCode).map(byCode).filter(Boolean);

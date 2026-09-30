@@ -78,7 +78,8 @@ don't change what those pies look like; they only switch the page out of the gen
 Parameters the page reads: student `when where phone laptop teacher strict read hw` (supported, but no survey
 sends them); educator `when where enforce between
 phone laptop satisf strict screentime hardcopy banhw bandevice`; elementary `access takehome read hw pers other
-noninstr screentime hardcopy banhw bandevice`. Scales are recodes 0–100 in steps of 10; `access` is a
+noninstr screentime hardcopy banhw bandevice`. Scales (0–10 on the page) accept the Qualtrics recode 0, 10 … 100, a
+label starting with a percentage (`70%`, `0% (not at all satisfied)`), or a bare 1–9; `10` always means 10%. `access` is a
 comma-separated list; YOU marks every pick and the headline sentence uses the first. The recode tables live in `app.js` and `export/results_export.py` and must match.
 
 Screen time (QID49 MS/HS, QID36 elementary) is 3-point: 1 Too low, 2 About right, 3 Too high. Until the week of

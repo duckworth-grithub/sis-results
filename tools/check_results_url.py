@@ -116,7 +116,7 @@ def check(url, params):
 
     spec = params[audience]
     ok = missing = bad = 0
-    kinds = {"codes": 0, "labels": 0, "placeholders": 0, "other": 0}
+    kinds = {"codes": 0, "labels": 0, "% labels (accepted)": 0, "placeholders": 0, "other": 0}
     for p, (key, kind, table) in spec.items():
         raw = got.get(p)
         shown = "" if raw is None else raw
@@ -127,17 +127,17 @@ def check(url, params):
             status, bad = "NOT PIPED: Qualtrics placeholder text reached the page (Qualtrics-side)", bad + 1
             kinds["placeholders"] += 1
         elif kind == "scale":
-            c = code(raw)
+            # Mirror of toScale() in app.js: recode 0–100 step 10, a "70%"-style label, or a bare 1–9.
             pct = re.match(r"\s*(\d{1,3})\s*%", raw)
+            c = int(pct.group(1)) if pct else code(raw)
             if c is not None and c <= 100 and c % 10 == 0:
-                status, ok = f"OK → {c // 10} on the 0–10 scale", ok + 1
+                status, ok = f"OK → {c // 10} on the 0–10 scale" + (" (from a % label)" if pct else ""), ok + 1
+                kinds["% labels (accepted)" if pct else "codes"] += 1
+            elif c is not None and not pct and 1 <= c <= 9:
+                status, ok = f"OK → {c} (already on the 0–10 scale)", ok + 1
                 kinds["codes"] += 1
-            elif pct:
-                status, bad = f"LABEL, not a code: page ignores it (would be {pct.group(1)}; use SelectedChoicesRecode)", bad + 1
-                kinds["labels"] += 1
             else:
-                hint = " (looks like a 0–10 value; the link should pipe the 0–100 recode)" if c is not None and c <= 10 else ""
-                status, bad = f"NOT RECOGNIZED: expected 0, 10, 20 … 100{hint}", bad + 1
+                status, bad = "NOT RECOGNIZED: expected 0, 10, 20 … 100, a 70%-style label, or 1–9", bad + 1
                 kinds["codes" if c is not None else "other"] += 1
         else:
             pieces = [x for x in re.split(r"[\s,]+", raw) if x] if kind == "multi" and all(code(x) is not None for x in re.split(r"[\s,]+", raw) if x) else [raw]
