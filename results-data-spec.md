@@ -49,12 +49,15 @@ per-year number boxes QID405 `l_circ_school_total`, QID275 `l_circ_school_print`
 "librarian": { "circulation": {
   "source": "this year's Screens in Schools librarian survey", "partial": "2026-27", "libraries": 90,
   "all":   [ { "year": "2022-23", "n": 90, "mean": 5510, "median": 4108, "total": 495932 }, "…" ],
+  "so_far": { "year": "2026-27", "n": 60, "mean": 1543, "median": 1566, "total": 92560 },
   "panel": { "n": 90, "years": [ { "year": "2022-23", "mean": 5510, "median": 4108, "change": 0.0 }, "…" ] },
   "per_library": { "n": 90, "median": 3590, "mean": 4862, "under_10k": 81.1 }
 } }
 ```
 - `all` (handoff view A): every library that reported that year; n varies by year. Includes the partial year.
 - `panel` (view B): the same libraries in every complete year; `change` = % vs the first year. `null` under `CIRC_MIN_N`.
+- `so_far`: the current, partial year (2026-27) on its own: `{year, n, mean, median, total}` over every school library
+  that reported it, same cleaning rules. `null` under `CIRC_MIN_N`; the page then says "Not enough responses yet".
 - `per_library` (view D): one average per library. No min/max, which would be one library's figure.
 - The page uses `panel` once its `n` is at least 30; before that it shows the July 2, 2026 baseline built into app.js.
 

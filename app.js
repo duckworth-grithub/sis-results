@@ -497,6 +497,16 @@
       '<div class="rows">' + rows + '</div><p class="circ-note">' + note + '</p>');
   }
 
+  // Library checkouts in the current school year so far (live data only; there's no baseline for it).
+  // Placeholder layout: the copy and chart are still to be decided.
+  function soFarSection(live) {
+    var c = live && live.librarian && live.librarian.circulation, s = c && c.so_far;
+    if (!s) return section('', 'circSoFar', '<h3>Library checkouts so far this school year</h3>' + EMPTY);
+    var fmt = function (n) { return Math.round(n).toLocaleString('en-US'); };
+    return section('circ', 'circSoFar', '<h3>So far in ' + esc(s.year) + ', school librarians have reported ' + fmt(s.total) + ' checkouts.</h3>' +
+      '<div class="ai-sub">From ' + s.n + ' school libraries: ' + fmt(s.mean) + ' per library on average (median ' + fmt(s.median) + ')</div>');
+  }
+
   // MS/HS only: aggregate approval per AI use (QID110). No comparison, no YOU, nothing from the URL.
   function aiSection(q) {
     var title = 'Educators think students should be allowed to use AI to…';
@@ -662,7 +672,7 @@
         return keys === null || (keys || []).some(function (k) { return k in ANSWERED; });
       });
       // Every librarian (elementary, MS/HS, district) sees library checkouts first.
-      html.unshift(circSection(circData(live)));
+      html.unshift(circSection(circData(live)), soFarSection(live));
     }
     var box = document.getElementById('sections');
     box.className = 'sections aud-' + AUD + (LIB ? ' lib' : '');

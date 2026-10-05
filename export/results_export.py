@@ -367,6 +367,9 @@ def circulation(rows):
         panel = {"n": len(bal), "years": [
             {"year": CIRC_YEARS[k], "mean": round(st.mean(l[k] for l in bal)), "median": round(st.median(l[k] for l in bal)),
              "change": round((st.mean(l[k] for l in bal) / base - 1) * 100, 1)} for k in complete]}
+    # The current, partial year on its own ("so far"): every school library that reported it, tallied.
+    cur = [l[CIRC_PARTIAL] for l in libs if CIRC_PARTIAL in l]
+    so_far = {"year": CIRC_YEARS[CIRC_PARTIAL], **stats(cur)} if len(cur) >= max(CIRC_MIN_N, 1) else None
     per = [sum(l.values()) / len(l) for l in libs]
     print("librarian checkouts:", {"responses": len(rows), "school_level": len(school), "district_excluded":
           sum(1 for r in rows if code(r.get(lvl)) == 0), "with_checkouts": len(libs), "balanced": len(bal),
@@ -377,6 +380,7 @@ def circulation(rows):
         "libraries": len(libs),
         "all": all_years,
         "panel": panel,
+        "so_far": so_far,
         # One average per library; median and mean only (min/max would be a single library's figure).
         "per_library": {"n": len(per), "median": round(st.median(per)), "mean": round(st.mean(per)),
                         "under_10k": round(sum(1 for x in per if x < 10000) / len(per) * 100, 1)}
