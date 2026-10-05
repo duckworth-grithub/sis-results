@@ -476,9 +476,11 @@
   function circSection(c) {
     var ys = c.panel.years, first = ys[0].mean;
     var change = function (y) { return (y.mean / first - 1) * 100; };
-    var ch = Math.round(change(ys[ys.length - 1]));
-    var head = ch === 0 ? 'School library checkouts have held steady since ' + ys[0].year + '.'
-      : 'School library checkouts are ' + (ch > 0 ? 'up ' : 'down ') + Math.abs(ch) + '% since ' + ys[0].year + '.';
+    // Heading: latest year vs the year before (same libraries). Bars: each year vs the first, as in the handoff.
+    var last = ys[ys.length - 1], prev = ys[ys.length - 2];
+    var ch = Math.round((last.mean / prev.mean - 1) * 100);
+    var head = 'Compared to last year, librarians in the U.S. are reporting ' +
+      (ch === 0 ? 'about the same number of checkouts.' : Math.abs(ch) + '% ' + (ch > 0 ? 'more' : 'fewer') + ' checkouts.');
     var max = Math.max.apply(null, ys.map(function (y) { return Math.abs(change(y)); })) || 1;
     var rows = ys.slice(1).map(function (y) {
       var d = change(y);
@@ -496,7 +498,7 @@
     var c = live && live.librarian && live.librarian.circulation, s = c && c.so_far;
     if (!s) return section('', 'circSoFar', '<h3>Library checkouts so far this school year</h3>' + EMPTY);
     var fmt = function (n) { return Math.round(n).toLocaleString('en-US'); };
-    return section('circ', 'circSoFar', '<h3>So far in ' + esc(s.year) + ', school librarians have reported ' + fmt(s.total) + ' checkouts.</h3>');
+    return section('circ', 'circSoFar', '<h3>So far, librarians have reported ' + fmt(s.total) + ' checkouts.</h3>');
   }
 
   // MS/HS only: aggregate approval per AI use (QID110). No comparison, no YOU, nothing from the URL.
