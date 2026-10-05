@@ -151,7 +151,7 @@ def check(url, params):
                 ok += 1
                 status = "OK → " + "; ".join(dict.fromkeys(hits))
                 if kind == "multi":
-                    status += " (page shows only 1:1 devices: " + ("YOU" if "1:1 devices" in hits else "no YOU") + ")"
+                    status += " (YOU on each)"
                 misses = [x for x in pieces if code(x) not in table]
                 if misses:
                     status += f"; ignored: {', '.join(misses)}"
@@ -167,8 +167,8 @@ def check(url, params):
         print(f"  {p:<11}= {shown[:40]:<10} {status}")
     lib = str(got.get("role") or "").strip().lower() == "librarian"
     if lib:
-        print("  Librarian page (role=librarian): no YOU marks; only sections with a recognized answer are shown"
-              " (all sections if none).")
+        print("  Librarian page (role=librarian): YOU on their answers; only sections with a recognized answer are shown"
+              " (all sections if none); no green highlights.")
     extra = [k for k in got if k not in spec and k not in ("a", "level", "role") and not k.startswith("amp;")]
     if extra:
         print("  Not read on this page: " + ", ".join(f"{k}={got[k]}" for k in extra))
@@ -185,8 +185,6 @@ def check(url, params):
         print("  Verdict: Qualtrics-side. Fix the &amp; in the href.")
     elif ok == 0 and missing and lib:
         print("  Verdict: librarian with no answers (e.g. district): the full page in librarian style, no YOU marks.")
-    elif lib and not bad:
-        print("  Verdict: the link is fine; librarian page, so no YOU marks — answers only decide which sections show.")
     elif ok == 0 and missing and ("preview" in got or audience == "student"):
         print("  Verdict: generic view by design (" + ("preview link" if "preview" in got else "student links carry no answers") + "); no YOU marks.")
     elif ok == 0 and missing:

@@ -58,8 +58,8 @@ https://results.screensinschools.org/#a=elementary&access=${q://QID20/SelectedCh
 switches to the elementary page.)
 
 **Librarians** (SV_9BO9iR0YKZ2lVie) use the educator pages, marked with `role=librarian`. On a librarian page only the
-sections they answered are shown (all of them if none, e.g. district librarians), with no YOU marks and no green:
-aggregate bars are dark grey like the AI section. The AI section is always shown on their MS/HS page, since MS/HS
+sections they answered are shown (all of them if none, e.g. district librarians). Their own answers are marked YOU
+in green; every aggregate bar is dark grey like the AI section (no green highlights). The AI section is always shown on their MS/HS page, since MS/HS
 and district librarians answer the same AI matrix (QID419). Their survey asks the same questions under different
 QIDs, piped into the same parameter names. Librarian responses are **not** in the aggregates: they compare
 themselves with educators. MS/HS librarians:
@@ -83,8 +83,8 @@ sends them); educator `when where enforce between
 phone laptop satisf strict screentime hardcopy banhw bandevice`; elementary `access takehome read hw pers other
 noninstr screentime hardcopy banhw bandevice`. Scales (0–10 on the page) accept the Qualtrics recode 0, 10 … 100, a
 label starting with a percentage (`70%`, `0% (not at all satisfied)`), or a bare 1–9; `10` always means 10%. `access` is a
-comma-separated list; under the heading "Schools differ on how students access devices." the page shows only the 1:1-devices share,
-marked YOU if 1:1 devices is among the picks. The recode tables live in `app.js` and `export/results_export.py` and must match.
+comma-separated list; under the heading "Schools differ on how students access devices." the page shows all five choices, with YOU on
+each of the teacher's picks (the most common choice is green when there are no answers). The recode tables live in `app.js` and `export/results_export.py` and must match.
 
 Screen time (QID49 MS/HS, QID36 elementary) is 3-point: 1 Too low, 2 About right, 3 Too high. Until the week of
 Sep 21–28, 2026 it was 5-point (1 Much too low … 5 Much too high), and the edit reused codes 1–3 with new meanings.

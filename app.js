@@ -211,10 +211,11 @@
 
   var AUD = parsed.audience;
   // Librarians (`role=librarian`) answer only some of the educator questions. Their page shows just the sections
-  // they answered (all of them if none, e.g. district librarians), with no YOU marks and dark aggregate bars.
+  // they answered (all of them if none, e.g. district librarians): their answers marked YOU in green, everything
+  // else in dark grey (no green highlights).
   var LIB = parsed.librarian;
   var ANSWERED = parsed.picks;
-  var P = LIB ? {} : parsed.picks;
+  var P = parsed.picks;
   // Generic view: no valid answers in the URL. Then green marks the aggregate (most common / average);
   // otherwise green means YOU only and aggregates stay grey/dark.
   var GENERIC = !LIB && Object.keys(P).length === 0;
@@ -424,19 +425,6 @@
     return section('charge', 'inCharge', '<h3>' + title + '</h3><div class="charge-list">' + body + '</div>');
   }
 
-  // Elementary device access: fixed heading; only the 1:1 share is shown. YOU if the respondent selected 1:1;
-  // green in the generic view. One bar, so it's drawn at its true percentage rather than scaled to the largest.
-  function oneToOneSection(q, picks) {
-    var title = 'During the school day, how do your students access computers/tablets?';
-    if (!q) return emptySection('access', title);
-    var label = ACCESS[0][0], pct = r0(q.options[label]);
-    var you = (picks || []).indexOf(label) >= 0;
-    var head = 'Schools differ on how students access devices.';
-    return section('', 'access', '<h3>' + head + '</h3><div class="rows"><div class="row' + (you || GENERIC ? ' you' : '') + '">' +
-      '<div class="row-label">' + esc(label) + '</div><div class="row-bar"><div class="fill" style="width:' + pct + '%"></div>' +
-      '<div class="pct">' + pct + '%</div></div></div></div>');
-  }
-
   // MS/HS only: aggregate approval per AI use (QID110). No comparison, no YOU, nothing from the URL.
   function aiSection(q) {
     var title = 'Educators think students should be allowed to use AI to…';
@@ -509,7 +497,8 @@
       ];
     } else {
       html = [
-        oneToOneSection(Q('tech_access'), P.tech_access),
+        barsSection('access', 'During the school day, how do your students access computers/tablets?', ACCESS, Q('tech_access'), P.tech_access,
+          'Schools differ on how students access devices.'),
         boxesSection('usage', [
           { title: 'How much reading is done on a screen?', q: Q('tech_screen_read'), val: P.tech_screen_read },
           { title: 'How much homework requires a device?', q: Q('tech_screen_hw'), val: P.tech_screen_hw }

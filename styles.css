@@ -125,9 +125,9 @@ h1 { font-size: clamp(26px, 4vw, 34px); line-height: 1.15; font-weight: 700; mar
 .agg .col-bar.bg-avg, .agg .hbar .fill.bg-avg, .agg .legend .is-avg span { background: var(--green) !important; }
 .agg .col-v.is-avg, .agg .hbar .v.is-avg { color: var(--green); }
 
-/* Librarian pages (role=librarian): no YOU, no green — aggregates in dark grey, like the AI section */
-.lib .row-bar .fill, .lib .col-bar.bg-avg, .lib .hbar .fill.bg-avg, .lib .legend .is-avg span { background: #444444 !important; }
-.lib .row-bar .pct, .lib .col-v.is-avg, .lib .hbar .v.is-avg { color: var(--ink); }
+/* Librarian pages (role=librarian): their own answers are YOU (green); every aggregate is dark grey, like the AI section */
+.lib .row:not(.you) .row-bar .fill, .lib .col-bar.bg-avg, .lib .hbar .fill.bg-avg, .lib .legend .is-avg span { background: #444444 !important; }
+.lib .row:not(.you) .row-bar .pct, .lib .col-v.is-avg, .lib .hbar .v.is-avg { color: var(--ink); }
 
 /* Satisfaction cards */
 .cards { display: flex; flex-wrap: wrap; gap: 12px; }
