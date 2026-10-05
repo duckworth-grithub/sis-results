@@ -125,11 +125,11 @@ h1 { font-size: clamp(26px, 4vw, 34px); line-height: 1.15; font-weight: 700; mar
 .agg .col-bar.bg-avg, .agg .hbar .fill.bg-avg, .agg .legend .is-avg span { background: var(--green) !important; }
 .agg .col-v.is-avg, .agg .hbar .v.is-avg { color: var(--green); }
 
-/* Elementary device access (select all that apply): every bar medium grey, the AVERAGE colour; no green.
-   A teacher's own choices keep a bold label. */
+/* Elementary device access (select all that apply): data only, no comparison. Every bar medium grey (the AVERAGE
+   colour), every label and percentage plain, whatever the teacher picked. */
 #access .row-bar .fill { background: var(--avg) !important; }
-#access .row-bar .pct { color: var(--avg) !important; }
-.generic #access .row.you .row-label { font-weight: 400; color: var(--muted); } /* no answers: nothing is "theirs" */
+#access .row-bar .pct { color: var(--avg) !important; font-size: 14px !important; font-weight: 400 !important; }
+#access .row-label { font-weight: 400 !important; color: var(--muted) !important; }
 
 /* Satisfaction cards */
 .cards { display: flex; flex-wrap: wrap; gap: 12px; }
