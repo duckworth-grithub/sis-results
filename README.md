@@ -57,15 +57,18 @@ https://results.screensinschools.org/#a=elementary&access=${q://QID20/SelectedCh
 (A single combined link also works: `#a=educator&level=${q://QID44/SelectedChoicesRecode}&…` with both sets; `level=1`
 switches to the elementary page.)
 
-**Librarians** (SV_9BO9iR0YKZ2lVie) use the educator pages. Their survey asks the same questions under different
+**Librarians** (SV_9BO9iR0YKZ2lVie) use the educator pages, marked with `role=librarian`. On a librarian page only the
+sections they answered are shown (all of them if none, e.g. district librarians), with no YOU marks and no green:
+aggregate bars are dark grey like the AI section. The AI section is always shown on their MS/HS page, since MS/HS
+and district librarians answer the same AI matrix (QID419). Their survey asks the same questions under different
 QIDs, piped into the same parameter names. Librarian responses are **not** in the aggregates: they compare
 themselves with educators. MS/HS librarians:
 ```
-https://results.screensinschools.org/#a=educator&when=${q://QID295/SelectedChoicesRecode}&where=${q://QID296/SelectedChoicesRecode}&satisf=${q://QID130/SelectedChoicesRecode}&strict=${q://QID177/SelectedChoicesRecode}&screentime=${q://QID414/SelectedChoicesRecode}&hardcopy=${q://QID416/SelectedChoicesRecode}&banhw=${q://QID417/SelectedChoicesRecode}&bandevice=${q://QID418/SelectedChoicesRecode}
+https://results.screensinschools.org/#a=educator&when=${q://QID295/SelectedChoicesRecode}&where=${q://QID296/SelectedChoicesRecode}&satisf=${q://QID130/SelectedChoicesRecode}&strict=${q://QID177/SelectedChoicesRecode}&screentime=${q://QID414/SelectedChoicesRecode}&hardcopy=${q://QID416/SelectedChoicesRecode}&banhw=${q://QID417/SelectedChoicesRecode}&bandevice=${q://QID418/SelectedChoicesRecode}&role=librarian
 ```
 Elementary-only librarians (`l_serves` QID411 = Elementary selected, Middle and High not selected):
 ```
-https://results.screensinschools.org/#a=elementary&screentime=${q://QID414/SelectedChoicesRecode}&hardcopy=${q://QID416/SelectedChoicesRecode}&banhw=${q://QID417/SelectedChoicesRecode}&bandevice=${q://QID418/SelectedChoicesRecode}
+https://results.screensinschools.org/#a=elementary&screentime=${q://QID414/SelectedChoicesRecode}&hardcopy=${q://QID416/SelectedChoicesRecode}&banhw=${q://QID417/SelectedChoicesRecode}&bandevice=${q://QID418/SelectedChoicesRecode}&role=librarian
 ```
 Librarian answer codes match the educator ones (checked against the Sep 30 export; QID130 satisfaction uses
 recodes 0, 10 … 100 like the educator's QID67). On a librarian's MS/HS page the charts they weren't asked

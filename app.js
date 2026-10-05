@@ -193,7 +193,8 @@
         if (hit) picks[key] = hit; // unknown code → treated as missing
       }
     });
-    return { audience: audience, picks: picks };
+    var librarian = String(get('role') || '').trim().toLowerCase() === 'librarian';
+    return { audience: audience, picks: picks, librarian: librarian };
   }
 
   // Bare visits (no valid `a` in the #hash or the ?query) go to the survey instead, before any data is fetched.
@@ -205,14 +206,18 @@
     return;
   }
   try {
-    history.replaceState(null, '', location.pathname + '?a=' + parsed.audience);
+    history.replaceState(null, '', location.pathname + '?a=' + parsed.audience + (parsed.librarian ? '&role=librarian' : ''));
   } catch (e) { /* file:// or sandboxed — nothing to scrub */ }
 
   var AUD = parsed.audience;
-  var P = parsed.picks;
+  // Librarians (`role=librarian`) answer only some of the educator questions. Their page shows just the sections
+  // they answered (all of them if none, e.g. district librarians), with no YOU marks and dark aggregate bars.
+  var LIB = parsed.librarian;
+  var ANSWERED = parsed.picks;
+  var P = LIB ? {} : parsed.picks;
   // Generic view: no valid answers in the URL. Then green marks the aggregate (most common / average);
   // otherwise green means YOU only and aggregates stay grey/dark.
-  var GENERIC = Object.keys(P).length === 0;
+  var GENERIC = !LIB && Object.keys(P).length === 0;
   var NOUN = AUD === 'student' ? 'students' : 'educators';
 
   // ---------------------------------------------------------------------------
@@ -481,7 +486,7 @@
           { title: 'How much reading is done on a screen?', q: Q('tech_screen_read'), val: P.tech_screen_read },
           { title: 'How much homework requires a device?', q: Q('tech_screen_hw'), val: P.tech_screen_hw }
         ]),
-        compareSection('dayUse', 'How long are your students on devices each day?', [
+        compareSection('dayUse', 'How long are students on devices each day?', [
           hoursRow('...for personalized<br class="d-br"> instruction?', Q('use_instr_personal'), P.use_instr_personal),
           hoursRow('...for other<br class="d-br"> instruction?', Q('use_instr_other'), P.use_instr_other),
           hoursRow('...for non-instructional<br class="d-br"> use?', Q('use_noninstr'), P.use_noninstr)
@@ -490,7 +495,26 @@
         chargeSection([Q('view_hardcopy'), Q('view_ban_hw'), Q('view_ban_device')])
       ];
     }
-    document.getElementById('sections').innerHTML = html.join('');
+    if (LIB) {
+      // Section id → the questions behind it. A librarian sees a section only if they answered one of them;
+      // the AI section (no URL parameter) is shown because MS/HS and district librarians answer the same matrix.
+      var BEHIND = AUD === 'educator'
+        ? { restriction: ['policy_when'], storage: ['policy_where'], satisfaction: ['policy_satisf'],
+            usage: ['use_phone_class', 'use_between', 'use_laptop_class'], screenTime: ['view_screentime'],
+            inCharge: ['view_hardcopy', 'view_ban_hw', 'view_ban_device'], aiUse: null }
+        : { access: ['tech_access'], usage: ['tech_screen_read', 'tech_screen_hw'],
+            dayUse: ['use_instr_personal', 'use_instr_other', 'use_noninstr'], screenTime: ['view_screentime'],
+            inCharge: ['view_hardcopy', 'view_ban_hw', 'view_ban_device'] };
+      if (Object.keys(ANSWERED).length) {
+        html = html.filter(function (h) {
+          var keys = BEHIND[(h.match(/id="(\w+)"/) || [])[1]];
+          return keys === null || (keys || []).some(function (k) { return k in ANSWERED; });
+        });
+      }
+    }
+    var box = document.getElementById('sections');
+    box.className = 'sections' + (LIB ? ' lib' : '');
+    box.innerHTML = html.join('');
 
     var note = '';
     if (live && live.generated_at) {
