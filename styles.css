@@ -125,11 +125,13 @@ h1 { font-size: clamp(26px, 4vw, 34px); line-height: 1.15; font-weight: 700; mar
 .agg .col-bar.bg-avg, .agg .hbar .fill.bg-avg, .agg .legend .is-avg span { background: var(--green) !important; }
 .agg .col-v.is-avg, .agg .hbar .v.is-avg { color: var(--green); }
 
-/* Elementary device access (select all that apply): data only, no comparison. Every bar medium grey (the AVERAGE
-   colour), every label and percentage plain, whatever the teacher picked. */
-#access .row-bar .fill { background: var(--avg) !important; }
-#access .row-bar .pct { color: var(--avg) !important; font-size: 14px !important; font-weight: 400 !important; }
-#access .row-label { font-weight: 400 !important; color: var(--muted) !important; }
+/* Data-only bar charts, no comparison: elementary device access, and the student WHEN/WHERE charts.
+   Every bar medium grey (the AVERAGE colour), every label and percentage plain, no highlight. */
+#access .row-bar .fill, .aud-student #restriction .row-bar .fill, .aud-student #storage .row-bar .fill { background: var(--avg) !important; }
+#access .row-bar .pct, .aud-student #restriction .row-bar .pct, .aud-student #storage .row-bar .pct {
+  color: var(--avg) !important; font-size: 14px !important; font-weight: 400 !important; }
+#access .row-label, .aud-student #restriction .row-label, .aud-student #storage .row-label {
+  font-weight: 400 !important; color: var(--muted) !important; }
 
 /* Satisfaction cards */
 .cards { display: flex; flex-wrap: wrap; gap: 12px; }

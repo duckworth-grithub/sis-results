@@ -597,7 +597,7 @@
       if (!html.length) html = ['<section class="q"><p class="empty">There are no results to compare for the questions you answered.</p></section>'];
     }
     var box = document.getElementById('sections');
-    box.className = 'sections' + (LIB ? ' lib' : '');
+    box.className = 'sections aud-' + AUD + (LIB ? ' lib' : '');
     box.innerHTML = html.join('') + shareCallout();
     wireShare();
 
