@@ -259,7 +259,8 @@
   // ---------------------------------------------------------------------------
   // pick: a label, an array of labels in the order selected (select-all), or undefined.
   // Every picked row is marked YOU; the headline follows the first pick.
-  function barsSection(id, title, table, q, pick) {
+  // fixedHead (optional, trusted HTML) replaces the computed percentage headline.
+  function barsSection(id, title, table, q, pick, fixedHead) {
     if (!q) return emptySection(id, title);
     var picks = pick == null ? [] : [].concat(pick);
     var rows = table.map(function (o) {
@@ -285,7 +286,7 @@
         '<div class="row-bar"><div class="fill" style="width:' + (r.pct / max * 82) + '%"></div>' +
         '<div class="pct">' + r.pct + '%</div></div></div>';
     }).join('');
-    return section('', id, '<h3>' + head + '</h3><div class="rows">' + body + '</div>');
+    return section('', id, '<h3>' + (fixedHead || head) + '</h3><div class="rows">' + body + '</div>');
   }
 
   // Rows for YOU vs AVERAGE charts. youP/avgP are 0–100 bar lengths.
@@ -448,8 +449,10 @@
     var html;
     if (AUD === 'student') {
       html = [
-        barsSection('restriction', WHEN_T, WHEN, Q('policy_when'), P.policy_when),
-        barsSection('storage', WHERE_T, WHERE, Q('policy_where'), P.policy_where),
+        barsSection('restriction', WHEN_T, WHEN, Q('policy_when'), P.policy_when,
+          'Schools differ on WHEN students are allowed to use their phones.'),
+        barsSection('storage', WHERE_T, WHERE, Q('policy_where'), P.policy_where,
+          'Schools differ on WHERE students are allowed to keep their phones.'),
         compareSection('usage', 'How many students are...', [
           scaleRow('...using phones during class?', Q('use_phone_class'), P.use_phone_class),
           scaleRow('...using laptops during class?', Q('use_laptop_class'), P.use_laptop_class)
