@@ -522,6 +522,7 @@
     var html;
     if (AUD === 'student') {
       html = [
+        wyrSection([Q('wyr_read'), Q('wyr_homework')]),
         barsSection('restriction', WHEN_T, WHEN, Q('policy_when'), P.policy_when,
           'U.S. schools differ on WHEN students can use phones.', {
             // Short versions of the student survey (QID13) answers
@@ -544,8 +545,7 @@
           scaleRow('...using phones during class?', Q('use_phone_class'), P.use_phone_class),
           scaleRow('...using laptops during class?', Q('use_laptop_class'), P.use_laptop_class)
         ], '', 'U.S. AVERAGE'),
-        barsSection('teacherPhone', 'During class, how often do you see a teacher on their phone for personal reasons?', TEACHER, Q('use_teacher_phone'), P.use_teacher_phone),
-        wyrSection([Q('wyr_read'), Q('wyr_homework')])
+        barsSection('teacherPhone', 'During class, how often do you see a teacher on their phone for personal reasons?', TEACHER, Q('use_teacher_phone'), P.use_teacher_phone)
       ];
     } else if (AUD === 'educator') {
       html = [
