@@ -381,6 +381,32 @@
   }
 
   var RAMP3 = [['#6B6B6B', '#FFFFFF'], ['#B4B4B4', '#1A1A1A'], ['#E0E0E0', '#1A1A1A']];
+
+  // A single stacked bar in the screen-time style, for a set of answers in a fixed order. The most common answer is
+  // green with "▲ MOST COMMON" under it; segments too narrow for their text show it below the bar at every width.
+  // items: [[data label, label shown]].
+  function stackSection(id, title, head, q, items) {
+    if (!q) return emptySection(id, title);
+    var ps = items.map(function (it) { return r0(q.options[it[0]]); });
+    var mi = argmax(ps), tot = sum(ps) || 1;
+    var segs = ps.map(function (p, k) {
+      var w = p / tot * 100, top = k === mi && p > 0;
+      return { p: p, w: w, label: items[k][1], narrow: w < 16, top: top,
+        bg: top ? GREEN : RAMP3[k % 3][0], fg: top ? '#FFFFFF' : RAMP3[k % 3][1],
+        ai: k === 0 ? 'flex-start' : k === ps.length - 1 ? 'flex-end' : 'center' };
+    });
+    var bar = segs.map(function (s) {
+      return '<div class="seg' + (s.narrow ? ' narrow' : '') + '" style="width:' + s.w + '%;background:' + s.bg + ';color:' + s.fg + '">' +
+        '<div class="seg-p">' + s.p + '%</div><div class="seg-l">' + esc(s.label) + '</div></div>';
+    }).join('');
+    var under = segs.map(function (s) {
+      return '<div class="under' + (s.narrow ? ' narrow' : '') + '" style="width:' + s.w + '%">' +
+        (s.top ? '<span class="you-tag">\u25B2 MOST COMMON</span>' : '') +
+        '<div class="callout" style="align-items:' + s.ai + '"><div class="callout-tick" style="align-self:center"></div>' +
+        '<div class="callout-body" style="align-self:' + s.ai + ';align-items:' + s.ai + '"><b>' + s.p + '%</b><span>' + esc(s.label) + '</span></div></div></div>';
+    }).join('');
+    return section('stack-always', id, '<h3>' + head + '</h3><div class="stack-wrap"><div class="stack">' + bar + '</div><div class="stack-under">' + under + '</div></div>');
+  }
   function screenTimeSection(q, pick) {
     // Wording follows each survey: QID49 (MS/HS) was reworded 2026-09-30; QID36 (elementary) was not.
     var title = AUD === 'educator'
@@ -525,13 +551,12 @@
     if (AUD === 'student') {
       html = [
         wyrSection([Q('wyr_read'), Q('wyr_homework')]),
-        barsSection('restriction', WHEN_T, WHEN, Q('policy_when'), P.policy_when,
-          'U.S. schools differ on WHEN students can use phones.', {
-            // Short versions of the student survey (QID13) answers
-            'Bell-to-bell': 'Not during the school day',
-            'Schedule-based restriction': 'Sometimes',
-            'No school-wide restriction': 'No school-wide rule'
-          }, true),
+        stackSection('restriction', WHEN_T, 'U.S. schools differ on WHEN students can use phones.', Q('policy_when'), [
+          // Short versions of the student survey (QID13) answers
+          ['Bell-to-bell', 'Not during the school day'],
+          ['Schedule-based restriction', 'Sometimes'],
+          ['No school-wide restriction', 'No school-wide rule']
+        ]),
         barsSection('storage', WHERE_T, WHERE, Q('policy_where'), P.policy_where,
           'U.S. schools differ on WHERE students keep phones.', {
             // Student survey (QID14) wording, shortened

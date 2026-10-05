@@ -141,6 +141,10 @@ h1 { font-size: clamp(26px, 4vw, 34px); line-height: 1.15; font-weight: 700; mar
 
 .pop-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: var(--green); white-space: nowrap; }
 
+/* Stacked bars that move narrow segments' text below the bar at every width (student WHEN) */
+.stack-always .seg.narrow > * { display: none; }
+.stack-always .under.narrow .callout { display: flex; flex-direction: column; align-items: inherit; width: 100%; }
+
 .cap-emoji { display: block; font-size: 32px; line-height: 1; margin-bottom: 8px; }
 
 /* Satisfaction cards */
