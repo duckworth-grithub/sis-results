@@ -457,43 +457,38 @@
 
   // ---------------------------------------------------------------------------
   // Library checkouts (all librarian pages). View B of LIBRARIAN_HANDOFF.md: average yearly checkouts for a balanced
-  // panel (the same libraries every year), so a rise is a real rise. The partial year is starred. The data job adds this
+  // panel (the same libraries every year), so a rise is a real rise. The data job adds this
   // year's libraries to last year's baseline (handoff §4, 2 July 2026); this copy is shown only if that file is missing.
   // ---------------------------------------------------------------------------
   var CIRC_BASELINE = {
-    source: "last year's Screens in Schools librarian survey",
-    partial: '2025-26',
     panel: { n: 107, years: [
-      { year: '2022-23', mean: 5815, median: 4094 },
-      { year: '2023-24', mean: 5900, median: 3971 },
-      { year: '2024-25', mean: 6171, median: 3867 },
-      { year: '2025-26', mean: 6479, median: 4100 }
+      { year: '2022-23', mean: 5815 },
+      { year: '2023-24', mean: 5900 },
+      { year: '2024-25', mean: 6171 },
+      { year: '2025-26', mean: 6479 }
     ] }
   };
   function circData(live) {
     var c = live && live.librarian && live.librarian.circulation;
     return c && c.panel ? c : CIRC_BASELINE;
   }
+  // Percent change only (no averages on the page): each year vs the first, bars from zero.
   function circSection(c) {
     var ys = c.panel.years, first = ys[0].mean;
     var change = function (y) { return (y.mean / first - 1) * 100; };
-    var complete = ys.filter(function (y) { return y.year !== c.partial; });
-    var last = complete[complete.length - 1], ch = Math.round(change(last));
+    var ch = Math.round(change(ys[ys.length - 1]));
     var head = ch === 0 ? 'School library checkouts have held steady since ' + ys[0].year + '.'
       : 'School library checkouts are ' + (ch > 0 ? 'up ' : 'down ') + Math.abs(ch) + '% since ' + ys[0].year + '.';
-    var max = Math.max.apply(null, ys.map(function (y) { return y.mean; })) || 1;
-    var fmt = function (n) { return Math.round(n).toLocaleString('en-US'); };
-    var rows = ys.map(function (y, k) {
-      var p = y.year === c.partial, d = change(y);
-      return '<div class="row' + (p ? ' partial' : '') + '"><div class="row-label">' + esc(y.year) + (p ? '*' : '') + '</div>' +
-        '<div class="row-bar"><div class="fill" style="width:' + (y.mean / max * 82) + '%"></div>' +
-        '<div class="pct">' + fmt(y.mean) + (k ? ' <span class="circ-ch' + (d < 0 ? ' down' : '') + '">' + (d >= 0 ? '+' : '−') + Math.abs(d).toFixed(1) + '%</span>' : '') + '</div></div></div>';
+    var max = Math.max.apply(null, ys.map(function (y) { return Math.abs(change(y)); })) || 1;
+    var rows = ys.slice(1).map(function (y) {
+      var d = change(y);
+      return '<div class="row"><div class="row-label">' + esc(y.year) + '</div>' +
+        '<div class="row-bar"><div class="fill' + (d < 0 ? ' down' : '') + '" style="width:' + (Math.abs(d) / max * 82) + '%"></div>' +
+        '<div class="pct">' + (d >= 0 ? '+' : '\u2212') + Math.abs(d).toFixed(1) + '%</div></div></div>';
     }).join('');
-    var note = (ys.some(function (y) { return y.year === c.partial; }) ? '* Last year\'s answers for ' + c.partial + ' were collected while the year was still in progress. ' : '') +
-      'From ' + esc(c.source) + '.';
     return section('circ', 'circulation', '<h3>' + head + '</h3>' +
-      '<div class="ai-sub">Average yearly checkouts per library, for the same ' + c.panel.n + ' school libraries each year</div>' +
-      '<div class="rows">' + rows + '</div><p class="circ-note">' + note + '</p>');
+      '<div class="ai-sub">Change in checkouts since ' + esc(ys[0].year) + ', for the same ' + c.panel.n + ' school libraries each year</div>' +
+      '<div class="rows">' + rows + '</div>');
   }
 
   // Library checkouts in the current school year so far (live data only; there's no baseline for it).

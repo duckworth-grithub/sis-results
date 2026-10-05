@@ -60,8 +60,8 @@ switches to the elementary page.)
 **Librarians** (SV_9BO9iR0YKZ2lVie) use the educator pages, marked with `role=librarian`. On a librarian page only the
 sections they answered are shown, with their own answers marked YOU in green and no green highlights. District
 librarians answer none of the linked questions, so they see only the AI section; a librarian with nothing to show
-gets a one-line note. Every librarian page (elementary, MS/HS, district) opens with **library checkouts**: average
-yearly checkouts for a balanced panel of school libraries, computed as in the coworker's `LIBRARIAN_HANDOFF.md`
+gets a one-line note. Every librarian page (elementary, MS/HS, district) opens with **library checkouts**: the percent
+change in yearly checkouts (no averages) for a balanced panel of school libraries, computed as in the coworker's `LIBRARIAN_HANDOFF.md`
 (view B). Last year's figures (July 2, 2026 export, 107 libraries) are a fixed base: the data job adds this year's
 libraries on top and never swaps the base out. A separate item shows 2026-27 checkouts so far (this year only). The AI section is always shown on their MS/HS page, since MS/HS
 and district librarians answer the same AI matrix (QID419). Their survey asks the same questions under different
