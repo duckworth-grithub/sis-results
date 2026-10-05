@@ -267,7 +267,8 @@
   // Every picked row is marked YOU; the headline follows the first pick.
   // fixedHead (optional, trusted HTML) replaces the computed percentage headline.
   // shown (optional) maps a data label to the text displayed on its row, e.g. the student survey's own wording.
-  function barsSection(id, title, table, q, pick, fixedHead, shown) {
+  // popular (optional): tag the most common answer(s) "MOST POPULAR".
+  function barsSection(id, title, table, q, pick, fixedHead, shown, popular) {
     if (!q) return emptySection(id, title);
     var picks = pick == null ? [] : [].concat(pick);
     var rows = table.map(function (o) {
@@ -288,10 +289,11 @@
       head = num(m.pct) + ' of ' + NOUN + ' ' + esc(m.tail) + '.';
     }
     var body = rows.map(function (r) {
-      return '<div class="row' + (r.you ? ' you' : '') + '">' +
+      var top = popular && r.pct === max && r.pct > 0;
+      return '<div class="row' + (r.you ? ' you' : '') + (top ? ' popular' : '') + '">' +
         '<div class="row-label">' + esc((shown && shown[r.label]) || r.label) + '</div>' +
         '<div class="row-bar"><div class="fill" style="width:' + (r.pct / max * 82) + '%"></div>' +
-        '<div class="pct">' + r.pct + '%</div></div></div>';
+        '<div class="pct">' + r.pct + '%</div>' + (top ? '<span class="pop-tag">MOST POPULAR</span>' : '') + '</div></div>';
     }).join('');
     return section('', id, '<h3>' + (fixedHead || head) + '</h3><div class="rows">' + body + '</div>');
   }
@@ -529,7 +531,7 @@
             'Bell-to-bell': 'Not during the school day',
             'Schedule-based restriction': 'Sometimes',
             'No school-wide restriction': 'No school-wide rule'
-          }),
+          }, true),
         barsSection('storage', WHERE_T, WHERE, Q('policy_where'), P.policy_where,
           'U.S. schools differ on WHERE students keep phones.', {
             // Student survey (QID14) wording, shortened
@@ -540,7 +542,7 @@
             'Classroom collection': 'Put their phones in a designated area during each class',
             "'No show' (out of sight)": 'Keep their phones out of sight',
             'No school-wide policy': 'There is no school-wide policy'
-          }),
+          }, true),
         compareSection('usage', 'How many students are...', [
           scaleRow('...using phones during class?', Q('use_phone_class'), P.use_phone_class),
           scaleRow('...using laptops during class?', Q('use_laptop_class'), P.use_laptop_class)
