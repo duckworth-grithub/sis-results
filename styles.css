@@ -151,6 +151,12 @@ h1 { font-size: clamp(26px, 4vw, 34px); line-height: 1.15; font-weight: 700; mar
 .circ .row-bar .fill { background: var(--avg); }
 .circ .row-bar .pct { color: var(--avg); }  /* all grey, like elementary device access */
 
+.circ .cards { margin-top: 28px; }
+.so-far .card-k { color: #444444; }
+.so-far-v { font-size: clamp(56px, 9vw, 88px); font-weight: 700; color: #2C7A4B; line-height: 1; font-variant-numeric: tabular-nums; }
+.so-far-t { font-size: 17px; line-height: 1.35; color: #1A1A1A; }
+@media (max-width: 639px) { .so-far-v { font-size: 56px; } }
+
 /* Satisfaction cards */
 .cards { display: flex; flex-wrap: wrap; gap: 12px; }
 .card { flex: 1 1 220px; display: flex; flex-direction: column; gap: 10px; padding: 20px; background: var(--card); }
