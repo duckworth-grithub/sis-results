@@ -168,7 +168,7 @@ def check(url, params):
     lib = str(got.get("role") or "").strip().lower() == "librarian"
     if lib:
         print("  Librarian page (role=librarian): YOU on their answers; only sections with a recognized answer are shown"
-              " (plus AI on the educator page); no green highlights.")
+              " (plus AI on the educator page), after the library checkouts section every librarian sees; no green highlights.")
     extra = [k for k in got if k not in spec and k not in ("a", "level", "role") and not k.startswith("amp;")]
     if extra:
         print("  Not read on this page: " + ", ".join(f"{k}={got[k]}" for k in extra))

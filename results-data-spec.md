@@ -23,8 +23,8 @@ Anything not listed here never leaves Qualtrics. Answer codes and labels for eve
 | `educator` | Educator SV_bxUuSACfns11z5s | QID44 `e_role_level` ≠ 1 (middle/high school) |
 | `elementary` | Educator SV_bxUuSACfns11z5s | QID44 = 1 ("Mostly elementary school") |
 
-Librarians (SV_9BO9iR0YKZ2lVie) are **not** exported or aggregated. They see the educator pages and compare
-themselves with educators (links in the README).
+Librarians (SV_9BO9iR0YKZ2lVie) see the educator pages and compare themselves with educators (links in the README).
+Only their library checkouts are exported, under the top-level `librarian` key (below).
 
 ## Fields pulled
 Student: QID2 `wyr_read`, QID3 `wyr_homework`, QID13 `policy_when`, QID14 `policy_where`, QID16 `use_phone_class`
@@ -40,6 +40,23 @@ Educator (elementary → `elementary`): QID20 `tech_access` (multi), QID21 `tech
 QID27 `use_noninstr`, QID36 `view_screentime`, QID38 `view_hardcopy`, QID39 `view_ban_hw`, QID40 `view_ban_device`.
 
 Routing only, never published: QID44 `e_role_level`.
+
+Librarian (checkouts only): QID258 `l_role_level` (1 school, 0 district: excluded), QID403 `l_circ_split_s`, and the
+per-year number boxes QID405 `l_circ_school_total`, QID275 `l_circ_school_print`, QID404 `l_circ_school_digital`.
+
+## Library checkouts (`librarian.circulation`)
+```json
+"librarian": { "circulation": {
+  "source": "this year's Screens in Schools librarian survey", "partial": "2026-27", "libraries": 90,
+  "all":   [ { "year": "2022-23", "n": 90, "mean": 5510, "median": 4108, "total": 495932 }, "…" ],
+  "panel": { "n": 90, "years": [ { "year": "2022-23", "mean": 5510, "median": 4108, "change": 0.0 }, "…" ] },
+  "per_library": { "n": 90, "median": 3590, "mean": 4862, "under_10k": 81.1 }
+} }
+```
+- `all` (handoff view A): every library that reported that year; n varies by year. Includes the partial year.
+- `panel` (view B): the same libraries in every complete year; `change` = % vs the first year. `null` under `CIRC_MIN_N`.
+- `per_library` (view D): one average per library. No min/max, which would be one library's figure.
+- The page uses `panel` once its `n` is at least 30; before that it shows the July 2, 2026 baseline built into app.js.
 
 ## Output shape
 ```json

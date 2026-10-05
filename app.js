@@ -455,6 +455,48 @@
     return section('charge', 'inCharge', '<h3>' + title + '</h3><div class="charge-list">' + body + '</div>');
   }
 
+  // ---------------------------------------------------------------------------
+  // Library checkouts (all librarian pages). View B of LIBRARIAN_HANDOFF.md: average yearly checkouts for a balanced
+  // panel (the same libraries every year), so a rise is a real rise. The partial year is starred. Until the data job
+  // publishes enough libraries from the new survey, the page shows last year's baseline (handoff §4, 2 July 2026).
+  // ---------------------------------------------------------------------------
+  var CIRC_MIN_PANEL = 30; // live figures replace the baseline once this many libraries reported every year
+  var CIRC_BASELINE = {
+    source: "last year's Screens in Schools librarian survey",
+    partial: '2025-26',
+    panel: { n: 107, years: [
+      { year: '2022-23', mean: 5815, median: 4094 },
+      { year: '2023-24', mean: 5900, median: 3971 },
+      { year: '2024-25', mean: 6171, median: 3867 },
+      { year: '2025-26', mean: 6479, median: 4100 }
+    ] }
+  };
+  function circData(live) {
+    var c = live && live.librarian && live.librarian.circulation;
+    return c && c.panel && c.panel.n >= CIRC_MIN_PANEL ? c : CIRC_BASELINE;
+  }
+  function circSection(c) {
+    var ys = c.panel.years, first = ys[0].mean;
+    var change = function (y) { return (y.mean / first - 1) * 100; };
+    var complete = ys.filter(function (y) { return y.year !== c.partial; });
+    var last = complete[complete.length - 1], ch = Math.round(change(last));
+    var head = ch === 0 ? 'School library checkouts have held steady since ' + ys[0].year + '.'
+      : 'School library checkouts are ' + (ch > 0 ? 'up ' : 'down ') + Math.abs(ch) + '% since ' + ys[0].year + '.';
+    var max = Math.max.apply(null, ys.map(function (y) { return y.mean; })) || 1;
+    var fmt = function (n) { return Math.round(n).toLocaleString('en-US'); };
+    var rows = ys.map(function (y, k) {
+      var p = y.year === c.partial, d = change(y);
+      return '<div class="row' + (p ? ' partial' : '') + '"><div class="row-label">' + esc(y.year) + (p ? '*' : '') + '</div>' +
+        '<div class="row-bar"><div class="fill" style="width:' + (y.mean / max * 82) + '%"></div>' +
+        '<div class="pct">' + fmt(y.mean) + (k ? ' <span class="circ-ch' + (d < 0 ? ' down' : '') + '">' + (d >= 0 ? '+' : '−') + Math.abs(d).toFixed(1) + '%</span>' : '') + '</div></div></div>';
+    }).join('');
+    var note = (ys.some(function (y) { return y.year === c.partial; }) ? '* ' + c.partial + ' was still in progress when librarians answered. ' : '') +
+      'From ' + esc(c.source) + '.';
+    return section('circ', 'circulation', '<h3>' + head + '</h3>' +
+      '<div class="ai-sub">Average yearly checkouts per library, for the same ' + c.panel.n + ' school libraries each year</div>' +
+      '<div class="rows">' + rows + '</div><p class="circ-note">' + note + '</p>');
+  }
+
   // MS/HS only: aggregate approval per AI use (QID110). No comparison, no YOU, nothing from the URL.
   function aiSection(q) {
     var title = 'Educators think students should be allowed to use AI to…';
@@ -619,7 +661,8 @@
         var keys = BEHIND[(h.match(/id="(\w+)"/) || [])[1]];
         return keys === null || (keys || []).some(function (k) { return k in ANSWERED; });
       });
-      if (!html.length) html = ['<section class="q"><p class="empty">There are no results to compare for the questions you answered.</p></section>'];
+      // Every librarian (elementary, MS/HS, district) sees library checkouts first.
+      html.unshift(circSection(circData(live)));
     }
     var box = document.getElementById('sections');
     box.className = 'sections aud-' + AUD + (LIB ? ' lib' : '');

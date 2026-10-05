@@ -147,6 +147,14 @@ h1 { font-size: clamp(26px, 4vw, 34px); line-height: 1.15; font-weight: 700; mar
 
 .cap-emoji { display: block; font-size: 32px; line-height: 1; margin-bottom: 8px; }
 
+/* Library checkouts (librarian pages) */
+.circ .row-bar .fill { background: var(--avg); }
+.circ .row.partial .row-bar .fill { background: #B4B4B4; }
+.circ .row-bar .pct { color: var(--ink); font-size: 15px; }
+.circ-ch { margin-left: 6px; font-size: 13px; font-weight: 700; color: var(--green); }
+.circ-ch.down { color: var(--red); }
+.circ-note { margin: 16px 0 0; font-size: 13px; line-height: 1.5; color: var(--muted-2); }
+
 /* Satisfaction cards */
 .cards { display: flex; flex-wrap: wrap; gap: 12px; }
 .card { flex: 1 1 220px; display: flex; flex-direction: column; gap: 10px; padding: 20px; background: var(--card); }

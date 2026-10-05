@@ -8,10 +8,12 @@ Env vars (set as scheduler secrets):
   QUALTRICS_DATACENTER   "yul1" (from Account Settings → Qualtrics IDs)
   SURVEY_TEEN            SV_6LFWjsZ51O8XInY  (from SIS_Student_2026-2027.qsf)
   SURVEY_EDUCATOR        SV_bxUuSACfns11z5s
+  SURVEY_LIBRARIAN       SV_9BO9iR0YKZ2lVie  (library checkouts only; see LIB below)
+  CIRC_MIN_N             default 10: a checkouts figure is published only if at least this many libraries are in it
   MIN_N                  default 0 = never suppress (only questions nobody answered are null)
   OUT                    default results-data.json
 """
-import io, json, os, sys, time, zipfile
+import io, json, os, statistics as st, sys, time, zipfile
 from datetime import datetime, timezone
 import requests
 
@@ -101,6 +103,19 @@ EDU = {
     "e_view_ban_hw_el": ("QID39", "choice", YESNO, EL),
     "e_view_ban_device_el": ("QID40", "choice", YESNO, EL),
 }
+# Librarian survey: library checkouts only (LIBRARIAN_HANDOFF.md). Each question is a text-entry form with one box
+# per year. The boxes are parsed to numbers as the row is read; anything else in them is discarded on the spot.
+# Box -> year. _1 is the NEWEST year and is partial ("so far"); re-check if the survey's year list changes.
+CIRC_YEARS = {5: "2022-23", 4: "2023-24", 3: "2024-25", 2: "2025-26", 1: "2026-27"}
+CIRC_PARTIAL = 1
+CIRC_MIN_N = int(os.environ.get("CIRC_MIN_N", "10"))
+LIB = {
+    "l_role_level": ("QID258", "route", None, set()),             # 1 = one school, 0 = district only (excluded)
+    "l_circ_split_s": ("QID403", "route", None, set()),           # 1 = print and digital asked separately
+    "l_circ_school_total": ("QID405", "form", CIRC_YEARS, set()),
+    "l_circ_school_print": ("QID275", "form", CIRC_YEARS, set()),
+    "l_circ_school_digital": ("QID404", "form", CIRC_YEARS, set()),
+}
 ELEMENTARY_CODES = {1}  # QID44 "Mostly elementary school"; 4 = middle, 5 = high
 
 
@@ -126,7 +141,7 @@ def export(survey_id, fields):
         "surveyMetadataIds": ["finished", "distributionChannel"] + (["recordedDate"] if SCREEN_5PT_UNTIL else []),
     }
     r = requests.post(f"{BASE}/surveys/{survey_id}/export-responses", headers=H, json=body, timeout=60)
-    check(r, f"starting the export for {fields is TEEN and 'SURVEY_TEEN' or 'SURVEY_EDUCATOR'}")
+    check(r, "starting the export for " + {id(TEEN): "SURVEY_TEEN", id(EDU): "SURVEY_EDUCATOR"}.get(id(fields), "SURVEY_LIBRARIAN"))
     pid = r.json()["result"]["progressId"]
     deadline = time.time() + 600
     while True:
@@ -156,6 +171,8 @@ def export(survey_id, fields):
                 row[qid] = multi_value(v, qid)
             elif kind == "matrix":  # QID110_1 ... QID110_5
                 row[qid] = {k: v.get(f"{qid}_{k}") for k in book["rows"]}
+            elif kind == "form":    # QID405_1 ... QID405_5, numbers only
+                row[qid] = {k: checkouts(v.get(f"{qid}_{k}", v.get(f"{qid}_{k}_TEXT"))) for k in book}
             else:
                 row[qid] = v.get(qid)
         if SCREEN_5PT_UNTIL:
@@ -293,6 +310,80 @@ def matrix(rows, qid, book, tag):
     return {"kind": "matrix", "n": anyone, "rows": out}
 
 
+def checkouts(v):
+    """A checkouts box -> number, or None. Commas, $ and spaces are ignored; zero, blank, negative and anything
+    non-numeric count as missing (handoff rule 2 and 5). Counted, never logged."""
+    if v in (None, ""):
+        return None
+    try:
+        x = float(str(v).replace(",", "").replace("$", "").strip())
+    except ValueError:
+        unmapped["l_circ (not a number)"] = unmapped.get("l_circ (not a number)", 0) + 1
+        return None
+    return x if x > 0 else None
+
+
+def circulation(rows):
+    """Yearly checkouts, computed the way LIBRARIAN_HANDOFF.md does (views A, B, D).
+
+    School-level answers only (district respondents report a different unit). A library that can split print and
+    digital reports both; its year counts only if both boxes are filled (one half alone would undercount). The
+    handoff's 'tk' rule needs free-text fields, which this job never pulls, so it isn't applied.
+    The balanced panel (B) uses the complete years only, so a partial year early in the school year can't drag it
+    down. Nothing is published for a year or view with fewer than CIRC_MIN_N libraries."""
+    lvl, split = LIB["l_role_level"][0], LIB["l_circ_split_s"][0]
+    tot, pr, dg = (LIB[t][0] for t in ("l_circ_school_total", "l_circ_school_print", "l_circ_school_digital"))
+    school = [r for r in rows if code(r.get(lvl)) == 1]
+    halves = 0
+    libs = []
+    for r in school:
+        if code(r.get(split)) == 1:
+            ys = {}
+            for k in CIRC_YEARS:
+                a, b = r[pr].get(k), r[dg].get(k)
+                if a is not None and b is not None:
+                    ys[k] = a + b
+                elif a is not None or b is not None:
+                    halves += 1
+        else:
+            ys = {k: x for k, x in r[tot].items() if x is not None}
+        if ys:
+            libs.append(ys)
+
+    def stats(v):
+        return {"n": len(v), "mean": round(st.mean(v)), "median": round(st.median(v)), "total": round(sum(v))}
+
+    order = sorted(CIRC_YEARS, reverse=True)  # oldest first
+    complete = [k for k in order if k != CIRC_PARTIAL]
+    all_years = []
+    for k in order:
+        v = [l[k] for l in libs if k in l]
+        if len(v) >= max(CIRC_MIN_N, 1):
+            all_years.append({"year": CIRC_YEARS[k], **stats(v)})
+    panel = None
+    bal = [l for l in libs if all(k in l for k in complete)]
+    if len(bal) >= max(CIRC_MIN_N, 1):
+        base = st.mean(l[complete[0]] for l in bal)
+        panel = {"n": len(bal), "years": [
+            {"year": CIRC_YEARS[k], "mean": round(st.mean(l[k] for l in bal)), "median": round(st.median(l[k] for l in bal)),
+             "change": round((st.mean(l[k] for l in bal) / base - 1) * 100, 1)} for k in complete]}
+    per = [sum(l.values()) / len(l) for l in libs]
+    print("librarian checkouts:", {"responses": len(rows), "school_level": len(school), "district_excluded":
+          sum(1 for r in rows if code(r.get(lvl)) == 0), "with_checkouts": len(libs), "balanced": len(bal),
+          "year_dropped_one_half_only": halves})  # counts only
+    return {
+        "source": "this year's Screens in Schools librarian survey",
+        "partial": CIRC_YEARS[CIRC_PARTIAL] if any(a["year"] == CIRC_YEARS[CIRC_PARTIAL] for a in all_years) else None,
+        "libraries": len(libs),
+        "all": all_years,
+        "panel": panel,
+        # One average per library; median and mean only (min/max would be a single library's figure).
+        "per_library": {"n": len(per), "median": round(st.median(per)), "mean": round(st.mean(per)),
+                        "under_10k": round(sum(1 for x in per if x < 10000) / len(per) * 100, 1)}
+                       if len(per) >= max(CIRC_MIN_N, 1) else None,
+    }
+
+
 def aggregate(rows, fields, audience):
     out = {}
     for tag, (qid, kind, book, auds) in fields.items():
@@ -332,6 +423,10 @@ def main():
         "min_n": MIN_N,
         "audiences": audiences,
     }
+    if os.environ.get("SURVEY_LIBRARIAN"):
+        lib = export(os.environ["SURVEY_LIBRARIAN"], LIB)
+        result["librarian"] = {"circulation": circulation(lib)}
+        del lib
     with open(OUT, "w") as fh:
         json.dump(result, fh, indent=1)
     print("wrote", OUT, {k: v["n"] for k, v in audiences.items()})  # counts only — never row data

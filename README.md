@@ -27,7 +27,7 @@ working.
 2. Settings → Pages → Deploy from branch → `main` / root.
 3. Custom domain `results.screensinschools.org`: set in Settings → Pages (with "Enforce HTTPS"), DNS `CNAME`
    record `results` → `duckworth-grithub.github.io`. Keep the repo's `CNAME` file; it holds the domain.
-4. Settings → Secrets → Actions: `QUALTRICS_TOKEN`, `QUALTRICS_DATACENTER`, `SURVEY_TEEN`, `SURVEY_EDUCATOR`.
+4. Settings → Secrets → Actions: `QUALTRICS_TOKEN`, `QUALTRICS_DATACENTER`, `SURVEY_TEEN`, `SURVEY_EDUCATOR`, `SURVEY_LIBRARIAN` (SV_9BO9iR0YKZ2lVie).
    Optional variable (Variables tab): `SCREEN_5PT_UNTIL` — see "Screen time" below.
 5. Actions → "Refresh results data" → Run workflow once to replace the sample JSON.
 
@@ -60,7 +60,10 @@ switches to the elementary page.)
 **Librarians** (SV_9BO9iR0YKZ2lVie) use the educator pages, marked with `role=librarian`. On a librarian page only the
 sections they answered are shown, with their own answers marked YOU in green and no green highlights. District
 librarians answer none of the linked questions, so they see only the AI section; a librarian with nothing to show
-gets a one-line note. The AI section is always shown on their MS/HS page, since MS/HS
+gets a one-line note. Every librarian page (elementary, MS/HS, district) opens with **library checkouts**: average
+yearly checkouts for a balanced panel of school libraries, computed as in the coworker's `LIBRARIAN_HANDOFF.md`
+(view B). Until the data job has at least 30 libraries that reported every complete year, the page shows the July 2,
+2026 baseline (107 libraries, 2022-23 to 2025-26, built into app.js as `CIRC_BASELINE`). The AI section is always shown on their MS/HS page, since MS/HS
 and district librarians answer the same AI matrix (QID419). Their survey asks the same questions under different
 QIDs, piped into the same parameter names. Librarian responses are **not** in the aggregates: they compare
 themselves with educators. MS/HS librarians:
@@ -144,5 +147,11 @@ Test links locally (`python3 -m http.server`, then open http://localhost:8000 pl
   in the survey they are 0%–100% dropdowns like the other scales, and the design shows them as YOU% vs AVERAGE%.
 - `MIN_N` (workflow env, default 0): 0 means never suppress. Set it above 0 to withhold questions with fewer answers.
 - Only the whitelisted QIDs are requested (`embeddedDataIds: []`), and rows are reduced to those QIDs immediately after download. Nothing row-level is written to disk; logs print counts only.
-- Only the student and educator surveys are exported; the librarian survey is never pulled.
+- From the librarian survey only the checkouts questions are pulled: QID258 (school or district), QID403 (print and
+  digital separate?), and the per-year boxes QID405 (total), QID275 (print), QID404 (digital). The boxes are turned into
+  numbers as each row is read; text in them is discarded. Rules (handoff §2): school-level only; zero, blank or
+  non-numeric = missing; small values kept; print + digital count only when both are filled for that year. The
+  handoff's `tk` rule isn't applied, because it needs free-text fields this job never pulls. Year boxes: _1 = 2026-27
+  (so far, partial), _2 = 2025-26 … _5 = 2022-23. The balanced panel uses complete years only. Nothing is published for
+  a year with fewer than `CIRC_MIN_N` (default 10) libraries, and no single library's figure (no min/max).
 - Still to confirm with the live survey: that `distributionChannel` is populated for the anonymous link.
