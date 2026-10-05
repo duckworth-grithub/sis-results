@@ -45,21 +45,23 @@ Librarian (checkouts only): QID258 `l_role_level` (1 school, 0 district: exclude
 per-year number boxes QID405 `l_circ_school_total`, QID275 `l_circ_school_print`, QID404 `l_circ_school_digital`.
 
 ## Library checkouts (`librarian.circulation`)
+Last year's figures (LIBRARIAN_HANDOFF.md §4, July 2, 2026 export) are a fixed base; each run adds this year's
+school libraries on top. Nothing is ever swapped out. Sums and counts combine exactly; medians can't be combined
+from published figures, so the combined views carry means only.
 ```json
 "librarian": { "circulation": {
-  "source": "this year's Screens in Schools librarian survey", "partial": "2026-27", "libraries": 90,
-  "all":   [ { "year": "2022-23", "n": 90, "mean": 5510, "median": 4108, "total": 495932 }, "…" ],
-  "so_far": { "year": "2026-27", "n": 60, "mean": 1543, "median": 1566, "total": 92560 },
-  "panel": { "n": 90, "years": [ { "year": "2022-23", "mean": 5510, "median": 4108, "change": 0.0 }, "…" ] },
-  "per_library": { "n": 90, "median": 3590, "mean": 4862, "under_10k": 81.1 }
+  "source": "last year's and this year's Screens in Schools librarian surveys", "partial": "2025-26",
+  "baseline": { "export": "2026-07-02", "panel_n": 107 }, "added": { "libraries": 90, "panel": 90 },
+  "all":   [ { "year": "2022-23", "n": 199, "total": 1132266, "mean": 5690 }, "…" ],
+  "panel": { "n": 197, "years": [ { "year": "2022-23", "mean": 5676, "change": 0.0 }, "…" ] },
+  "so_far": { "year": "2026-27", "n": 60, "mean": 1543, "median": 1566, "total": 92560 }
 } }
 ```
-- `all` (handoff view A): every library that reported that year; n varies by year. Includes the partial year.
-- `panel` (view B): the same libraries in every complete year; `change` = % vs the first year. `null` under `CIRC_MIN_N`.
-- `so_far`: the current, partial year (2026-27) on its own: `{year, n, mean, median, total}` over every school library
-  that reported it, same cleaning rules. `null` under `CIRC_MIN_N`; the page then says "Not enough responses yet".
-- `per_library` (view D): one average per library. No min/max, which would be one library's figure.
-- The page uses `panel` once its `n` is at least 30; before that it shows the July 2, 2026 baseline built into app.js.
+- `all` (handoff view A): libraries that reported each year, last year's plus this year's; n varies by year.
+- `panel` (view B): last year's 107 libraries plus this year's libraries that reported all of 2022-23 to 2025-26;
+  `change` = % vs 2022-23. `partial`: last year's 2025-26 answers were mid-year (starred on the page).
+- `so_far`: 2026-27 on its own, this year's survey only, every school library that reported it. `null` if none yet.
+- The page always shows `panel`; the baseline copy in app.js is used only if the data file has no `librarian` key.
 
 ## Output shape
 ```json

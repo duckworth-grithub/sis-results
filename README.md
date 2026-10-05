@@ -62,8 +62,8 @@ sections they answered are shown, with their own answers marked YOU in green and
 librarians answer none of the linked questions, so they see only the AI section; a librarian with nothing to show
 gets a one-line note. Every librarian page (elementary, MS/HS, district) opens with **library checkouts**: average
 yearly checkouts for a balanced panel of school libraries, computed as in the coworker's `LIBRARIAN_HANDOFF.md`
-(view B). Until the data job has at least 30 libraries that reported every complete year, the page shows the July 2,
-2026 baseline (107 libraries, 2022-23 to 2025-26, built into app.js as `CIRC_BASELINE`). The AI section is always shown on their MS/HS page, since MS/HS
+(view B). Last year's figures (July 2, 2026 export, 107 libraries) are a fixed base: the data job adds this year's
+libraries on top and never swaps the base out. A separate item shows 2026-27 checkouts so far (this year only). The AI section is always shown on their MS/HS page, since MS/HS
 and district librarians answer the same AI matrix (QID419). Their survey asks the same questions under different
 QIDs, piped into the same parameter names. Librarian responses are **not** in the aggregates: they compare
 themselves with educators. MS/HS librarians:
@@ -152,6 +152,6 @@ Test links locally (`python3 -m http.server`, then open http://localhost:8000 pl
   numbers as each row is read; text in them is discarded. Rules (handoff §2): school-level only; zero, blank or
   non-numeric = missing; small values kept; print + digital count only when both are filled for that year. The
   handoff's `tk` rule isn't applied, because it needs free-text fields this job never pulls. Year boxes: _1 = 2026-27
-  (so far, partial), _2 = 2025-26 … _5 = 2022-23. The balanced panel uses complete years only. Nothing is published for
-  a year with fewer than `CIRC_MIN_N` (default 10) libraries, and no single library's figure (no min/max).
+  (so far, partial), _2 = 2025-26 … _5 = 2022-23. The balanced panel uses 2022-23 to 2025-26; 2026-27 is tallied
+  separately. The combined figures are last year's baseline (`CIRC_BASELINE` in the export) plus this year's.
 - Still to confirm with the live survey: that `distributionChannel` is populated for the anonymous link.

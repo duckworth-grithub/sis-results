@@ -457,10 +457,9 @@
 
   // ---------------------------------------------------------------------------
   // Library checkouts (all librarian pages). View B of LIBRARIAN_HANDOFF.md: average yearly checkouts for a balanced
-  // panel (the same libraries every year), so a rise is a real rise. The partial year is starred. Until the data job
-  // publishes enough libraries from the new survey, the page shows last year's baseline (handoff §4, 2 July 2026).
+  // panel (the same libraries every year), so a rise is a real rise. The partial year is starred. The data job adds this
+  // year's libraries to last year's baseline (handoff §4, 2 July 2026); this copy is shown only if that file is missing.
   // ---------------------------------------------------------------------------
-  var CIRC_MIN_PANEL = 30; // live figures replace the baseline once this many libraries reported every year
   var CIRC_BASELINE = {
     source: "last year's Screens in Schools librarian survey",
     partial: '2025-26',
@@ -473,7 +472,7 @@
   };
   function circData(live) {
     var c = live && live.librarian && live.librarian.circulation;
-    return c && c.panel && c.panel.n >= CIRC_MIN_PANEL ? c : CIRC_BASELINE;
+    return c && c.panel ? c : CIRC_BASELINE;
   }
   function circSection(c) {
     var ys = c.panel.years, first = ys[0].mean;
@@ -490,7 +489,7 @@
         '<div class="row-bar"><div class="fill" style="width:' + (y.mean / max * 82) + '%"></div>' +
         '<div class="pct">' + fmt(y.mean) + (k ? ' <span class="circ-ch' + (d < 0 ? ' down' : '') + '">' + (d >= 0 ? '+' : '−') + Math.abs(d).toFixed(1) + '%</span>' : '') + '</div></div></div>';
     }).join('');
-    var note = (ys.some(function (y) { return y.year === c.partial; }) ? '* ' + c.partial + ' was still in progress when librarians answered. ' : '') +
+    var note = (ys.some(function (y) { return y.year === c.partial; }) ? '* Last year\'s answers for ' + c.partial + ' were collected while the year was still in progress. ' : '') +
       'From ' + esc(c.source) + '.';
     return section('circ', 'circulation', '<h3>' + head + '</h3>' +
       '<div class="ai-sub">Average yearly checkouts per library, for the same ' + c.panel.n + ' school libraries each year</div>' +

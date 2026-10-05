@@ -9,7 +9,6 @@ Env vars (set as scheduler secrets):
   SURVEY_TEEN            SV_6LFWjsZ51O8XInY  (from SIS_Student_2026-2027.qsf)
   SURVEY_EDUCATOR        SV_bxUuSACfns11z5s
   SURVEY_LIBRARIAN       SV_9BO9iR0YKZ2lVie  (library checkouts only; see LIB below)
-  CIRC_MIN_N             default 10: a checkouts figure is published only if at least this many libraries are in it
   MIN_N                  default 0 = never suppress (only questions nobody answered are null)
   OUT                    default results-data.json
 """
@@ -108,7 +107,14 @@ EDU = {
 # Box -> year. _1 is the NEWEST year and is partial ("so far"); re-check if the survey's year list changes.
 CIRC_YEARS = {5: "2022-23", 4: "2023-24", 3: "2024-25", 2: "2025-26", 1: "2026-27"}
 CIRC_PARTIAL = 1
-CIRC_MIN_N = int(os.environ.get("CIRC_MIN_N", "10"))
+# Last year's figures (LIBRARIAN_HANDOFF.md §4, export of 2 July 2026: 384 responses, 150 school-level). Fixed: this
+# year's responses are added on top. "all" = year -> (libraries, total checkouts); "panel" = year -> mean for the 107
+# libraries that reported every year. Their 2025-26 was collected mid-year.
+CIRC_BASELINE = {
+    "export": "2026-07-02", "partial": "2025-26", "panel_n": 107,
+    "all": {"2022-23": (109, 636334), "2023-24": (121, 732912), "2024-25": (139, 896829), "2025-26": (148, 1001536)},
+    "panel": {"2022-23": 5815, "2023-24": 5900, "2024-25": 6171, "2025-26": 6479},
+}
 LIB = {
     "l_role_level": ("QID258", "route", None, set()),             # 1 = one school, 0 = district only (excluded)
     "l_circ_split_s": ("QID403", "route", None, set()),           # 1 = print and digital asked separately
@@ -324,13 +330,13 @@ def checkouts(v):
 
 
 def circulation(rows):
-    """Yearly checkouts, computed the way LIBRARIAN_HANDOFF.md does (views A, B, D).
+    """Yearly checkouts, computed the way LIBRARIAN_HANDOFF.md does (views A and B), on top of its baseline.
 
     School-level answers only (district respondents report a different unit). A library that can split print and
     digital reports both; its year counts only if both boxes are filled (one half alone would undercount). The
     handoff's 'tk' rule needs free-text fields, which this job never pulls, so it isn't applied.
-    The balanced panel (B) uses the complete years only, so a partial year early in the school year can't drag it
-    down. Nothing is published for a year or view with fewer than CIRC_MIN_N libraries."""
+    This year's libraries are added to last year's baseline. The balanced panel (B) uses 2022-23 to 2025-26 only,
+    so the current year, which has barely started, can't drag it down; that year is tallied on its own (so_far)."""
     lvl, split = LIB["l_role_level"][0], LIB["l_circ_split_s"][0]
     tot, pr, dg = (LIB[t][0] for t in ("l_circ_school_total", "l_circ_school_print", "l_circ_school_digital"))
     school = [r for r in rows if code(r.get(lvl)) == 1]
@@ -353,38 +359,38 @@ def circulation(rows):
     def stats(v):
         return {"n": len(v), "mean": round(st.mean(v)), "median": round(st.median(v)), "total": round(sum(v))}
 
+    # This year's libraries are ADDED to last year's baseline (CIRC_BASELINE), never swapped for it. Sums and counts
+    # combine exactly; medians can't be combined from published figures, so the combined views carry means only.
     order = sorted(CIRC_YEARS, reverse=True)  # oldest first
     complete = [k for k in order if k != CIRC_PARTIAL]
+    B = CIRC_BASELINE
     all_years = []
-    for k in order:
+    for k in complete:
+        y = CIRC_YEARS[k]
         v = [l[k] for l in libs if k in l]
-        if len(v) >= max(CIRC_MIN_N, 1):
-            all_years.append({"year": CIRC_YEARS[k], **stats(v)})
-    panel = None
+        bn, btot = B["all"][y]
+        n, tot_ = bn + len(v), btot + sum(v)
+        all_years.append({"year": y, "n": n, "total": round(tot_), "mean": round(tot_ / n)})
     bal = [l for l in libs if all(k in l for k in complete)]
-    if len(bal) >= max(CIRC_MIN_N, 1):
-        base = st.mean(l[complete[0]] for l in bal)
-        panel = {"n": len(bal), "years": [
-            {"year": CIRC_YEARS[k], "mean": round(st.mean(l[k] for l in bal)), "median": round(st.median(l[k] for l in bal)),
-             "change": round((st.mean(l[k] for l in bal) / base - 1) * 100, 1)} for k in complete]}
-    # The current, partial year on its own ("so far"): every school library that reported it, tallied.
+    pn = B["panel_n"] + len(bal)
+    means = {CIRC_YEARS[k]: (B["panel_n"] * B["panel"][CIRC_YEARS[k]] + sum(l[k] for l in bal)) / pn for k in complete}
+    first = means[CIRC_YEARS[complete[0]]]
+    panel = {"n": pn, "years": [{"year": y, "mean": round(m), "change": round((m / first - 1) * 100, 1)}
+                                for y, m in means.items()]}
+    # The current, partial year on its own ("so far"): every school library that reported it, tallied. New data only.
     cur = [l[CIRC_PARTIAL] for l in libs if CIRC_PARTIAL in l]
-    so_far = {"year": CIRC_YEARS[CIRC_PARTIAL], **stats(cur)} if len(cur) >= max(CIRC_MIN_N, 1) else None
-    per = [sum(l.values()) / len(l) for l in libs]
+    so_far = {"year": CIRC_YEARS[CIRC_PARTIAL], **stats(cur)} if cur else None
     print("librarian checkouts:", {"responses": len(rows), "school_level": len(school), "district_excluded":
-          sum(1 for r in rows if code(r.get(lvl)) == 0), "with_checkouts": len(libs), "balanced": len(bal),
-          "year_dropped_one_half_only": halves})  # counts only
+          sum(1 for r in rows if code(r.get(lvl)) == 0), "with_checkouts": len(libs), "added_to_panel": len(bal),
+          "panel_total": pn, "year_dropped_one_half_only": halves})  # counts only
     return {
-        "source": "this year's Screens in Schools librarian survey",
-        "partial": CIRC_YEARS[CIRC_PARTIAL] if any(a["year"] == CIRC_YEARS[CIRC_PARTIAL] for a in all_years) else None,
-        "libraries": len(libs),
+        "source": "last year's and this year's Screens in Schools librarian surveys",
+        "partial": B["partial"],          # last year's 2025-26 answers were mid-year
+        "baseline": {"export": B["export"], "panel_n": B["panel_n"]},
+        "added": {"libraries": len(libs), "panel": len(bal)},
         "all": all_years,
         "panel": panel,
         "so_far": so_far,
-        # One average per library; median and mean only (min/max would be a single library's figure).
-        "per_library": {"n": len(per), "median": round(st.median(per)), "mean": round(st.mean(per)),
-                        "under_10k": round(sum(1 for x in per if x < 10000) / len(per) * 100, 1)}
-                       if len(per) >= max(CIRC_MIN_N, 1) else None,
     }
 
 
