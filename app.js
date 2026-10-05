@@ -265,7 +265,8 @@
   // pick: a label, an array of labels in the order selected (select-all), or undefined.
   // Every picked row is marked YOU; the headline follows the first pick.
   // fixedHead (optional, trusted HTML) replaces the computed percentage headline.
-  function barsSection(id, title, table, q, pick, fixedHead) {
+  // shown (optional) maps a data label to the text displayed on its row, e.g. the student survey's own wording.
+  function barsSection(id, title, table, q, pick, fixedHead, shown) {
     if (!q) return emptySection(id, title);
     var picks = pick == null ? [] : [].concat(pick);
     var rows = table.map(function (o) {
@@ -287,7 +288,7 @@
     }
     var body = rows.map(function (r) {
       return '<div class="row' + (r.you ? ' you' : '') + '">' +
-        '<div class="row-label">' + esc(r.label) + '</div>' +
+        '<div class="row-label">' + esc((shown && shown[r.label]) || r.label) + '</div>' +
         '<div class="row-bar"><div class="fill" style="width:' + (r.pct / max * 82) + '%"></div>' +
         '<div class="pct">' + r.pct + '%</div></div></div>';
     }).join('');
@@ -468,7 +469,12 @@
     if (AUD === 'student') {
       html = [
         barsSection('restriction', WHEN_T, WHEN, Q('policy_when'), P.policy_when,
-          'Schools differ on WHEN students are allowed to use their phones.'),
+          'Schools differ on WHEN students are allowed to use their phones.', {
+            // Student survey (QID13) wording
+            'Bell-to-bell': 'Students cannot use their phones during the entire school day',
+            'Schedule-based restriction': 'Students can use phones sometimes',
+            'No school-wide restriction': 'There is no school-wide restriction'
+          }),
         barsSection('storage', WHERE_T, WHERE, Q('policy_where'), P.policy_where,
           'Schools differ on WHERE students are allowed to keep their phones.'),
         compareSection('usage', 'How many students are...', [
