@@ -423,14 +423,14 @@
     return section('charge', 'inCharge', '<h3>' + title + '</h3><div class="charge-list">' + body + '</div>');
   }
 
-  // Elementary device access: only the 1:1 share is shown. YOU (and "also") if the respondent selected 1:1;
+  // Elementary device access: fixed heading; only the 1:1 share is shown. YOU if the respondent selected 1:1;
   // green in the generic view. One bar, so it's drawn at its true percentage rather than scaled to the largest.
   function oneToOneSection(q, picks) {
     var title = 'During the school day, how do your students access computers/tablets?';
     if (!q) return emptySection('access', title);
     var label = ACCESS[0][0], pct = r0(q.options[label]);
     var you = (picks || []).indexOf(label) >= 0;
-    var head = num(pct) + ' of educators ' + (you ? 'also ' : '') + esc(ACCESS[0][1]) + '.';
+    var head = 'Schools differ on how students access devices.';
     return section('', 'access', '<h3>' + head + '</h3><div class="rows"><div class="row' + (you || GENERIC ? ' you' : '') + '">' +
       '<div class="row-label">' + esc(label) + '</div><div class="row-bar"><div class="fill" style="width:' + pct + '%"></div>' +
       '<div class="pct">' + pct + '%</div></div></div></div>');
