@@ -151,7 +151,7 @@ def check(url, params):
                 ok += 1
                 status = "OK → " + "; ".join(dict.fromkeys(hits))
                 if kind == "multi":
-                    status += " (YOU on each; headline uses the first)"
+                    status += " (page shows only 1:1 devices: " + ("YOU" if "1:1 devices" in hits else "no YOU") + ")"
                 misses = [x for x in pieces if code(x) not in table]
                 if misses:
                     status += f"; ignored: {', '.join(misses)}"
