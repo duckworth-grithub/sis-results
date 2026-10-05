@@ -600,7 +600,8 @@
     }
     var box = document.getElementById('sections');
     box.className = 'sections aud-' + AUD + (LIB ? ' lib' : '');
-    box.innerHTML = html.join('') + shareCallout();
+    box.innerHTML = html.join('');
+    document.getElementById('share-slot').innerHTML = shareCallout();
     wireShare();
 
     var note = '';

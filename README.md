@@ -119,7 +119,7 @@ Test links locally (`python3 -m http.server`, then open http://localhost:8000 pl
 - `/` (no `a`; should redirect to https://screensinschools.org)
 
 ## Behaviour
-- Every report ends with a share callout (handoff-share-callout.md, mock option 2a): "Share with a friend" for students,
+- Every report ends with the "survey data as of" line, then a share callout (handoff-share-callout.md, mock option 2a): "Share with a friend" for students,
   "Share with a colleague" for educators and librarians (wording per audience, `role=librarian` picks the librarian
   line). Text, email and copy-link all share https://screensinschools.org, never the results page; the text and email
   messages are the survey end screens' wording. Copy link shows a checkmark on #0F5226 for 2 seconds.
