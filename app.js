@@ -476,18 +476,18 @@
     student: { head: 'Share with a friend',
       sub: 'Especially at other schools—we\'re trying to reach every school in the U.S.',
       sms: 'I just took this 5-min survey. It asks what you think about phones and laptops at school, and you get entered into a giveaway: ',
-      subject: 'What do you think about tech at your school?',
+      subject: 'What do you think about tech in schools?',
       email: 'I just took this 5-min survey. It asks what you think about phones and laptops at school, and you get entered to win a gift card: ' },
     educator: { head: 'Share with a colleague',
       sub: 'Especially educators at other schools—we\'re trying to reach every school in the U.S.',
-      sms: 'How does your classroom compare to others across the U.S.? I just took this 5-min survey about device policies: ',
+      sms: 'I just took this 5-min survey about device policies. What do you think about tech use in schools? Take the survey here: ',
       subject: 'How are screens impacting your students?',
-      email: 'How does your classroom compare to others across the U.S.? State leaders need to hear directly from educators.\n\nI just took this 5-min survey: ' },
+      email: 'State leaders need to hear directly from educators.\n\nI just took this 5-min survey: ' },
     librarian: { head: 'Share with a colleague',
       sub: 'Especially librarians at other schools—we\'re trying to reach every school in the U.S.',
-      sms: 'How does your school compare to others across the U.S.? I just took this 5-min survey about device policies: ',
-      subject: 'How are screens impacting your students?',
-      email: 'How does your school compare to others across the U.S.? State leaders need to hear directly from school librarians.\n\nI just took this 5-min survey: ' }
+      sms: 'I just took this 5-min survey about device policies. What do you think about tech use in schools? Take the survey here: ',
+      subject: 'How are screens impacting reading?',
+      email: 'What do you think about tech in schools? And how are tech policies influencing book checkouts?\n\nI just took this 5-min survey: ' }
   };
   // Emoji, as on the survey end screens; the copy button shows a check for 2 seconds after copying.
   var EMOJI = { sms: '\uD83D\uDCAC', email: '\u2709\uFE0F', link: '\uD83D\uDD17', check: '\u2713' };
