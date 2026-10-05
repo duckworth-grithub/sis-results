@@ -472,24 +472,23 @@
     var c = live && live.librarian && live.librarian.circulation;
     return c && c.panel ? c : CIRC_BASELINE;
   }
-  // Percent change only (no averages on the page): each year vs the first, bars from zero.
+  // Percent change only (no averages on the page): each year vs the year before, same libraries, bars from zero.
   function circSection(c) {
-    var ys = c.panel.years, first = ys[0].mean;
-    var change = function (y) { return (y.mean / first - 1) * 100; };
-    // Heading: latest year vs the year before (same libraries). Bars: each year vs the first, as in the handoff.
-    var last = ys[ys.length - 1], prev = ys[ys.length - 2];
-    var ch = Math.round((last.mean / prev.mean - 1) * 100);
-    var head = 'Compared to last year, librarians in the U.S. are reporting ' +
-      (ch === 0 ? 'about the same number of checkouts.' : Math.abs(ch) + '% ' + (ch > 0 ? 'more' : 'fewer') + ' checkouts.');
-    var max = Math.max.apply(null, ys.map(function (y) { return Math.abs(change(y)); })) || 1;
-    var rows = ys.slice(1).map(function (y) {
-      var d = change(y);
-      return '<div class="row"><div class="row-label">' + esc(y.year) + '</div>' +
-        '<div class="row-bar"><div class="fill' + (d < 0 ? ' down' : '') + '" style="width:' + (Math.abs(d) / max * 82) + '%"></div>' +
-        '<div class="pct">' + (d >= 0 ? '+' : '\u2212') + Math.abs(d).toFixed(1) + '%</div></div></div>';
+    var ys = c.panel.years;
+    var steps = ys.slice(1).map(function (y, k) { return { year: y.year, d: (y.mean / ys[k].mean - 1) * 100 }; });
+    var up = steps.every(function (x) { return x.d > 0; }), down = steps.every(function (x) { return x.d < 0; });
+    var ch = Math.round(steps[steps.length - 1].d);
+    var head = up ? 'Librarians in the U.S. are reporting more checkouts each school year.'
+      : down ? 'Librarians in the U.S. are reporting fewer checkouts each school year.'
+      : 'Compared to last year, librarians in the U.S. are reporting ' +
+        (ch === 0 ? 'about the same number of checkouts.' : Math.abs(ch) + '% ' + (ch > 0 ? 'more' : 'fewer') + ' checkouts.');
+    var max = Math.max.apply(null, steps.map(function (x) { return Math.abs(x.d); })) || 1;
+    var rows = steps.map(function (x) {
+      return '<div class="row"><div class="row-label">' + esc(x.year) + '</div>' +
+        '<div class="row-bar"><div class="fill' + (x.d < 0 ? ' down' : '') + '" style="width:' + (Math.abs(x.d) / max * 82) + '%"></div>' +
+        '<div class="pct">' + (x.d >= 0 ? '+' : '\u2212') + Math.abs(x.d).toFixed(1) + '%</div></div></div>';
     }).join('');
-    return section('circ', 'circulation', '<h3>' + head + '</h3>' +
-      '<div class="rows">' + rows + '</div>');
+    return section('circ', 'circulation', '<h3>' + head + '</h3><div class="rows">' + rows + '</div>');
   }
 
   // Library checkouts in the current school year so far (live data only; there's no baseline for it).

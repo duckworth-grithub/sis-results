@@ -59,7 +59,7 @@ from published figures, so the combined views carry means only.
 ```
 - `all` (handoff view A): libraries that reported each year, last year's plus this year's; n varies by year.
 - `panel` (view B): last year's 107 libraries plus this year's libraries that reported all of 2022-23 to 2025-26;
-  `change` = % vs 2022-23. The page shows `change` only (no averages); `mean` is kept for the math.
+  `change` = % vs 2022-23. The page shows only year-over-year % change, worked out from `mean` (no averages shown).
 - `so_far`: 2026-27 on its own, this year's survey only, every school library that reported it. `null` if none yet.
 - The page always shows `panel`; the baseline copy in app.js is used only if the data file has no `librarian` key.
 
