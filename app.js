@@ -457,14 +457,14 @@
     if (AUD === 'student') {
       html = [
         barsSection('restriction', WHEN_T, WHEN, Q('policy_when'), P.policy_when,
-          'Schools differ on WHEN students are allowed to use their phones.', {
-            // Student survey (QID13) wording
-            'Bell-to-bell': 'Students cannot use their phones during the entire school day',
-            'Schedule-based restriction': 'Students can use phones sometimes',
-            'No school-wide restriction': 'There is no school-wide restriction'
+          'Schools differ on WHEN students can use phones.', {
+            // Short versions of the student survey (QID13) answers
+            'Bell-to-bell': 'Not during the school day',
+            'Schedule-based restriction': 'Sometimes',
+            'No school-wide restriction': 'No school-wide rule'
           }),
         barsSection('storage', WHERE_T, WHERE, Q('policy_where'), P.policy_where,
-          'Schools differ on WHERE students are allowed to keep their phones.', {
+          'Schools differ on WHERE students keep phones.', {
             // Student survey (QID14) wording, shortened
             'Phones cannot be brought into school at all': 'Leave their phones at home',
             'Centralized collection': 'Put their phones in one place at the beginning of the day',
