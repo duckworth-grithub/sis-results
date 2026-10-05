@@ -267,7 +267,7 @@
   // Every picked row is marked YOU; the headline follows the first pick.
   // fixedHead (optional, trusted HTML) replaces the computed percentage headline.
   // shown (optional) maps a data label to the text displayed on its row, e.g. the student survey's own wording.
-  // popular (optional): tag the most common answer(s) "MOST POPULAR".
+  // popular (optional): tag the most common answer(s) "MOST COMMON".
   function barsSection(id, title, table, q, pick, fixedHead, shown, popular) {
     if (!q) return emptySection(id, title);
     var picks = pick == null ? [] : [].concat(pick);
@@ -293,7 +293,7 @@
       return '<div class="row' + (r.you ? ' you' : '') + (top ? ' popular' : '') + '">' +
         '<div class="row-label">' + esc((shown && shown[r.label]) || r.label) + '</div>' +
         '<div class="row-bar"><div class="fill" style="width:' + (r.pct / max * 82) + '%"></div>' +
-        '<div class="pct">' + r.pct + '%</div>' + (top ? '<span class="pop-tag">MOST POPULAR</span>' : '') + '</div></div>';
+        '<div class="pct">' + r.pct + '%</div>' + (top ? '<span class="pop-tag">MOST COMMON</span>' : '') + '</div></div>';
     }).join('');
     return section('', id, '<h3>' + (fixedHead || head) + '</h3><div class="rows">' + body + '</div>');
   }
