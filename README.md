@@ -84,8 +84,8 @@ sends them); educator `when where enforce between
 phone laptop satisf strict screentime hardcopy banhw bandevice`; elementary `access takehome read hw pers other
 noninstr screentime hardcopy banhw bandevice`. Scales (0–10 on the page) accept the Qualtrics recode 0, 10 … 100, a
 label starting with a percentage (`70%`, `0% (not at all satisfied)`), or a bare 1–9; `10` always means 10%. `access` is a
-comma-separated list; under the heading "Schools differ on how students access devices." the page shows all five choices, with YOU on
-each of the teacher's picks (the most common choice is green when there are no answers). The recode tables live in `app.js` and `export/results_export.py` and must match.
+comma-separated list; under the heading "Schools differ on how students access devices." the page shows all five choices as medium grey
+bars (no green); the teacher's own picks have a bold label. The recode tables live in `app.js` and `export/results_export.py` and must match.
 
 Screen time (QID49 MS/HS, QID36 elementary) is 3-point: 1 Too low, 2 About right, 3 Too high. Until the week of
 Sep 21–28, 2026 it was 5-point (1 Much too low … 5 Much too high), and the edit reused codes 1–3 with new meanings.
