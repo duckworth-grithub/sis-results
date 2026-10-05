@@ -59,7 +59,9 @@ switches to the elementary page.)
 
 **Librarians** (SV_9BO9iR0YKZ2lVie) use the educator pages, marked with `role=librarian`. On a librarian page only the
 sections they answered are shown, with their own answers marked YOU in green and no green highlights. District
-librarians answer none of the linked questions, so they see only the AI section; a librarian with nothing to show
+librarians answer none of the linked questions, so they see only the AI section, and their page is titled
+"What do school librarians report?" (any librarian page with no linked answers gets that title, since there is no
+"your school" to compare); a librarian with nothing to show
 gets a one-line note. Every librarian page (elementary, MS/HS, district) opens with **library checkouts**: the
 year-over-year percent change in checkouts (no averages) for a balanced panel of school libraries, computed as in the coworker's `LIBRARIAN_HANDOFF.md`
 (view B). Last year's figures (July 2, 2026 export, 107 libraries) are a fixed base: the data job adds this year's

@@ -694,6 +694,14 @@
   }
 
   if (AUD === 'educator') document.title = 'Compare my classroom · Screens in Schools';
+  // A librarian page with none of the linked answers (district librarians answer none of them) has no
+  // "your school" to compare, so the masthead says what the page shows instead.
+  if (LIB && Object.keys(ANSWERED).length === 0) {
+    var LIB_TITLE = 'What do school librarians report?';
+    document.title = LIB_TITLE + ' · Screens in Schools';
+    var mast = document.querySelector('.masthead h1');
+    if (mast) mast.textContent = LIB_TITLE;
+  }
 
   fetch('./results/results-data.json', { cache: 'no-store' })
     .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
