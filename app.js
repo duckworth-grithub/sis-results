@@ -544,8 +544,8 @@
             'No school-wide policy': 'There is no school-wide policy'
           }, true),
         compareSection('usage', 'How many students are...', [
-          scaleRow('...using phones during class?', Q('use_phone_class'), P.use_phone_class),
-          scaleRow('...using laptops during class?', Q('use_laptop_class'), P.use_laptop_class)
+          scaleRow('<span class="cap-emoji" aria-hidden="true">\uD83D\uDCF1</span>...using phones during class?', Q('use_phone_class'), P.use_phone_class),
+          scaleRow('<span class="cap-emoji" aria-hidden="true">\uD83D\uDCBB</span>...using laptops during class?', Q('use_laptop_class'), P.use_laptop_class)
         ], '', 'U.S. AVERAGE'),
         barsSection('teacherPhone', 'During class, how often do you see a teacher on their phone for personal reasons?', TEACHER, Q('use_teacher_phone'), P.use_teacher_phone)
       ];
