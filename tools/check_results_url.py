@@ -168,7 +168,7 @@ def check(url, params):
     lib = str(got.get("role") or "").strip().lower() == "librarian"
     if lib:
         print("  Librarian page (role=librarian): YOU on their answers; only sections with a recognized answer are shown"
-              " (all sections if none); no green highlights.")
+              " (plus AI on the educator page); no green highlights.")
     extra = [k for k in got if k not in spec and k not in ("a", "level", "role") and not k.startswith("amp;")]
     if extra:
         print("  Not read on this page: " + ", ".join(f"{k}={got[k]}" for k in extra))
@@ -184,7 +184,7 @@ def check(url, params):
     elif amp:
         print("  Verdict: Qualtrics-side. Fix the &amp; in the href.")
     elif ok == 0 and missing and lib:
-        print("  Verdict: librarian with no answers (e.g. district): the full page in librarian style, no YOU marks.")
+        print("  Verdict: librarian with no answers (e.g. district): " + ("only the AI section." if audience == "educator" else "a one-line note, no charts."))
     elif ok == 0 and missing and ("preview" in got or audience == "student"):
         print("  Verdict: generic view by design (" + ("preview link" if "preview" in got else "student links carry no answers") + "); no YOU marks.")
     elif ok == 0 and missing:

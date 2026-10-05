@@ -210,9 +210,9 @@
   } catch (e) { /* file:// or sandboxed — nothing to scrub */ }
 
   var AUD = parsed.audience;
-  // Librarians (`role=librarian`) answer only some of the educator questions. Their page shows just the sections
-  // they answered (all of them if none, e.g. district librarians): their answers marked YOU in green, everything
-  // else in dark grey (no green highlights).
+  // Librarians (`role=librarian`) answer only some of the educator questions. Their page shows only the sections
+  // they answered, with their answers marked YOU and no green highlights. District librarians answer none of the
+  // linked questions, so they see just the AI section (they answer the same AI matrix).
   var LIB = parsed.librarian;
   var ANSWERED = parsed.picks;
   var P = parsed.picks;
@@ -522,12 +522,11 @@
         : { access: ['tech_access'], usage: ['tech_screen_read', 'tech_screen_hw'],
             dayUse: ['use_instr_personal', 'use_instr_other', 'use_noninstr'], screenTime: ['view_screentime'],
             inCharge: ['view_hardcopy', 'view_ban_hw', 'view_ban_device'] };
-      if (Object.keys(ANSWERED).length) {
-        html = html.filter(function (h) {
-          var keys = BEHIND[(h.match(/id="(\w+)"/) || [])[1]];
-          return keys === null || (keys || []).some(function (k) { return k in ANSWERED; });
-        });
-      }
+      html = html.filter(function (h) {
+        var keys = BEHIND[(h.match(/id="(\w+)"/) || [])[1]];
+        return keys === null || (keys || []).some(function (k) { return k in ANSWERED; });
+      });
+      if (!html.length) html = ['<section class="q"><p class="empty">There are no results to compare for the questions you answered.</p></section>'];
     }
     var box = document.getElementById('sections');
     box.className = 'sections' + (LIB ? ' lib' : '');

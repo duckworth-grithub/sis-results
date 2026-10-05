@@ -58,8 +58,9 @@ https://results.screensinschools.org/#a=elementary&access=${q://QID20/SelectedCh
 switches to the elementary page.)
 
 **Librarians** (SV_9BO9iR0YKZ2lVie) use the educator pages, marked with `role=librarian`. On a librarian page only the
-sections they answered are shown (all of them if none, e.g. district librarians). Their own answers are marked YOU
-in green; the policy bar charts keep their light grey bars, and there are no green highlights. The AI section is always shown on their MS/HS page, since MS/HS
+sections they answered are shown, with their own answers marked YOU in green and no green highlights. District
+librarians answer none of the linked questions, so they see only the AI section; a librarian with nothing to show
+gets a one-line note. The AI section is always shown on their MS/HS page, since MS/HS
 and district librarians answer the same AI matrix (QID419). Their survey asks the same questions under different
 QIDs, piped into the same parameter names. Librarian responses are **not** in the aggregates: they compare
 themselves with educators. MS/HS librarians:
