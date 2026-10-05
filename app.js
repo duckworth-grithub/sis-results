@@ -485,19 +485,22 @@
     var max = Math.max.apply(null, steps.map(function (x) { return Math.abs(x.d); })) || 1;
     var rows = steps.map(function (x) {
       return '<div class="row"><div class="row-label">' + esc(x.year) + '</div>' +
-        '<div class="row-bar"><div class="fill' + (x.d < 0 ? ' down' : '') + '" style="width:' + (Math.abs(x.d) / max * 82) + '%"></div>' +
+        '<div class="row-bar"><div class="fill" style="width:' + (Math.abs(x.d) / max * 82) + '%"></div>' +
         '<div class="pct">' + (x.d >= 0 ? '+' : '\u2212') + Math.abs(x.d).toFixed(1) + '%</div></div></div>';
     }).join('');
     return section('circ', 'circulation', '<h3>' + head + '</h3><div class="rows">' + rows + '</div>');
   }
 
   // Library checkouts in the current school year so far (live data only; there's no baseline for it).
-  // Placeholder layout: the copy and chart are still to be decided.
   function soFarSection(live) {
     var c = live && live.librarian && live.librarian.circulation, s = c && c.so_far;
     if (!s) return section('', 'circSoFar', '<h3>Library checkouts so far this school year</h3>' + EMPTY);
     var fmt = function (n) { return Math.round(n).toLocaleString('en-US'); };
-    return section('circ', 'circSoFar', '<h3>So far, librarians have reported ' + fmt(s.total) + ' checkouts.</h3>');
+    // Styled like the satisfaction callouts: grey card, small label, big number.
+    return section('circ', 'circSoFar', '<div class="cards"><div class="card">' +
+      '<div class="card-k" style="color:#5E5E5E">SO FAR, LIBRARIANS HAVE REPORTED</div>' +
+      '<div class="card-v" style="color:#5E5E5E">' + fmt(s.total) + '</div>' +
+      '<div class="card-t">checkouts this school year</div></div></div>');
   }
 
   // MS/HS only: aggregate approval per AI use (QID110). No comparison, no YOU, nothing from the URL.

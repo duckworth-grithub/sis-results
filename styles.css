@@ -149,8 +149,7 @@ h1 { font-size: clamp(26px, 4vw, 34px); line-height: 1.15; font-weight: 700; mar
 
 /* Library checkouts (librarian pages) */
 .circ .row-bar .fill { background: var(--avg); }
-.circ .row-bar .fill.down { background: var(--red); }
-.circ .row-bar .pct { color: var(--ink); font-size: 15px; font-weight: 700; }
+.circ .row-bar .pct { color: var(--avg); }  /* all grey, like elementary device access */
 
 /* Satisfaction cards */
 .cards { display: flex; flex-wrap: wrap; gap: 12px; }
