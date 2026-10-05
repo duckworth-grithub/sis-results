@@ -158,6 +158,29 @@ h1 { font-size: clamp(26px, 4vw, 34px); line-height: 1.15; font-weight: 700; mar
 .callout-body b { font-size: 16px; color: var(--ink); }
 .callout-body span { font-size: 13px; color: var(--muted); }
 
+/* Share callout (end of every report) */
+.share {
+  margin-top: 48px; background: #F1F0EA; padding: 32px 40px;
+  display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap;
+}
+.share-text { flex: 1 1 320px; }
+.share-h { font-size: 24px; font-weight: 700; line-height: 1.2; color: var(--ink); }
+.share-sub { margin-top: 6px; font-size: 15px; line-height: 1.5; color: var(--muted); max-width: 400px; }
+.share-icons { display: flex; gap: 14px; }
+.share-btn {
+  width: 44px; height: 44px; border-radius: 50%; background: var(--green); border: 0; padding: 0; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; text-decoration: none; transition: background .15s;
+}
+.share-btn:hover, .share-btn:focus-visible { background: var(--green-dark); }
+.share-btn.copied, .share-btn.copied:hover { background: #0F5226; }
+@media (max-width: 639px) {
+  .share { margin-top: 36px; padding: 28px 22px; flex-direction: column; align-items: center; text-align: center; gap: 18px; }
+  .share-text { flex: none; }
+  .share-h { font-size: 20px; }
+  .share-sub { font-size: 14px; max-width: none; }
+  .share-icons { gap: 16px; }
+}
+
 /* Footer */
 .footer-note { margin-top: -16px; margin-bottom: 40px; }
 .footer-note p { margin: 0; font-size: 15px; line-height: 1.5; color: var(--muted-2); text-wrap: pretty; }
