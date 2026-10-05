@@ -675,7 +675,8 @@
     var note = '';
     if (live && live.generated_at) {
       var d = new Date(live.generated_at);
-      if (!isNaN(d)) note = 'This report reflects survey data ' + (LIB ? 'from librarians, teachers, and administrators ' : '') + 'as of ' +
+      if (!isNaN(d)) note = 'This report reflects survey data from ' +
+        (LIB ? 'librarians, teachers, and administrators' : AUD === 'student' ? 'students' : 'educators') + ' as of ' +
         d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) + '.';
     }
     if (!live) note = 'Sample data. Live results will appear here once enough responses are in.';
