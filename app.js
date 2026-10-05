@@ -487,7 +487,6 @@
         '<div class="pct">' + (d >= 0 ? '+' : '\u2212') + Math.abs(d).toFixed(1) + '%</div></div></div>';
     }).join('');
     return section('circ', 'circulation', '<h3>' + head + '</h3>' +
-      '<div class="ai-sub">Change in checkouts since ' + esc(ys[0].year) + ', for the same ' + c.panel.n + ' school libraries each year</div>' +
       '<div class="rows">' + rows + '</div>');
   }
 
