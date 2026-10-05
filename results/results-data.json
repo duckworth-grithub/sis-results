@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-05T20:24:44Z",
+ "generated_at": "2026-10-05T20:51:39Z",
  "min_n": 0,
  "audiences": {
   "student": {
@@ -425,7 +425,7 @@
     "panel_n": 107
    },
    "added": {
-    "libraries": 8,
+    "libraries": 9,
     "panel": 0
    },
    "all": [
@@ -437,9 +437,9 @@
     },
     {
      "year": "2023-24",
-     "n": 125,
-     "total": 832915,
-     "mean": 6663
+     "n": 126,
+     "total": 832916,
+     "mean": 6610
     },
     {
      "year": "2024-25",
@@ -481,10 +481,10 @@
    },
    "so_far": {
     "year": "2026-27",
-    "n": 8,
-    "mean": 21018,
+    "n": 9,
+    "mean": 18683,
     "median": 2,
-    "total": 168143
+    "total": 168144
    }
   }
  }
