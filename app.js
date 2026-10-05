@@ -320,20 +320,22 @@
 
   // Vertical YOU/AVERAGE columns on desktop, horizontal bars + legend on mobile.
   // captions are trusted HTML from this file (they may contain a desktop-only <br>).
-  function compareSection(id, title, rows, capClass) {
+  // avgLabel names the comparison column ('AVERAGE' unless given, e.g. 'U.S. AVERAGE' on the student page).
+  function compareSection(id, title, rows, capClass, avgLabel) {
+    avgLabel = avgLabel || 'AVERAGE';
     if (rows.every(function (r) { return r.empty; })) return emptySection(id, title);
     var live = rows.filter(function (r) { return !r.empty; });
     var mx = Math.max.apply(null, live.reduce(function (a, r) { return a.concat([r.youP, r.avgP]); }, [0.1]));
     var anyYou = live.some(function (r) { return r.has; });
     var legend = '<div class="legend">' +
       (anyYou ? '<div class="is-you"><span class="bg-you"></span>YOU</div>' : '') +
-      '<div class="is-avg"><span style="background:#BDBDBD"></span>AVERAGE</div></div>';
+      '<div class="is-avg"><span style="background:#BDBDBD"></span>' + avgLabel + '</div></div>';
     var cap = function (r) { return '<div class="multi-cap ' + (capClass || '') + '"><span>' + r.caption + '</span></div>'; };
     var body = rows.map(function (r) {
       if (r.empty) return '<div class="multi-item">' + cap(r) + EMPTY + '</div>';
       var youCol = r.has ? '<div class="col"><div class="col-v is-you">' + r.youPct + '</div><div class="col-bar bg-you" style="height:' + (r.youP / mx * 82) + '%"></div></div>' : '';
       var avgCol = '<div class="col"><div class="col-v is-avg">' + r.avgPct + '</div><div class="col-bar bg-avg" style="height:' + (r.avgP / mx * 82) + '%"></div></div>';
-      var keys = (r.has ? '<div class="is-you">YOU</div>' : '') + '<div class="is-avg">AVERAGE</div>';
+      var keys = (r.has ? '<div class="is-you">YOU</div>' : '') + '<div class="is-avg">' + avgLabel + '</div>';
       var hYou = r.has ? '<div class="hbar"><div class="fill bg-you" style="width:' + r.youP + '%"></div><span class="v is-you">' + r.youPct + '</span></div>' : '';
       var hAvg = '<div class="hbar"><div class="fill bg-avg" style="width:' + r.avgP + '%"></div><span class="v is-avg">' + r.avgPct + '</span></div>';
       return '<div class="multi-item">' + cap(r) +
@@ -525,14 +527,14 @@
     if (AUD === 'student') {
       html = [
         barsSection('restriction', WHEN_T, WHEN, Q('policy_when'), P.policy_when,
-          'Schools differ on WHEN students can use phones.', {
+          'U.S. schools differ on WHEN students can use phones.', {
             // Short versions of the student survey (QID13) answers
             'Bell-to-bell': 'Not during the school day',
             'Schedule-based restriction': 'Sometimes',
             'No school-wide restriction': 'No school-wide rule'
           }),
         barsSection('storage', WHERE_T, WHERE, Q('policy_where'), P.policy_where,
-          'Schools differ on WHERE students keep phones.', {
+          'U.S. schools differ on WHERE students keep phones.', {
             // Student survey (QID14) wording, shortened
             'Phones cannot be brought into school at all': 'Leave their phones at home',
             'Centralized collection': 'Put their phones in one place at the beginning of the day',
@@ -545,7 +547,7 @@
         compareSection('usage', 'How many students are...', [
           scaleRow('...using phones during class?', Q('use_phone_class'), P.use_phone_class),
           scaleRow('...using laptops during class?', Q('use_laptop_class'), P.use_laptop_class)
-        ]),
+        ], '', 'U.S. AVERAGE'),
         barsSection('teacherPhone', 'During class, how often do you see a teacher on their phone for personal reasons?', TEACHER, Q('use_teacher_phone'), P.use_teacher_phone),
         wyrSection([Q('wyr_read'), Q('wyr_homework')])
       ];
