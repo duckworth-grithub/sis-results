@@ -503,8 +503,7 @@
     var c = live && live.librarian && live.librarian.circulation, s = c && c.so_far;
     if (!s) return section('', 'circSoFar', '<h3>Library checkouts so far this school year</h3>' + EMPTY);
     var fmt = function (n) { return Math.round(n).toLocaleString('en-US'); };
-    return section('circ', 'circSoFar', '<h3>So far in ' + esc(s.year) + ', school librarians have reported ' + fmt(s.total) + ' checkouts.</h3>' +
-      '<div class="ai-sub">From ' + s.n + ' school libraries: ' + fmt(s.mean) + ' per library on average (median ' + fmt(s.median) + ')</div>');
+    return section('circ', 'circSoFar', '<h3>So far in ' + esc(s.year) + ', school librarians have reported ' + fmt(s.total) + ' checkouts.</h3>');
   }
 
   // MS/HS only: aggregate approval per AI use (QID110). No comparison, no YOU, nothing from the URL.
