@@ -547,7 +547,7 @@
           scaleRow('<span class="cap-emoji" aria-hidden="true">\uD83D\uDCF1</span>...using phones during class?', Q('use_phone_class'), P.use_phone_class),
           scaleRow('<span class="cap-emoji" aria-hidden="true">\uD83D\uDCBB</span>...using laptops during class?', Q('use_laptop_class'), P.use_laptop_class)
         ], '', 'U.S. AVERAGE'),
-        barsSection('teacherPhone', 'During class, how often do you see a teacher on their phone for personal reasons?', TEACHER, Q('use_teacher_phone'), P.use_teacher_phone)
+        barsSection('teacherPhone', 'During class, how often do you see a teacher on their phone for personal reasons?', TEACHER, Q('use_teacher_phone'), P.use_teacher_phone, null, null, true)
       ];
     } else if (AUD === 'educator') {
       html = [
