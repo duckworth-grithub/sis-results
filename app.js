@@ -476,7 +476,16 @@
             'No school-wide restriction': 'There is no school-wide restriction'
           }),
         barsSection('storage', WHERE_T, WHERE, Q('policy_where'), P.policy_where,
-          'Schools differ on WHERE students are allowed to keep their phones.'),
+          'Schools differ on WHERE students are allowed to keep their phones.', {
+            // Student survey (QID14) wording, shortened
+            'Phones cannot be brought into school at all': 'Leave their phones at home',
+            'Centralized collection': 'Put their phones in one place at the beginning of the day',
+            'Yondr pouches or similar': 'Keep their phones in a pouch that gets locked',
+            'Lockers only': 'Keep their phones in their lockers all day',
+            'Classroom collection': 'Put their phones in a designated area during each class',
+            "'No show' (out of sight)": 'Keep their phones out of sight',
+            'No school-wide policy': 'There is no school-wide policy'
+          }),
         compareSection('usage', 'How many students are...', [
           scaleRow('...using phones during class?', Q('use_phone_class'), P.use_phone_class),
           scaleRow('...using laptops during class?', Q('use_laptop_class'), P.use_laptop_class)
