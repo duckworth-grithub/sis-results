@@ -461,13 +461,9 @@
       subject: 'How are screens impacting your students?',
       email: 'How does your school compare to others across the U.S.? State leaders need to hear directly from school librarians.\n\nI just took this 5-min survey: ' }
   };
-  var GLYPH = { // same SVG paths as the survey end screens
-    sms: 'M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z',
-    email: 'M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z',
-    link: 'M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z',
-    check: 'M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'
-  };
-  function glyph(d) { return '<svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true"><path d="' + d + '"></path></svg>'; }
+  // Emoji, as on the survey end screens; the copy button shows a check for 2 seconds after copying.
+  var EMOJI = { sms: '\uD83D\uDCAC', email: '\u2709\uFE0F', link: '\uD83D\uDD17', check: '\u2713' };
+  function glyph(e) { return '<span class="share-emoji" aria-hidden="true">' + e + '</span>'; }
   function shareCallout() {
     var c = SHARE[LIB ? 'librarian' : AUD === 'student' ? 'student' : 'educator'];
     var sms = 'sms:?&body=' + encodeURIComponent(c.sms + SHARE_URL);
@@ -475,9 +471,9 @@
     return '<aside class="share" aria-label="Share the survey">' +
       '<div class="share-text"><div class="share-h">' + esc(c.head) + '</div><div class="share-sub">' + esc(c.sub) + '</div></div>' +
       '<div class="share-icons">' +
-      '<a class="share-btn" href="' + esc(sms) + '" target="_blank" rel="noopener" aria-label="Share by text message">' + glyph(GLYPH.sms) + '</a>' +
-      '<a class="share-btn" href="' + esc(mail) + '" target="_blank" rel="noopener" aria-label="Share by email">' + glyph(GLYPH.email) + '</a>' +
-      '<button class="share-btn" type="button" id="share-copy" aria-label="Copy link">' + glyph(GLYPH.link) + '</button>' +
+      '<a class="share-btn" href="' + esc(sms) + '" target="_blank" rel="noopener" aria-label="Share by text message">' + glyph(EMOJI.sms) + '</a>' +
+      '<a class="share-btn" href="' + esc(mail) + '" target="_blank" rel="noopener" aria-label="Share by email">' + glyph(EMOJI.email) + '</a>' +
+      '<button class="share-btn" type="button" id="share-copy" aria-label="Copy link">' + glyph(EMOJI.link) + '</button>' +
       '</div></aside>';
   }
   function copyText(text) {
@@ -500,10 +496,10 @@
     var timer;
     b.addEventListener('click', function () {
       copyText(SHARE_URL).then(function () {
-        b.classList.add('copied'); b.setAttribute('aria-label', 'Link copied'); b.querySelector('path').setAttribute('d', GLYPH.check);
+        b.classList.add('copied'); b.setAttribute('aria-label', 'Link copied'); b.querySelector('.share-emoji').textContent = EMOJI.check;
         clearTimeout(timer);
         timer = setTimeout(function () {
-          b.classList.remove('copied'); b.setAttribute('aria-label', 'Copy link'); b.querySelector('path').setAttribute('d', GLYPH.link);
+          b.classList.remove('copied'); b.setAttribute('aria-label', 'Copy link'); b.querySelector('.share-emoji').textContent = EMOJI.link;
         }, 2000);
       }, function () {});
     });

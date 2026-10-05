@@ -122,7 +122,7 @@ Test links locally (`python3 -m http.server`, then open http://localhost:8000 pl
 - Every report ends with the "survey data as of" line, then a share callout (handoff-share-callout.md, mock option 2a): "Share with a friend" for students,
   "Share with a colleague" for educators and librarians (wording per audience, `role=librarian` picks the librarian
   line). Text, email and copy-link all share https://screensinschools.org, never the results page; the text and email
-  messages are the survey end screens' wording. Copy link shows a checkmark on #0F5226 for 2 seconds.
+  messages are the survey end screens' wording. The buttons are emoji (💬 ✉️ 🔗) on green circles; copy link shows ✓ on #0F5226 for 2 seconds.
 - No `a` parameter (in the `#hash` or the `?query`), or an unknown value → redirect to https://screensinschools.org, before
   any data is fetched. `a=student` / `a=educator` / `a=elementary` pick their page, with or without answers.
 - Demos: add `preview=1` to show any page without answers, e.g. `https://results.screensinschools.org/#a=educator&preview=1`

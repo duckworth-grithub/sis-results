@@ -175,6 +175,7 @@ h1 { font-size: clamp(26px, 4vw, 34px); line-height: 1.15; font-weight: 700; mar
   display: flex; align-items: center; justify-content: center; text-decoration: none; transition: background .15s;
 }
 .share-btn:hover, .share-btn:focus-visible { background: var(--green-dark); }
+.share-emoji { font-size: 20px; line-height: 1; color: #FFFFFF; }
 .share-btn.copied, .share-btn.copied:hover { background: #0F5226; }
 @media (max-width: 639px) {
   .share { margin-top: 36px; padding: 28px 22px; flex-direction: column; align-items: center; text-align: center; gap: 18px; }
