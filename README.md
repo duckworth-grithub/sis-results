@@ -150,7 +150,7 @@ Test links locally (`python3 -m http.server`, then open http://localhost:8000 pl
 - From the librarian survey only the checkouts questions are pulled: QID258 (school or district), QID403 (print and
   digital separate?), and the per-year boxes QID405 (total), QID275 (print), QID404 (digital). The boxes are turned into
   numbers as each row is read; text in them is discarded. Rules (handoff §2): school-level only; zero, blank or
-  non-numeric = missing; small values kept; print + digital count only when both are filled for that year. The
+  non-numeric = missing; small values kept; print + digital: a year counts if either is filled, and a blank half counts as 0. The
   handoff's `tk` rule isn't applied, because it needs free-text fields this job never pulls. Year boxes: _1 = 2026-27
   (so far, partial), _2 = 2025-26 … _5 = 2022-23. The balanced panel uses 2022-23 to 2025-26; 2026-27 is tallied
   separately. The combined figures are last year's baseline (`CIRC_BASELINE` in the export) plus this year's.

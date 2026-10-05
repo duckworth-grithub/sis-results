@@ -333,7 +333,7 @@ def circulation(rows):
     """Yearly checkouts, computed the way LIBRARIAN_HANDOFF.md does (views A and B), on top of its baseline.
 
     School-level answers only (district respondents report a different unit). A library that can split print and
-    digital reports both; its year counts only if both boxes are filled (one half alone would undercount). The
+    digital reports both; a year counts if either box is filled, and the blank one counts as 0 (team decision, Oct 5). The
     handoff's 'tk' rule needs free-text fields, which this job never pulls, so it isn't applied.
     This year's libraries are added to last year's baseline. The balanced panel (B) uses 2022-23 to 2025-26 only,
     so the current year, which has barely started, can't drag it down; that year is tallied on its own (so_far)."""
@@ -347,10 +347,9 @@ def circulation(rows):
             ys = {}
             for k in CIRC_YEARS:
                 a, b = r[pr].get(k), r[dg].get(k)
-                if a is not None and b is not None:
-                    ys[k] = a + b
-                elif a is not None or b is not None:
-                    halves += 1
+                if a is not None or b is not None:   # either half reported: keep the year, blank half = 0
+                    ys[k] = (a or 0) + (b or 0)
+                    halves += (a is None) != (b is None)
         else:
             ys = {k: x for k, x in r[tot].items() if x is not None}
         if ys:
@@ -382,7 +381,7 @@ def circulation(rows):
     so_far = {"year": CIRC_YEARS[CIRC_PARTIAL], **stats(cur)} if cur else None
     print("librarian checkouts:", {"responses": len(rows), "school_level": len(school), "district_excluded":
           sum(1 for r in rows if code(r.get(lvl)) == 0), "with_checkouts": len(libs), "added_to_panel": len(bal),
-          "panel_total": pn, "year_dropped_one_half_only": halves})  # counts only
+          "panel_total": pn, "years_with_one_half_only": halves})  # counts only
     return {
         "source": "last year's and this year's Screens in Schools librarian surveys",
         "partial": B["partial"],          # last year's 2025-26 answers were mid-year
