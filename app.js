@@ -492,7 +492,8 @@
   }
 
   // Library checkouts in the current school year so far (live data only; no baseline). Satisfaction-card container;
-  // the number is the hero. Shown inside the trend section; left out until anyone has reported this year.
+  // the number is the hero. Shown inside the trend section; until anyone has reported this year, a separate
+  // "Not enough responses yet" section follows the trend instead (soFarEmpty).
   function soFarCallout(live) {
     var c = live && live.librarian && live.librarian.circulation, s = c && c.so_far;
     if (!s) return '';
@@ -669,9 +670,11 @@
       });
       // Every librarian (elementary, MS/HS, district) sees library checkouts: after the policy, see and think
       // sections if they reported a phone policy (a policy section survived the filter above), otherwise first.
-      var circ = circSection(circData(live), soFarCallout(live));
+      var so = soFarCallout(live);
+      var circ = [circSection(circData(live), so)].concat(so ? [] :
+        [section('', 'circSoFar', '<h3>Library checkouts so far this school year</h3>' + EMPTY)]);
       var hasPolicy = html.some(function (h) { return /id="(restriction|storage|satisfaction)"/.test(h); });
-      if (hasPolicy) html.push(circ); else html.unshift(circ);
+      html = hasPolicy ? html.concat(circ) : circ.concat(html);
     }
     var box = document.getElementById('sections');
     box.className = 'sections aud-' + AUD + (LIB ? ' lib' : '');
