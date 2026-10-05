@@ -336,7 +336,7 @@ def circulation(rows):
     digital reports both; a year counts if either box is filled, and the blank one counts as 0 (team decision, Oct 5). The
     handoff's 'tk' rule needs free-text fields, which this job never pulls, so it isn't applied.
     This year's libraries are added to last year's baseline. The balanced panel (B) uses 2022-23 to 2025-26 only,
-    so the current year, which has barely started, can't drag it down; that year is tallied on its own (so_far)."""
+    so the current year, which has barely started, can't drag it down; that year isn't published."""
     lvl, split = LIB["l_role_level"][0], LIB["l_circ_split_s"][0]
     tot, pr, dg = (LIB[t][0] for t in ("l_circ_school_total", "l_circ_school_print", "l_circ_school_digital"))
     school = [r for r in rows if code(r.get(lvl)) == 1]
@@ -354,9 +354,6 @@ def circulation(rows):
             ys = {k: x for k, x in r[tot].items() if x is not None}
         if ys:
             libs.append(ys)
-
-    def stats(v):
-        return {"n": len(v), "mean": round(st.mean(v)), "median": round(st.median(v)), "total": round(sum(v))}
 
     # This year's libraries are ADDED to last year's baseline (CIRC_BASELINE), never swapped for it. Sums and counts
     # combine exactly; medians can't be combined from published figures, so the combined views carry means only.
@@ -376,9 +373,6 @@ def circulation(rows):
     first = means[CIRC_YEARS[complete[0]]]
     panel = {"n": pn, "years": [{"year": y, "mean": round(m), "change": round((m / first - 1) * 100, 1)}
                                 for y, m in means.items()]}
-    # The current, partial year on its own ("so far"): every school library that reported it, tallied. New data only.
-    cur = [l[CIRC_PARTIAL] for l in libs if CIRC_PARTIAL in l]
-    so_far = {"year": CIRC_YEARS[CIRC_PARTIAL], **stats(cur)} if cur else None
     print("librarian checkouts:", {"responses": len(rows), "school_level": len(school), "district_excluded":
           sum(1 for r in rows if code(r.get(lvl)) == 0), "with_checkouts": len(libs), "added_to_panel": len(bal),
           "panel_total": pn, "years_with_one_half_only": halves})  # counts only
@@ -389,7 +383,6 @@ def circulation(rows):
         "added": {"libraries": len(libs), "panel": len(bal)},
         "all": all_years,
         "panel": panel,
-        "so_far": so_far,
     }
 
 

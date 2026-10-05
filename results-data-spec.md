@@ -53,14 +53,12 @@ from published figures, so the combined views carry means only.
   "source": "last year's and this year's Screens in Schools librarian surveys", "partial": "2025-26",
   "baseline": { "export": "2026-07-02", "panel_n": 107 }, "added": { "libraries": 90, "panel": 90 },
   "all":   [ { "year": "2022-23", "n": 199, "total": 1132266, "mean": 5690 }, "…" ],
-  "panel": { "n": 197, "years": [ { "year": "2022-23", "mean": 5676, "change": 0.0 }, "…" ] },
-  "so_far": { "year": "2026-27", "n": 60, "mean": 1543, "median": 1566, "total": 92560 }
+  "panel": { "n": 197, "years": [ { "year": "2022-23", "mean": 5676, "change": 0.0 }, "…" ] }
 } }
 ```
 - `all` (handoff view A): libraries that reported each year, last year's plus this year's; n varies by year.
 - `panel` (view B): last year's 107 libraries plus this year's libraries that reported all of 2022-23 to 2025-26;
   `change` = % vs 2022-23. The page shows only year-over-year % change, worked out from `mean` (no averages shown).
-- `so_far`: 2026-27 on its own, this year's survey only, every school library that reported it. `null` if none yet.
 - The page always shows `panel`; the baseline copy in app.js is used only if the data file has no `librarian` key.
 
 ## Output shape

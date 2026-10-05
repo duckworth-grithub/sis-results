@@ -473,7 +473,7 @@
     return c && c.panel ? c : CIRC_BASELINE;
   }
   // Percent change only (no averages on the page): each year vs the year before, same libraries, bars from zero.
-  function circSection(c, soFar) {
+  function circSection(c) {
     var ys = c.panel.years;
     var steps = ys.slice(1).map(function (y, k) { return { year: y.year, d: (y.mean / ys[k].mean - 1) * 100 }; });
     var up = steps.every(function (x) { return x.d > 0; }), down = steps.every(function (x) { return x.d < 0; });
@@ -488,20 +488,10 @@
         '<div class="row-bar"><div class="fill" style="width:' + (Math.abs(x.d) / max * 82) + '%"></div>' +
         '<div class="pct">' + (x.d >= 0 ? '+' : '\u2212') + Math.abs(x.d).toFixed(1) + '%</div></div></div>';
     }).join('');
-    return section('circ', 'circulation', '<h3>' + head + '</h3><div class="rows">' + rows + '</div>' + (soFar || ''));
+    return section('circ', 'circulation', '<h3>' + head + '</h3><div class="rows">' + rows + '</div>');
   }
 
-  // Library checkouts in the current school year so far (live data only; no baseline). Satisfaction-card container;
-  // the number is the hero. Shown inside the trend section; until anyone has reported this year, a separate
-  // "Not enough responses yet" section follows the trend instead (soFarEmpty).
-  function soFarCallout(live) {
-    var c = live && live.librarian && live.librarian.circulation, s = c && c.so_far;
-    if (!s) return '';
-    return '<div class="cards"><div class="card so-far">' +
-      '<div class="card-k">SO FAR IN ' + esc(s.year) + '</div>' +
-      '<div class="so-far-v">' + Math.round(s.total).toLocaleString('en-US') + '</div>' +
-      '<div class="so-far-t">checkouts reported by school librarians</div></div></div>';
-  }
+
 
 
   // MS/HS only: aggregate approval per AI use (QID110). No comparison, no YOU, nothing from the URL.
@@ -670,9 +660,7 @@
       });
       // Every librarian (elementary, MS/HS, district) sees library checkouts: after the policy, see and think
       // sections if they reported a phone policy (a policy section survived the filter above), otherwise first.
-      var so = soFarCallout(live);
-      var circ = [circSection(circData(live), so)].concat(so ? [] :
-        [section('', 'circSoFar', '<h3>Library checkouts so far this school year</h3>' + EMPTY)]);
+      var circ = [circSection(circData(live))];
       var hasPolicy = html.some(function (h) { return /id="(restriction|storage|satisfaction)"/.test(h); });
       html = hasPolicy ? html.concat(circ) : circ.concat(html);
     }
