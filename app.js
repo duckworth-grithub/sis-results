@@ -620,8 +620,6 @@
       ];
     } else {
       html = [
-        barsSection('restriction', WHEN_T, WHEN, LAST_WHEN, null, LAST_WHEN_HEAD, null, true),
-        barsSection('storage', WHERE_T, WHERE, LAST_WHERE, null, LAST_WHERE_HEAD, null, true),
         barsSection('access', 'During the school day, how do your students access computers/tablets?', ACCESS, Q('tech_access') && Object.assign({ fixed: true }, Q('tech_access')), null,
           'Schools differ on how students access devices.'),
         boxesSection('usage', [
@@ -644,7 +642,7 @@
         ? { restriction: null, storage: null, satisfaction: ['policy_satisf'],
             usage: ['use_phone_class', 'use_between', 'use_laptop_class'], screenTime: ['view_screentime'],
             inCharge: ['view_hardcopy', 'view_ban_hw', 'view_ban_device'], aiUse: null }
-        : { restriction: null, storage: null, access: ['tech_access'], usage: ['tech_screen_read', 'tech_screen_hw'],
+        : { access: ['tech_access'], usage: ['tech_screen_read', 'tech_screen_hw'],
             dayUse: ['use_instr_personal', 'use_instr_other', 'use_noninstr'], screenTime: ['view_screentime'],
             inCharge: ['view_hardcopy', 'view_ban_hw', 'view_ban_device'] };
       html = html.filter(function (h) {

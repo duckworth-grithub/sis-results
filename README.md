@@ -57,7 +57,7 @@ https://results.screensinschools.org/#a=elementary&access=${q://QID20/SelectedCh
 (A single combined link also works: `#a=educator&level=${q://QID44/SelectedChoicesRecode}&…` with both sets; `level=1`
 switches to the elementary page.)
 
-**WHEN/WHERE on every report** (student, educator, elementary, every librarian page) show last school year's
+**WHEN/WHERE on the student, MS/HS educator and MS/HS + district librarian reports** (not elementary) show last school year's
 per-school figures (2025-26, Phones in Focus), hardcoded in app.js as `LAST_WHEN`/`LAST_WHERE` with fixed headings
 ("Last school year, 69% of schools…"). No comparison: `when`/`where` in a link are read but not marked YOU.
 
