@@ -230,6 +230,8 @@
   // otherwise green means YOU only and aggregates stay grey/dark.
   var GENERIC = !LIB && Object.keys(P).length === 0;
   var NOUN = AUD === 'student' ? 'students' : 'educators';
+  // "Your View" figures come from one school level's educators, so their headings name it.
+  var LEVEL_EDU = AUD === 'elementary' ? 'elementary educators' : 'middle/high school educators';
 
   // ---------------------------------------------------------------------------
   // Helpers
@@ -465,12 +467,12 @@
         '<div class="callout-body" style="align-self:' + s.ai + ';align-items:' + s.ai + '"><b>' + s.p + '%</b><span>' + esc(s.label) + '</span></div></div></div>';
     }).join('');
     // Headline is the majority view; "also" only when that's the respondent's own answer.
-    var head = num(groups[mi]) + ' of educators ' + (yi === mi ? 'also ' : '') + SCREEN[mi][1];
+    var head = num(groups[mi]) + ' of ' + LEVEL_EDU + ' ' + (yi === mi ? 'also ' : '') + SCREEN[mi][1];
     return section('', 'screenTime', '<h3>' + head + '</h3><div class="stack-wrap"><div class="stack">' + bar + '</div><div class="stack-under">' + under + '</div></div>');
   }
 
   function chargeSection(qs) {
-    var title = 'If educators were in charge...';
+    var title = 'If ' + LEVEL_EDU + ' were in charge...';
     var rows = CHARGE.map(function (c, k) { return qs[k] ? { label: c[1], yes: r0(qs[k].options.Yes) } : null; })
       .filter(Boolean).sort(function (a, b) { return b.yes - a.yes; });
     if (!rows.length) return emptySection('inCharge', title);
