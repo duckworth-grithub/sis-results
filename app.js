@@ -38,6 +38,7 @@
     'Classroom collection': 12, 'Lockers only': 19, "'No show' (out of sight)": 49, 'No school-wide policy': 6 } };
   var LAST_WHEN_HEAD = 'Last school year, 69% of schools reported having a bell-to-bell phone policy.';
   var LAST_WHERE_HEAD = 'Last school year, 49% of schools reported having a \u2018no show\u2019 policy, where students keep phones out of sight.';
+  var LAST_NOTE = 'Based on data from the 92,256 U.S. educators surveyed in the 2025-26 school year.';
   var TEACHER = [
     ['Never', 'never see a teacher on their phone in class', 0],
     ['Once per week', 'see a teacher on their phone about once a week', 1],
@@ -634,6 +635,10 @@
       });
       if (!html.length) html = ['<section class="q"><p class="empty">There are no results to compare for the questions you answered.</p></section>'];
     }
+    // Source note under the WHERE chart (the WHEN and WHERE charts share it).
+    html = html.map(function (h) {
+      return /id="storage"/.test(h) ? h.replace(/<\/section>$/, '<p class="src-note">' + esc(LAST_NOTE) + '</p></section>') : h;
+    });
     var box = document.getElementById('sections');
     box.className = 'sections aud-' + AUD + (LIB ? ' lib' : '');
     box.innerHTML = html.join('');
