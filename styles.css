@@ -152,6 +152,13 @@ h1 { font-size: clamp(26px, 4vw, 34px); line-height: 1.15; font-weight: 700; mar
 
 /* Satisfaction cards */
 .use-emoji { font-size: 32px; line-height: 1; }
+.use-card .card-track { position: relative; }
+.you-mark { position: absolute; top: -5px; width: 3px; height: 20px; margin-left: -1.5px; background: var(--green); }
+.you-mark-l { position: absolute; top: 24px; left: 50%; transform: translateX(-50%); white-space: nowrap;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: var(--green); }
+.you-mark.lo .you-mark-l { left: 0; transform: none; }
+.you-mark.hi .you-mark-l { left: auto; right: 0; transform: none; }
+.use-card:has(.you-mark) .card-t { margin-top: 18px; }
 .cards { display: flex; flex-wrap: wrap; gap: 12px; }
 .card { flex: 1 1 220px; display: flex; flex-direction: column; gap: 10px; padding: 20px; background: var(--card); }
 .card-k { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; }

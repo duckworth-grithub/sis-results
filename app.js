@@ -381,15 +381,19 @@
     return section('wyr', 'wyr', '<h3>' + title + '</h3><div class="wyr-grid">' + items + '</div>');
   }
 
-  // Student phone/laptop use: satisfaction-style cards, U.S. average share of classmates, bar filled against 100%.
-  function studentUseSection(items) {
-    var title = 'Students say...';
+  // Phone/laptop use (student and MS/HS educator reports): satisfaction-style cards. The big number is the U.S.
+  // average share of students, the bar fills against 100%. items: [emoji, q, text, your answer (0-10) or undefined].
+  // With an answer, the average is grey and a green YOU marker sits on the bar at the respondent's value.
+  function useCardsSection(title, items) {
     if (items.every(function (it) { return !it[1]; })) return emptySection('usage', title);
     var cards = items.map(function (it) {
       var pct = it[1] ? Math.round(meanOf(it[1]) * 10) : null;
+      var you = typeof it[3] === 'number' ? it[3] * 10 : null;
+      var c = you == null ? GREEN : '#5E5E5E';
       return '<div class="card use-card"><div class="use-emoji" aria-hidden="true">' + it[0] + '</div>' +
-        (pct == null ? EMPTY : '<div class="card-v" style="color:' + GREEN + '">' + pct + '%</div>' +
-          '<div class="card-track"><div style="width:' + pct + '%;background:' + GREEN + '"></div></div>' +
+        (pct == null ? EMPTY : '<div class="card-v" style="color:' + c + '">' + pct + '%</div>' +
+          '<div class="card-track"><div style="width:' + pct + '%;background:' + c + '"></div>' +
+          (you == null ? '' : '<span class="you-mark' + (you < 15 ? ' lo' : you > 85 ? ' hi' : '') + '" style="left:' + you + '%"><span class="you-mark-l">YOU ' + you + '%</span></span>') + '</div>' +
           '<div class="card-t">' + esc(it[2]) + '</div>') + '</div>';
     }).join('');
     return section('', 'usage', '<h3>' + title + '</h3><div class="cards">' + cards + '</div>');
@@ -593,7 +597,7 @@
             "'No show' (out of sight)": 'Keep their phones out of sight',
             'No school-wide policy': 'There is no school-wide policy'
           }, true),
-        studentUseSection([
+        useCardsSection('Students say...', [
           ['\uD83D\uDCF1', Q('use_phone_class'), 'of classmates use phones for personal reasons during class'],
           ['\uD83D\uDCBB', Q('use_laptop_class'), 'of classmates use laptops for personal reasons during class']
         ]),
@@ -604,10 +608,10 @@
         barsSection('restriction', WHEN_T, WHEN, LAST_WHEN, null, LAST_WHEN_HEAD, null, true),
         barsSection('storage', WHERE_T, WHERE, LAST_WHERE, null, LAST_WHERE_HEAD, null, true),
         satisfactionSection(Q('policy_satisf'), P.policy_satisf),
-        compareSection('usage', 'Educators report how many students are...', [
-          scaleRow('...using phones during class', Q('use_phone_class'), P.use_phone_class),
-          scaleRow('...using phones between classes', Q('use_between'), P.use_between),
-          scaleRow('...using laptops during class', Q('use_laptop_class'), P.use_laptop_class)
+        useCardsSection('Educators say...', [
+          ['\uD83D\uDCF1', Q('use_phone_class'), 'of students use phones for personal reasons during class', P.use_phone_class],
+          ['\uD83D\uDCF1', Q('use_between'), 'of students use phones between classes', P.use_between],
+          ['\uD83D\uDCBB', Q('use_laptop_class'), 'of students use laptops for personal reasons during class', P.use_laptop_class]
         ]),
         screenTimeSection(Q('view_screentime'), P.view_screentime),
         chargeSection([Q('view_hardcopy'), Q('view_ban_hw'), Q('view_ban_device')]),
