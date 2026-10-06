@@ -382,7 +382,7 @@
   }
 
   function satisfactionSection(q, val) {
-    var title = 'How satisfied are you with your policy?';
+    var title = 'How satisfied are educators with their policy?';
     if (!q) return emptySection('satisfaction', title);
     var cards = (typeof val === 'number' ? card('YOU', GREEN, val * 10, 'satisfied with your phone policy') : '') +
       card('AVERAGE', '#5E5E5E', Math.round(meanOf(q) * 10), 'satisfied with their phone policy', GENERIC && GREEN);
@@ -580,9 +580,9 @@
             "'No show' (out of sight)": 'Keep their phones out of sight',
             'No school-wide policy': 'There is no school-wide policy'
           }, true),
-        compareSection('usage', 'How many students are...', [
-          scaleRow('<span class="cap-emoji" aria-hidden="true">\uD83D\uDCF1</span>...using phones during class?', Q('use_phone_class'), P.use_phone_class),
-          scaleRow('<span class="cap-emoji" aria-hidden="true">\uD83D\uDCBB</span>...using laptops during class?', Q('use_laptop_class'), P.use_laptop_class)
+        compareSection('usage', 'Students say how many classmates are...', [
+          scaleRow('<span class="cap-emoji" aria-hidden="true">\uD83D\uDCF1</span>...using phones during class', Q('use_phone_class'), P.use_phone_class),
+          scaleRow('<span class="cap-emoji" aria-hidden="true">\uD83D\uDCBB</span>...using laptops during class', Q('use_laptop_class'), P.use_laptop_class)
         ], '', 'U.S. AVERAGE'),
         barsSection('teacherPhone', 'During class, how often do you see a teacher on their phone for personal reasons?', TEACHER, Q('use_teacher_phone'), P.use_teacher_phone, null, null, true)
       ];
@@ -591,10 +591,10 @@
         barsSection('restriction', WHEN_T, WHEN, LAST_WHEN, null, LAST_WHEN_HEAD),
         barsSection('storage', WHERE_T, WHERE, LAST_WHERE, null, LAST_WHERE_HEAD),
         satisfactionSection(Q('policy_satisf'), P.policy_satisf),
-        compareSection('usage', 'How many students are...', [
-          scaleRow('...using phones during class?', Q('use_phone_class'), P.use_phone_class),
-          scaleRow('...using phones between classes?', Q('use_between'), P.use_between),
-          scaleRow('...using laptops during class?', Q('use_laptop_class'), P.use_laptop_class)
+        compareSection('usage', 'Educators report how many students are...', [
+          scaleRow('...using phones during class', Q('use_phone_class'), P.use_phone_class),
+          scaleRow('...using phones between classes', Q('use_between'), P.use_between),
+          scaleRow('...using laptops during class', Q('use_laptop_class'), P.use_laptop_class)
         ]),
         screenTimeSection(Q('view_screentime'), P.view_screentime),
         chargeSection([Q('view_hardcopy'), Q('view_ban_hw'), Q('view_ban_device')]),
