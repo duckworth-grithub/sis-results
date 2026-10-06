@@ -36,8 +36,8 @@
   var LAST_WHERE = { fixed: true, options: {
     'Phones cannot be brought into school at all': 2, 'Centralized collection': 5, 'Yondr pouches or similar': 6,
     'Classroom collection': 12, 'Lockers only': 19, "'No show' (out of sight)": 49, 'No school-wide policy': 6 } };
-  var LAST_WHEN_HEAD = 'Last school year, 69% of schools reported having a bell-to-bell phone policy.';
-  var LAST_WHERE_HEAD = 'Last school year, 49% of schools reported having a \u2018no show\u2019 policy, where students keep phones out of sight.';
+  var LAST_WHEN_HEAD = 'Last school year, <span class="n">69%</span> of schools reported having a bell-to-bell phone policy.';
+  var LAST_WHERE_HEAD = 'Last school year, <span class="n">49%</span> of schools reported having a \u2018no show\u2019 policy, where students keep phones out of sight.';
   var LAST_NOTE = 'Based on data from the 92,256 U.S. educators surveyed in the 2025-26 school year.';
   var TEACHER = [
     ['Never', 'never see a teacher on their phone in class', 0],
@@ -381,6 +381,19 @@
     return section('wyr', 'wyr', '<h3>' + title + '</h3><div class="wyr-grid">' + items + '</div>');
   }
 
+  // Student phone/laptop use: satisfaction-style cards, U.S. average share of classmates, bar filled against 100%.
+  function studentUseSection(items) {
+    var title = 'Students say...';
+    if (items.every(function (it) { return !it[1]; })) return emptySection('usage', title);
+    var cards = items.map(function (it) {
+      var pct = it[1] ? Math.round(meanOf(it[1]) * 10) : null;
+      return '<div class="card use-card"><div class="use-emoji" aria-hidden="true">' + it[0] + '</div>' +
+        (pct == null ? EMPTY : '<div class="card-v" style="color:' + GREEN + '">' + pct + '%</div>' +
+          '<div class="card-track"><div style="width:' + pct + '%;background:' + GREEN + '"></div></div>' +
+          '<div class="card-t">' + esc(it[2]) + '</div>') + '</div>';
+    }).join('');
+    return section('', 'usage', '<h3>' + title + '</h3><div class="cards">' + cards + '</div>');
+  }
   function satisfactionSection(q, val) {
     var title = 'How satisfied are educators with their policy?';
     if (!q) return emptySection('satisfaction', title);
@@ -580,10 +593,10 @@
             "'No show' (out of sight)": 'Keep their phones out of sight',
             'No school-wide policy': 'There is no school-wide policy'
           }, true),
-        compareSection('usage', 'Students say how many classmates are...', [
-          scaleRow('<span class="cap-emoji" aria-hidden="true">\uD83D\uDCF1</span>...using phones during class', Q('use_phone_class'), P.use_phone_class),
-          scaleRow('<span class="cap-emoji" aria-hidden="true">\uD83D\uDCBB</span>...using laptops during class', Q('use_laptop_class'), P.use_laptop_class)
-        ], '', 'U.S. AVERAGE'),
+        studentUseSection([
+          ['\uD83D\uDCF1', Q('use_phone_class'), 'of classmates use phones for personal reasons during class'],
+          ['\uD83D\uDCBB', Q('use_laptop_class'), 'of classmates use laptops for personal reasons during class']
+        ]),
         barsSection('teacherPhone', 'During class, how often do you see a teacher on their phone for personal reasons?', TEACHER, Q('use_teacher_phone'), P.use_teacher_phone, null, null, true)
       ];
     } else if (AUD === 'educator') {
