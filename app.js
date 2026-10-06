@@ -400,7 +400,7 @@
     return section('', 'usage', '<h3>' + title + '</h3><div class="cards">' + cards + '</div>');
   }
   function satisfactionSection(q, val) {
-    var title = 'How satisfied are educators with their policy?';
+    var title = 'How satisfied are ' + (LIB ? 'librarians' : 'educators') + ' with their policy?';
     if (!q) return emptySection('satisfaction', title);
     var cards = (typeof val === 'number' ? card('YOU', GREEN, val * 10, 'satisfied with your phone policy') : '') +
       card('AVERAGE', '#5E5E5E', Math.round(meanOf(q) * 10), 'satisfied with their phone policy', GENERIC && GREEN);
