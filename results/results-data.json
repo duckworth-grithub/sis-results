@@ -1,61 +1,61 @@
 {
- "generated_at": "2026-10-05T20:51:39Z",
+ "generated_at": "2026-10-06T12:28:31Z",
  "min_n": 0,
  "audiences": {
   "student": {
-   "n": 21,
+   "n": 22,
    "questions": {
     "wyr_read": {
      "kind": "choice",
-     "n": 21,
+     "n": 22,
      "options": {
-      "Read things in hard copy": 47.6,
-      "Read things on a screen": 52.4
+      "Read things in hard copy": 50.0,
+      "Read things on a screen": 50.0
      }
     },
     "wyr_homework": {
      "kind": "choice",
-     "n": 21,
+     "n": 22,
      "options": {
-      "Do more homework on a computer": 66.7,
-      "Do more homework on paper": 33.3
+      "Do more homework on a computer": 68.2,
+      "Do more homework on paper": 31.8
      }
     },
     "policy_when": {
      "kind": "choice",
-     "n": 21,
+     "n": 22,
      "options": {
-      "Bell-to-bell": 42.9,
-      "Schedule-based restriction": 52.4,
-      "No school-wide restriction": 4.8
+      "Bell-to-bell": 45.5,
+      "Schedule-based restriction": 50.0,
+      "No school-wide restriction": 4.5
      }
     },
     "policy_where": {
      "kind": "choice",
-     "n": 21,
+     "n": 22,
      "options": {
       "Phones cannot be brought into school at all": 0.0,
-      "Centralized collection": 9.5,
-      "Yondr pouches or similar": 4.8,
-      "Lockers only": 14.3,
-      "Classroom collection": 33.3,
-      "'No show' (out of sight)": 23.8,
-      "No school-wide policy": 14.3
+      "Centralized collection": 9.1,
+      "Yondr pouches or similar": 9.1,
+      "Lockers only": 13.6,
+      "Classroom collection": 31.8,
+      "'No show' (out of sight)": 22.7,
+      "No school-wide policy": 13.6
      }
     },
     "use_phone_class": {
      "kind": "scale",
-     "n": 21,
-     "mean": 2.9,
+     "n": 22,
+     "mean": 2.82,
      "dist": [
-      14.3,
-      23.8,
-      9.5,
-      23.8,
-      4.8,
+      13.6,
+      27.3,
+      9.1,
+      22.7,
+      4.5,
       0.0,
-      9.5,
-      14.3,
+      9.1,
+      13.6,
       0.0,
       0.0,
       0.0
@@ -63,40 +63,40 @@
     },
     "use_laptop_class": {
      "kind": "scale",
-     "n": 21,
-     "mean": 3.62,
+     "n": 22,
+     "mean": 3.45,
      "dist": [
-      9.5,
-      14.3,
-      14.3,
-      19.0,
-      9.5,
-      9.5,
-      4.8,
-      9.5,
-      4.8,
-      4.8,
+      13.6,
+      13.6,
+      13.6,
+      18.2,
+      9.1,
+      9.1,
+      4.5,
+      9.1,
+      4.5,
+      4.5,
       0.0
      ]
     },
     "use_teacher_phone": {
      "kind": "choice",
-     "n": 21,
+     "n": 22,
      "options": {
       "Never": 0.0,
-      "Once per week": 47.6,
-      "A few times per week": 33.3,
-      "Most days of the week": 9.5,
-      "Every day": 9.5
+      "Once per week": 50.0,
+      "A few times per week": 31.8,
+      "Most days of the week": 9.1,
+      "Every day": 9.1
      }
     },
     "policy_strict": {
      "kind": "choice",
-     "n": 21,
+     "n": 22,
      "options": {
-      "More strict": 23.8,
-      "Just right": 38.1,
-      "Less strict": 38.1
+      "More strict": 22.7,
+      "Just right": 40.9,
+      "Less strict": 36.4
      }
     }
    }
