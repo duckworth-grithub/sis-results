@@ -68,8 +68,8 @@ sections (Your View and/or AI: district and elementary librarians) is titled "Wh
 saying?", since there is no "your school" to compare; a librarian with nothing to show
 gets a one-line note. The AI section is always shown on their MS/HS page, since MS/HS
 and district librarians answer the same AI matrix (QID419). Their survey asks the same questions under different
-QIDs, piped into the same parameter names. Librarian responses are **not** in the aggregates: they compare
-themselves with educators. MS/HS librarians:
+QIDs, piped into the same parameter names. On librarian reports, satisfaction and AI approval use librarians' own answers (audience `librarian`: QID130,
+QID419); everything else compares them with educators. MS/HS librarians:
 ```
 https://results.screensinschools.org/#a=educator&when=${q://QID295/SelectedChoicesRecode}&where=${q://QID296/SelectedChoicesRecode}&satisf=${q://QID130/SelectedChoicesRecode}&strict=${q://QID177/SelectedChoicesRecode}&screentime=${q://QID414/SelectedChoicesRecode}&hardcopy=${q://QID416/SelectedChoicesRecode}&banhw=${q://QID417/SelectedChoicesRecode}&bandevice=${q://QID418/SelectedChoicesRecode}&role=librarian
 ```

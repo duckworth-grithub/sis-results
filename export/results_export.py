@@ -121,6 +121,9 @@ LIB = {
     "l_circ_school_total": ("QID405", "form", CIRC_YEARS, set()),
     "l_circ_school_print": ("QID275", "form", CIRC_YEARS, set()),
     "l_circ_school_digital": ("QID404", "form", CIRC_YEARS, set()),
+    # Published for the librarian reports (same answer codes as the educator QID67 / QID110).
+    "l_policy_satisf": ("QID130", "scale", None, {"librarian"}),
+    "l_view_ai": ("QID419", "matrix", AI_USES, {"librarian"}),
 }
 ELEMENTARY_CODES = {1}  # QID44 "Mostly elementary school"; 4 = middle, 5 = high
 
@@ -428,6 +431,7 @@ def main():
     if os.environ.get("SURVEY_LIBRARIAN"):
         lib = export(os.environ["SURVEY_LIBRARIAN"], LIB)
         result["librarian"] = {"circulation": circulation(lib)}
+        audiences["librarian"] = aggregate(lib, LIB, "librarian")
         del lib
     with open(OUT, "w") as fh:
         json.dump(result, fh, indent=1)
