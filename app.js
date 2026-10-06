@@ -402,7 +402,7 @@
     return section('', 'usage', '<h3>' + title + '</h3><div class="cards">' + cards + '</div>');
   }
   function satisfactionSection(q, val) {
-    var title = 'How satisfied are ' + (LIB ? 'librarians' : 'educators') + ' with their policy?';
+    var title = 'How satisfied are ' + (LIB ? 'librarians' : LEVEL_EDU) + ' with their policy?';
     if (!q) return emptySection('satisfaction', title);
     var cards = (typeof val === 'number' ? card('YOU', GREEN, val * 10, 'satisfied with your phone policy') : '') +
       card('AVERAGE', '#5E5E5E', Math.round(meanOf(q) * 10), 'satisfied with their phone policy', GENERIC && GREEN);
@@ -490,7 +490,7 @@
 
   // MS/HS only: aggregate approval per AI use (QID110). No comparison, no YOU, nothing from the URL.
   function aiSection(q) {
-    var title = (LIB ? 'Librarians' : 'Educators') + ' think students should be allowed to use AI to…';
+    var title = (LIB ? 'Librarians' : 'Middle/high school educators') + ' think students should be allowed to use AI to…';
     var rows = q && q.rows ? Object.keys(q.rows).map(function (k) { return { label: k, pct: r0(q.rows[k]) }; }) : [];
     if (!rows.length) return emptySection('aiUse', title);
     rows.sort(function (a, b) { return b.pct - a.pct; });
@@ -498,7 +498,7 @@
       return '<div class="ai-row"><div class="ai-label">' + esc(r.label) + '</div>' +
         '<div class="ai-bar"><div class="fill" style="width:' + r.pct + '%"></div><span class="pct">' + r.pct + '%</span></div></div>';
     }).join('');
-    return section('ai', 'aiUse', '<h3>' + title + '</h3><div class="ai-sub">Percent of ' + (LIB ? 'librarians' : 'educators') + ' who approve</div>' +
+    return section('ai', 'aiUse', '<h3>' + title + '</h3><div class="ai-sub">Percent of ' + (LIB ? 'librarians' : LEVEL_EDU) + ' who approve</div>' +
       '<div class="ai-rows">' + body + '</div>');
   }
 
@@ -618,7 +618,7 @@
         barsSection('restriction', WHEN_T, WHEN, LAST_WHEN, null, LAST_WHEN_HEAD, null, true),
         barsSection('storage', WHERE_T, WHERE, LAST_WHERE, null, LAST_WHERE_HEAD, null, true),
         satisfactionSection(LQ('policy_satisf'), P.policy_satisf),
-        compareSection('usage', 'Educators say how many students are...', [
+        compareSection('usage', 'Middle/high school educators say how many students are...', [
           scaleRow('...on phones for personal reasons during class', Q('use_phone_class'), P.use_phone_class),
           scaleRow('...on phones between classes', Q('use_between'), P.use_between),
           scaleRow('...on laptops for personal reasons during class', Q('use_laptop_class'), P.use_laptop_class)
@@ -630,7 +630,7 @@
     } else {
       html = [
         barsSection('access', 'During the school day, how do your students access computers/tablets?', ACCESS, Q('tech_access') && Object.assign({ fixed: true }, Q('tech_access')), null,
-          'Schools differ on how students access devices.'),
+          'Elementary schools differ on how students access devices.'),
         boxesSection('usage', [
           { title: 'How much reading is done on a screen?', q: Q('tech_screen_read'), val: P.tech_screen_read },
           { title: 'How much homework requires a device?', q: Q('tech_screen_hw'), val: P.tech_screen_hw }
