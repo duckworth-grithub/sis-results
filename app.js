@@ -674,7 +674,9 @@
     if (live && live.generated_at) {
       var d = new Date(live.generated_at);
       if (!isNaN(d)) note = 'This report reflects survey data from ' +
-        (LIB ? 'librarians, teachers, and administrators' : AUD === 'student' ? 'students' : 'educators') + ' as of ' +
+        // Whose answers the report's live sections use: MS/HS and district librarian reports show librarians' own
+        // satisfaction and AI figures; elementary librarian reports show elementary educators' Your View figures.
+        (AUD === 'student' ? 'students' : LIB && AUD === 'educator' ? 'librarians' : 'educators and administrators') + ' as of ' +
         d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) + '.';
     }
     if (!live) note = 'Sample data. Live results will appear here once enough responses are in.';
