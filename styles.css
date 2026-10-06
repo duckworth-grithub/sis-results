@@ -187,6 +187,13 @@ h1 { font-size: clamp(26px, 4vw, 34px); line-height: 1.15; font-weight: 700; mar
 .callout-body b { font-size: 16px; color: var(--ink); }
 .callout-body span { font-size: 13px; color: var(--muted); }
 
+/* Screen-time bar: key for segments too small to label (including 0%) */
+.stack-key { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 10px; font-size: 14px; color: var(--muted); }
+.key-item { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.key-item b { color: var(--ink); }
+.key-sw { width: 12px; height: 12px; display: inline-block; border: 1px solid rgba(0,0,0,0.08); }
+.key-item .you-tag { margin-left: 4px; }
+
 /* Share callout (end of every report) */
 .share {
   margin-top: 48px; background: #F1F0EA; padding: 32px 40px;

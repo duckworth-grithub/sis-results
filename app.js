@@ -455,20 +455,25 @@
         bg: g ? GREEN : RAMP3[k][0], fg: g ? '#FFFFFF' : RAMP3[k][1], you: you,
         ai: k === 0 ? 'flex-start' : k === groups.length - 1 ? 'flex-end' : 'center' };
     });
+    // Segments under 16% are too small to hold their label, and a 0% segment has no width at all: leave them out of
+    // the bar's text and list them in a key below it (swatch, %, label, YOU), so nothing is squashed or off the edge.
     var bar = segs.map(function (s) {
-      return '<div class="seg' + (s.narrow ? ' narrow' : '') + '" style="width:' + s.w + '%;background:' + s.bg + ';color:' + s.fg + '">' +
-        (s.p >= 5 ? '<div class="seg-p">' + s.p + '%</div>' : '<div class="seg-p"></div>') +
-        '<div class="seg-l">' + esc(s.label) + '</div></div>';
+      if (!s.p) return '';
+      return '<div class="seg" style="width:' + s.w + '%;background:' + s.bg + ';color:' + s.fg + '">' +
+        (s.narrow ? '' : '<div class="seg-p">' + s.p + '%</div><div class="seg-l">' + esc(s.label) + '</div>') + '</div>';
     }).join('');
     var under = segs.map(function (s) {
-      return '<div class="under' + (s.narrow ? ' narrow' : '') + '" style="width:' + s.w + '%">' +
-        (s.you ? '<span class="you-tag">▲ YOU</span>' : '') +
-        '<div class="callout" style="align-items:' + s.ai + '"><div class="callout-tick" style="align-self:center"></div>' +
-        '<div class="callout-body" style="align-self:' + s.ai + ';align-items:' + s.ai + '"><b>' + s.p + '%</b><span>' + esc(s.label) + '</span></div></div></div>';
+      if (!s.p) return '';
+      return '<div class="under" style="width:' + s.w + '%">' + (s.you && !s.narrow ? '<span class="you-tag">\u25B2 YOU</span>' : '') + '</div>';
     }).join('');
+    var small = segs.filter(function (s) { return s.narrow; });
+    var key = small.length ? '<div class="stack-key">' + small.map(function (s) {
+      return '<span class="key-item"><span class="key-sw" style="background:' + s.bg + '"></span><b>' + s.p + '%</b> ' + esc(s.label) +
+        (s.you ? ' <span class="you-tag">\u25B2 YOU</span>' : '') + '</span>';
+    }).join('') + '</div>' : '';
     // Headline is the majority view; "also" only when that's the respondent's own answer.
     var head = num(groups[mi]) + ' of ' + LEVEL_EDU + ' ' + (yi === mi ? 'also ' : '') + SCREEN[mi][1];
-    return section('', 'screenTime', '<h3>' + head + '</h3><div class="stack-wrap"><div class="stack">' + bar + '</div><div class="stack-under">' + under + '</div></div>');
+    return section('', 'screenTime', '<h3>' + head + '</h3><div class="stack-wrap"><div class="stack">' + bar + '</div><div class="stack-under">' + under + '</div>' + key + '</div>');
   }
 
   function chargeSection(qs) {
