@@ -585,7 +585,6 @@
     var html;
     if (AUD === 'student') {
       html = [
-        wyrSection([Q('wyr_read'), Q('wyr_homework')]),
         stackSection('restriction', WHEN_T, LAST_WHEN_HEAD, LAST_WHEN, [
           // Short versions of the student survey (QID13) answers
           ['Bell-to-bell', 'Not during the school day'],
@@ -602,6 +601,7 @@
             "'No show' (out of sight)": 'Keep their phones out of sight',
             'No school-wide policy': 'There is no school-wide policy'
           }, true),
+        wyrSection([Q('wyr_read'), Q('wyr_homework')]),
         useCardsSection('Students say...', [
           ['\uD83D\uDCF1', Q('use_phone_class'), 'of classmates use phones for personal reasons during class'],
           ['\uD83D\uDCBB', Q('use_laptop_class'), 'of classmates use laptops for personal reasons during class']
