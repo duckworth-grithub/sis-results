@@ -24,8 +24,8 @@ Anything not listed here never leaves Qualtrics. Answer codes and labels for eve
 | `elementary` | Educator SV_bxUuSACfns11z5s | QID44 = 1 ("Mostly elementary school") |
 
 Librarians (SV_9BO9iR0YKZ2lVie) see the educator pages and compare themselves with educators (links in the README).
-Their satisfaction (QID130, recodes 0–100 like QID67) and AI approval (QID419, same codes as QID110) are published as
-audience `librarian` and shown on librarian reports in place of educators' figures. Their library checkouts are also
+Their satisfaction (QID130, recodes 0–100 like QID67), AI approval (QID419, same codes as QID110) and Your View
+(QID414 screen time, QID416–418 yes/no; asked of elementary-only librarians) are published as audience `librarian` and shown on librarian reports in place of educators' figures. Their library checkouts are also
 exported, under the top-level `librarian` key (below).
 
 ## Fields pulled

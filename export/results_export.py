@@ -124,6 +124,11 @@ LIB = {
     # Published for the librarian reports (same answer codes as the educator QID67 / QID110).
     "l_policy_satisf": ("QID130", "scale", None, {"librarian"}),
     "l_view_ai": ("QID419", "matrix", AI_USES, {"librarian"}),
+    # Your View: only elementary-only librarians are asked these, so these are elementary librarians' figures.
+    "l_view_screentime": ("QID414", "choice", SCREEN, {"librarian"}),
+    "l_view_hardcopy": ("QID416", "choice", YESNO, {"librarian"}),
+    "l_view_ban_hw": ("QID417", "choice", YESNO, {"librarian"}),
+    "l_view_ban_device": ("QID418", "choice", YESNO, {"librarian"}),
 }
 ELEMENTARY_CODES = {1}  # QID44 "Mostly elementary school"; 4 = middle, 5 = high
 

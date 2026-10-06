@@ -231,7 +231,7 @@
   var GENERIC = !LIB && Object.keys(P).length === 0;
   var NOUN = AUD === 'student' ? 'students' : 'educators';
   // "Your View" figures come from one school level's educators, so their headings name it.
-  var LEVEL_EDU = AUD === 'elementary' ? 'elementary educators' : 'middle/high school educators';
+  var LEVEL_EDU = AUD === 'elementary' ? (LIB ? 'elementary librarians' : 'elementary educators') : 'middle/high school educators';
 
   // ---------------------------------------------------------------------------
   // Helpers
@@ -573,7 +573,8 @@
     var src = live || SNAPSHOT;
     var aud = (src.audiences && src.audiences[AUD]) || {};
     var qs = aud.questions || {};
-    // Librarian reports show librarians' own satisfaction and AI answers (audience "librarian"), never educators'.
+    // Librarian reports show librarians' own answers (audience "librarian") for satisfaction, AI and Your View
+    // (Your View is asked of elementary-only librarians), never educators'.
     var libQs = (LIB && src.audiences && src.audiences.librarian && src.audiences.librarian.questions) || {};
     function LQ(key) {
       if (!LIB) return Q(key);
@@ -640,8 +641,8 @@
           hoursRow('...for other<br class="d-br"> instruction?', Q('use_instr_other'), P.use_instr_other),
           hoursRow('...for non-instructional<br class="d-br"> use?', Q('use_noninstr'), P.use_noninstr)
         ], 'two'),
-        screenTimeSection(Q('view_screentime'), P.view_screentime),
-        chargeSection([Q('view_hardcopy'), Q('view_ban_hw'), Q('view_ban_device')])
+        screenTimeSection(LQ('view_screentime'), P.view_screentime),
+        chargeSection([LQ('view_hardcopy'), LQ('view_ban_hw'), LQ('view_ban_device')])
       ];
     }
     if (LIB) {
@@ -674,9 +675,8 @@
     if (live && live.generated_at) {
       var d = new Date(live.generated_at);
       if (!isNaN(d)) note = 'This report reflects survey data from ' +
-        // Whose answers the report's live sections use: MS/HS and district librarian reports show librarians' own
-        // satisfaction and AI figures; elementary librarian reports show elementary educators' Your View figures.
-        (AUD === 'student' ? 'students' : LIB && AUD === 'educator' ? 'librarians' : 'educators and administrators') + ' as of ' +
+        // Whose answers the report's live sections use (librarian reports use librarians' own answers).
+        (AUD === 'student' ? 'students' : LIB ? 'librarians' : 'educators and administrators') + ' as of ' +
         d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) + '.';
     }
     if (!live) note = 'Sample data. Live results will appear here once enough responses are in.';
