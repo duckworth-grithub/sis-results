@@ -38,7 +38,8 @@
     'Classroom collection': 12, 'Lockers only': 19, "'No show' (out of sight)": 49, 'No school-wide policy': 6 } };
   var LAST_WHEN_HEAD = 'Last school year, <span class="n">69%</span> of schools reported having a bell-to-bell phone policy.*';
   var LAST_WHERE_HEAD = 'Last school year, <span class="n">49%</span> of schools reported having a \u2018no show\u2019 policy, where students keep phones out of sight.*';
-  var LAST_NOTE = '* Both charts are based on data from the 92,256 U.S. educators surveyed in the 2025-26 school year.';
+  var LAST_NOTE = '* Both charts are based on data from the 92,256 U.S. educators surveyed in the 2025-26 school year. ' +
+    'Your response will contribute to a national report of school phone policies for the 2026-27 school year.';
   var TEACHER = [
     ['Never', 'never see a teacher on their phone in class', 0],
     ['Once per week', 'see a teacher on their phone about once a week', 1],
@@ -356,6 +357,9 @@
     return section('multi-q' + (GENERIC ? ' agg' : ''), id, '<h3>' + esc(title) + '</h3>' + legend + '<div class="multi">' + body + '</div>');
   }
 
+  // A grey sub-line under a section's heading (same style as the AI section's).
+  function withSub(h, text) { return h.replace('</h3>', '</h3><div class="ai-sub">' + esc(text) + '</div>'); }
+
   // Elementary "How much is done on a screen?": one heading + YOU/AVERAGE cards per question
   function boxesSection(id, rows) {
     var body = rows.map(function (r) {
@@ -381,7 +385,7 @@
     return section('wyr', 'wyr', '<h3>' + title + '</h3><div class="wyr-grid">' + items + '</div>');
   }
 
-  // Phone/laptop use (student and MS/HS educator reports): satisfaction-style cards. The big number is the U.S.
+  // Phone/laptop use (student report): satisfaction-style cards, emoji top right. The big number is the U.S.
   // average share of students, the bar fills against 100%. items: [emoji, q, text, your answer (0-10) or undefined].
   // With an answer, the average is grey and a green YOU marker sits on the bar at the respondent's value.
   function useCardsSection(title, items) {
@@ -609,11 +613,11 @@
         barsSection('restriction', WHEN_T, WHEN, LAST_WHEN, null, LAST_WHEN_HEAD, null, true),
         barsSection('storage', WHERE_T, WHERE, LAST_WHERE, null, LAST_WHERE_HEAD, null, true),
         satisfactionSection(Q('policy_satisf'), P.policy_satisf),
-        useCardsSection('Educators say...', [
-          ['\uD83D\uDCF1', Q('use_phone_class'), 'of students use phones for personal reasons during class', P.use_phone_class],
-          ['\uD83D\uDCF1', Q('use_between'), 'of students use phones between classes', P.use_between],
-          ['\uD83D\uDCBB', Q('use_laptop_class'), 'of students use laptops for personal reasons during class', P.use_laptop_class]
-        ]),
+        withSub(compareSection('usage', 'Educators say how many students are...', [
+          scaleRow('...on phones for personal reasons during class', Q('use_phone_class'), P.use_phone_class),
+          scaleRow('...on phones between classes', Q('use_between'), P.use_between),
+          scaleRow('...on laptops for personal reasons during class', Q('use_laptop_class'), P.use_laptop_class)
+        ], '', 'U.S. AVERAGE'), 'Percent of students. Your estimate compared with the U.S. average.'),
         screenTimeSection(Q('view_screentime'), P.view_screentime),
         chargeSection([Q('view_hardcopy'), Q('view_ban_hw'), Q('view_ban_device')]),
         aiSection(Q('view_ai'))
@@ -622,7 +626,7 @@
       html = [
         barsSection('restriction', WHEN_T, WHEN, LAST_WHEN, null, LAST_WHEN_HEAD, null, true),
         barsSection('storage', WHERE_T, WHERE, LAST_WHERE, null, LAST_WHERE_HEAD, null, true),
-        barsSection('access', 'During the school day, how do your students access computers/tablets?', ACCESS, Q('tech_access'), P.tech_access,
+        barsSection('access', 'During the school day, how do your students access computers/tablets?', ACCESS, Q('tech_access') && Object.assign({ fixed: true }, Q('tech_access')), null,
           'Schools differ on how students access devices.'),
         boxesSection('usage', [
           { title: 'How much reading is done on a screen?', q: Q('tech_screen_read'), val: P.tech_screen_read },
