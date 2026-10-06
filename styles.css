@@ -43,7 +43,7 @@ h1 { font-size: clamp(26px, 4vw, 34px); line-height: 1.15; font-weight: 700; mar
 .q.wyr { padding: 32px 0 36px; }
 .q h3 {
   font-size: clamp(24px, 3.6vw, 30px); line-height: 1.2; font-weight: 700;
-  margin: 0 0 24px; text-wrap: balance;
+  margin: 0 0 24px; text-wrap: wrap;
 }
 .q h3 .n { color: var(--green); }
 .q h3 .n.ink { color: var(--ink); }
