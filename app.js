@@ -357,9 +357,6 @@
     return section('multi-q' + (GENERIC ? ' agg' : ''), id, '<h3>' + esc(title) + '</h3>' + legend + '<div class="multi">' + body + '</div>');
   }
 
-  // A grey sub-line under a section's heading (same style as the AI section's).
-  function withSub(h, text) { return h.replace('</h3>', '</h3><div class="ai-sub">' + esc(text) + '</div>'); }
-
   // Elementary "How much is done on a screen?": one heading + YOU/AVERAGE cards per question
   function boxesSection(id, rows) {
     var body = rows.map(function (r) {
@@ -612,11 +609,11 @@
         barsSection('restriction', WHEN_T, WHEN, LAST_WHEN, null, LAST_WHEN_HEAD, null, true),
         barsSection('storage', WHERE_T, WHERE, LAST_WHERE, null, LAST_WHERE_HEAD, null, true),
         satisfactionSection(Q('policy_satisf'), P.policy_satisf),
-        withSub(compareSection('usage', 'Educators say how many students are...', [
+        compareSection('usage', 'Educators say how many students are...', [
           scaleRow('...on phones for personal reasons during class', Q('use_phone_class'), P.use_phone_class),
           scaleRow('...on phones between classes', Q('use_between'), P.use_between),
           scaleRow('...on laptops for personal reasons during class', Q('use_laptop_class'), P.use_laptop_class)
-        ], '', 'U.S. AVERAGE'), 'Percent of students. Your estimate compared with the U.S. average.'),
+        ]),
         screenTimeSection(Q('view_screentime'), P.view_screentime),
         chargeSection([Q('view_hardcopy'), Q('view_ban_hw'), Q('view_ban_device')]),
         aiSection(Q('view_ai'))
