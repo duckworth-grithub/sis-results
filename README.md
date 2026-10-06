@@ -57,6 +57,10 @@ https://results.screensinschools.org/#a=elementary&access=${q://QID20/SelectedCh
 (A single combined link also works: `#a=educator&level=${q://QID44/SelectedChoicesRecode}&…` with both sets; `level=1`
 switches to the elementary page.)
 
+**WHEN/WHERE on every report** (student, educator, elementary, every librarian page) show last school year's
+per-school figures (2025-26, Phones in Focus), hardcoded in app.js as `LAST_WHEN`/`LAST_WHERE` with fixed headings
+("Last school year, 69% of schools…"). No comparison: `when`/`where` in a link are read but not marked YOU.
+
 **Librarians** (SV_9BO9iR0YKZ2lVie) use the educator pages, marked with `role=librarian`. On a librarian page only the
 sections they answered are shown, with their own answers marked YOU in green and no green highlights. District
 librarians answer none of the linked questions, so they see only the AI section. A librarian page with only opinion

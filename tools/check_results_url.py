@@ -152,6 +152,8 @@ def check(url, params):
                 status = "OK → " + "; ".join(dict.fromkeys(hits))
                 if kind == "multi":
                     status += " (read, but the chart shows data only: no YOU)"
+                elif p in ("when", "where"):
+                    status += " (read, but the chart shows last school year's figures: no YOU)"
                 misses = [x for x in pieces if code(x) not in table]
                 if misses:
                     status += f"; ignored: {', '.join(misses)}"

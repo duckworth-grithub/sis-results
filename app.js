@@ -30,6 +30,14 @@
     ["'No show' (out of sight)", "use 'no show'", 6],
     ['No school-wide policy', 'have no storage policy', 7]
   ];
+  // WHEN/WHERE on every report: last school year's figures per school (2025-26, Phones in Focus), hardcoded.
+  // No comparison: answers to these questions in the URL are ignored.
+  var LAST_WHEN = { fixed: true, options: { 'Bell-to-bell': 69, 'Schedule-based restriction': 23, 'No school-wide restriction': 7 } };
+  var LAST_WHERE = { fixed: true, options: {
+    'Phones cannot be brought into school at all': 2, 'Centralized collection': 5, 'Yondr pouches or similar': 6,
+    'Classroom collection': 12, 'Lockers only': 19, "'No show' (out of sight)": 49, 'No school-wide policy': 6 } };
+  var LAST_WHEN_HEAD = 'Last school year, 69% of schools reported having a bell-to-bell phone policy.';
+  var LAST_WHERE_HEAD = 'Last school year, 49% of schools reported having a \u2018no show\u2019 policy, where students keep phones out of sight.';
   var TEACHER = [
     ['Never', 'never see a teacher on their phone in class', 0],
     ['Once per week', 'see a teacher on their phone about once a week', 1],
@@ -285,7 +293,7 @@
     } else {
       // No answer in the URL → highlight the most common response (no "also": it isn't theirs).
       var m = rows[argmax(pcts)];
-      m.you = GENERIC;
+      m.you = GENERIC && !q.fixed;
       head = num(m.pct) + ' of ' + NOUN + ' ' + esc(m.tail) + '.';
     }
     var body = rows.map(function (r) {
@@ -555,14 +563,13 @@
     if (AUD === 'student') {
       html = [
         wyrSection([Q('wyr_read'), Q('wyr_homework')]),
-        stackSection('restriction', WHEN_T, 'U.S. schools differ on WHEN students can use phones.', Q('policy_when'), [
+        stackSection('restriction', WHEN_T, LAST_WHEN_HEAD, LAST_WHEN, [
           // Short versions of the student survey (QID13) answers
           ['Bell-to-bell', 'Not during the school day'],
           ['Schedule-based restriction', 'Sometimes'],
           ['No school-wide restriction', 'No school-wide rule']
         ]),
-        barsSection('storage', WHERE_T, WHERE, Q('policy_where'), P.policy_where,
-          'U.S. schools differ on WHERE students keep phones.', {
+        barsSection('storage', WHERE_T, WHERE, LAST_WHERE, null, LAST_WHERE_HEAD, {
             // Student survey (QID14) wording, shortened
             'Phones cannot be brought into school at all': 'Leave their phones at home',
             'Centralized collection': 'Put their phones in one place at the beginning of the day',
@@ -580,8 +587,8 @@
       ];
     } else if (AUD === 'educator') {
       html = [
-        barsSection('restriction', WHEN_T, WHEN, Q('policy_when'), P.policy_when),
-        barsSection('storage', WHERE_T, WHERE, Q('policy_where'), P.policy_where),
+        barsSection('restriction', WHEN_T, WHEN, LAST_WHEN, null, LAST_WHEN_HEAD),
+        barsSection('storage', WHERE_T, WHERE, LAST_WHERE, null, LAST_WHERE_HEAD),
         satisfactionSection(Q('policy_satisf'), P.policy_satisf),
         compareSection('usage', 'How many students are...', [
           scaleRow('...using phones during class?', Q('use_phone_class'), P.use_phone_class),
@@ -594,6 +601,8 @@
       ];
     } else {
       html = [
+        barsSection('restriction', WHEN_T, WHEN, LAST_WHEN, null, LAST_WHEN_HEAD),
+        barsSection('storage', WHERE_T, WHERE, LAST_WHERE, null, LAST_WHERE_HEAD),
         barsSection('access', 'During the school day, how do your students access computers/tablets?', ACCESS, Q('tech_access'), P.tech_access,
           'Schools differ on how students access devices.'),
         boxesSection('usage', [
@@ -613,10 +622,10 @@
       // Section id → the questions behind it. A librarian sees a section only if they answered one of them;
       // the AI section (no URL parameter) is shown because MS/HS and district librarians answer the same matrix.
       var BEHIND = AUD === 'educator'
-        ? { restriction: ['policy_when'], storage: ['policy_where'], satisfaction: ['policy_satisf'],
+        ? { restriction: null, storage: null, satisfaction: ['policy_satisf'],
             usage: ['use_phone_class', 'use_between', 'use_laptop_class'], screenTime: ['view_screentime'],
             inCharge: ['view_hardcopy', 'view_ban_hw', 'view_ban_device'], aiUse: null }
-        : { access: ['tech_access'], usage: ['tech_screen_read', 'tech_screen_hw'],
+        : { restriction: null, storage: null, access: ['tech_access'], usage: ['tech_screen_read', 'tech_screen_hw'],
             dayUse: ['use_instr_personal', 'use_instr_other', 'use_noninstr'], screenTime: ['view_screentime'],
             inCharge: ['view_hardcopy', 'view_ban_hw', 'view_ban_device'] };
       html = html.filter(function (h) {
@@ -645,7 +654,8 @@
   if (AUD === 'educator') document.title = 'Compare my classroom · Screens in Schools';
   // A librarian page with only opinion sections (Your View and/or AI: district and elementary librarians, or anyone
   // who skipped the policy and use questions) has no "your school" to compare, so the masthead says what it shows.
-  var VIEW_ONLY = ['view_screentime', 'view_hardcopy', 'view_ban_hw', 'view_ban_device'];
+  // WHEN/WHERE show last year's figures with no comparison, so those answers don't count as something to compare.
+  var VIEW_ONLY = ['view_screentime', 'view_hardcopy', 'view_ban_hw', 'view_ban_device', 'policy_when', 'policy_where'];
   if (LIB && Object.keys(ANSWERED).every(function (k) { return VIEW_ONLY.indexOf(k) >= 0; })) {
     var LIB_TITLE = 'What are educators at other schools saying?';
     document.title = LIB_TITLE + ' · Screens in Schools';
