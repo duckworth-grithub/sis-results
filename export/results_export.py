@@ -33,9 +33,6 @@ H = {"X-API-TOKEN": TOKEN, "Content-Type": "application/json"}
 # --- Codebooks: Qualtrics recode value -> label published in results-data.json -----
 # Recodes come from the 2026-27 .qsf files. Keying on recodes (not choice text) is
 # deliberate: the live choice text carries HTML and explainer sub-lines.
-WHEN = {1: "Bell-to-bell", 2: "Schedule-based restriction", 3: "No school-wide restriction"}
-WHERE = {1: "Phones cannot be brought into school at all", 2: "Centralized collection", 3: "Yondr pouches or similar",
-         4: "Lockers only", 5: "Classroom collection", 6: "'No show' (out of sight)", 7: "No school-wide policy"}
 YESNO = {1: "Yes", 0: "No"}
 SCREEN = {1: "Too low", 2: "About right", 3: "Too high"}
 # QID49/QID36 were 5-point until the week of Sep 21-28, 2026, and the edit reused codes 1-3 with new meanings:
@@ -64,26 +61,18 @@ ACCESS = {1: "1:1 devices", 2: "Cart or library checkout", 3: "Computer lab", 4:
 TEEN = {
     "s_wyr_read": ("QID2", "choice", {1: "Read things in hard copy", 2: "Read things on a screen"}, {"student"}),
     "s_wyr_homework": ("QID3", "choice", {1: "Do more homework on a computer", 2: "Do more homework on paper"}, {"student"}),
-    "s_policy_when": ("QID13", "choice", WHEN, {"student"}),
-    "s_policy_where": ("QID14", "choice", WHERE, {"student"}),
     "s_use_phone_class": ("QID16", "scale", None, {"student"}),
     "s_use_laptop_class": ("QID17", "scale", None, {"student"}),
     "s_use_teacher_phone": ("QID18", "choice", {0: "Never", 1: "Once per week", 2: "A few times per week", 3: "Most days of the week", 4: "Every day"}, {"student"}),
-    "s_policy_strict": ("QID20", "choice", {1: "More strict", 2: "Just right", 3: "Less strict"}, {"student"}),
 }
 MS, EL = {"educator"}, {"elementary"}
 EDU = {
     "e_role_level": ("QID44", "route", None, MS | EL),
     # Middle/high school educators
-    "e_policy_when": ("QID58", "choice", WHEN, MS),
-    "e_policy_where": ("QID59", "choice", WHERE, MS),
-    "e_policy_enforce": ("QID63", "scale", None, MS),
     "e_use_between": ("QID64", "scale", None, MS),
     "e_use_phone_class": ("QID65", "scale", None, MS),
     "e_use_laptop_class": ("QID66", "scale", None, MS),
     "e_policy_satisf": ("QID67", "scale", None, MS),
-    "e_policy_strict": ("QID68", "choice", {1: "Much more restrictive", 2: "A little more restrictive", 3: "The policy is just right",
-                                            4: "A little less restrictive", 5: "Much less restrictive"}, MS),
     "e_view_screentime_ms": ("QID49", "choice", screen_book, MS),
     "e_view_hardcopy_ms": ("QID51", "choice", YESNO, MS),
     "e_view_ban_hw_ms": ("QID52", "choice", YESNO, MS),

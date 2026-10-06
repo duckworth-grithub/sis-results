@@ -2,27 +2,6 @@ tag,qid,kind,audience,data_key,code,label,note
 e_role_level,QID44,route,educator+elementary,,1,Mostly elementary school,"routing only; 1 = elementary page, else MS/HS page; not published"
 e_role_level,QID44,route,educator+elementary,,4,Mostly middle school,"routing only; 1 = elementary page, else MS/HS page; not published"
 e_role_level,QID44,route,educator+elementary,,5,Mostly high school,"routing only; 1 = elementary page, else MS/HS page; not published"
-e_policy_when,QID58,choice,educator,policy_when,1,Bell-to-bell,
-e_policy_when,QID58,choice,educator,policy_when,2,Schedule-based restriction,
-e_policy_when,QID58,choice,educator,policy_when,3,No school-wide restriction,
-e_policy_where,QID59,choice,educator,policy_where,1,Phones cannot be brought into school at all,
-e_policy_where,QID59,choice,educator,policy_where,2,Centralized collection,
-e_policy_where,QID59,choice,educator,policy_where,3,Yondr pouches or similar,
-e_policy_where,QID59,choice,educator,policy_where,4,Lockers only,
-e_policy_where,QID59,choice,educator,policy_where,5,Classroom collection,
-e_policy_where,QID59,choice,educator,policy_where,6,'No show' (out of sight),
-e_policy_where,QID59,choice,educator,policy_where,7,No school-wide policy,
-e_policy_enforce,QID63,scale,educator,policy_enforce,0,0,0%-100% dropdown published as 0-10
-e_policy_enforce,QID63,scale,educator,policy_enforce,10,1,0%-100% dropdown published as 0-10
-e_policy_enforce,QID63,scale,educator,policy_enforce,20,2,0%-100% dropdown published as 0-10
-e_policy_enforce,QID63,scale,educator,policy_enforce,30,3,0%-100% dropdown published as 0-10
-e_policy_enforce,QID63,scale,educator,policy_enforce,40,4,0%-100% dropdown published as 0-10
-e_policy_enforce,QID63,scale,educator,policy_enforce,50,5,0%-100% dropdown published as 0-10
-e_policy_enforce,QID63,scale,educator,policy_enforce,60,6,0%-100% dropdown published as 0-10
-e_policy_enforce,QID63,scale,educator,policy_enforce,70,7,0%-100% dropdown published as 0-10
-e_policy_enforce,QID63,scale,educator,policy_enforce,80,8,0%-100% dropdown published as 0-10
-e_policy_enforce,QID63,scale,educator,policy_enforce,90,9,0%-100% dropdown published as 0-10
-e_policy_enforce,QID63,scale,educator,policy_enforce,100,10,0%-100% dropdown published as 0-10
 e_use_between,QID64,scale,educator,use_between,0,0,0%-100% dropdown published as 0-10
 e_use_between,QID64,scale,educator,use_between,10,1,0%-100% dropdown published as 0-10
 e_use_between,QID64,scale,educator,use_between,20,2,0%-100% dropdown published as 0-10
@@ -67,11 +46,6 @@ e_policy_satisf,QID67,scale,educator,policy_satisf,70,7,0%-100% dropdown publish
 e_policy_satisf,QID67,scale,educator,policy_satisf,80,8,0%-100% dropdown published as 0-10
 e_policy_satisf,QID67,scale,educator,policy_satisf,90,9,0%-100% dropdown published as 0-10
 e_policy_satisf,QID67,scale,educator,policy_satisf,100,10,0%-100% dropdown published as 0-10
-e_policy_strict,QID68,choice,educator,policy_strict,1,Much more restrictive,
-e_policy_strict,QID68,choice,educator,policy_strict,2,A little more restrictive,
-e_policy_strict,QID68,choice,educator,policy_strict,3,The policy is just right,
-e_policy_strict,QID68,choice,educator,policy_strict,4,A little less restrictive,
-e_policy_strict,QID68,choice,educator,policy_strict,5,Much less restrictive,
 e_view_screentime_ms,QID49,choice,educator,view_screentime,1,Too low,current 3-point version
 e_view_screentime_ms,QID49,choice,educator,view_screentime,2,About right,current 3-point version
 e_view_screentime_ms,QID49,choice,educator,view_screentime,3,Too high,current 3-point version

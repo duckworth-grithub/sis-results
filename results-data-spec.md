@@ -29,12 +29,14 @@ Their satisfaction (QID130, recodes 0–100 like QID67), AI approval (QID419, sa
 exported, under the top-level `librarian` key (below).
 
 ## Fields pulled
-Student: QID2 `wyr_read`, QID3 `wyr_homework`, QID13 `policy_when`, QID14 `policy_where`, QID16 `use_phone_class`
-(scale), QID17 `use_laptop_class` (scale), QID18 `use_teacher_phone`, QID20 `policy_strict`.
+Student: QID2 `wyr_read`, QID3 `wyr_homework`, QID16 `use_phone_class` (scale), QID17 `use_laptop_class` (scale),
+QID18 `use_teacher_phone`.
 
-Educator (MS/HS → `educator`): QID58 `policy_when`, QID59 `policy_where`, QID63 `policy_enforce` (scale), QID64
-`use_between` (scale), QID65 `use_phone_class` (scale), QID66 `use_laptop_class` (scale), QID67 `policy_satisf`
-(scale), QID68 `policy_strict`, QID49 `view_screentime`, QID51 `view_hardcopy`, QID52 `view_ban_hw`, QID53
+Not pulled (Oct 6, 2026): the WHEN/WHERE answers (every report shows last school year's figures instead), "should the
+policy be stricter" (student QID20, educator QID68) and enforcement (educator QID63).
+
+Educator (MS/HS → `educator`): QID64 `use_between` (scale), QID65 `use_phone_class` (scale), QID66 `use_laptop_class`
+(scale), QID67 `policy_satisf` (scale), QID49 `view_screentime`, QID51 `view_hardcopy`, QID52 `view_ban_hw`, QID53
 `view_ban_device`, QID110 `view_ai` (matrix).
 
 Educator (elementary → `elementary`): QID20 `tech_access` (multi), QID21 `tech_take_home` (scale), QID22
@@ -72,7 +74,7 @@ from published figures, so the combined views carry means only.
     "educator": {
       "n": 103,
       "questions": {
-        "policy_when":     { "kind": "choice", "n": 101, "options": { "Bell-to-bell": 45.0, "…": 0.0 } },
+        "view_screentime": { "kind": "choice", "n": 101, "options": { "Too high": 52.0, "…": 0.0 } },
         "use_phone_class": { "kind": "scale",  "n": 100, "mean": 3.7, "dist": [0.0, 11.0, "… 11 values …"] },
         "view_ai":         { "kind": "matrix", "n": 40,  "rows": { "Look up facts": 72.0, "…": 0.0 } },
         "view_screentime": null
