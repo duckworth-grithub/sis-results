@@ -395,8 +395,7 @@
       var you = typeof it[3] === 'number' ? it[3] * 10 : null;
       var c = you == null ? GREEN : '#5E5E5E';
       return '<div class="card use-card"><div class="use-emoji" aria-hidden="true">' + it[0] + '</div>' +
-        (pct == null ? EMPTY : '<div class="card-k" style="color:#5E5E5E">U.S. AVERAGE</div>' +
-          '<div class="card-v" style="color:' + c + '">' + pct + '%</div>' +
+        (pct == null ? EMPTY : '<div class="card-v" style="color:' + c + '">' + pct + '%</div>' +
           '<div class="card-track"><div style="width:' + pct + '%;background:' + c + '"></div>' +
           (you == null ? '' : '<span class="you-mark' + (you < 15 ? ' lo' : you > 85 ? ' hi' : '') + '" style="left:' + you + '%"><span class="you-mark-l">YOU ' + you + '%</span></span>') + '</div>' +
           '<div class="card-t">' + esc(it[2]) + '</div>') + '</div>';
