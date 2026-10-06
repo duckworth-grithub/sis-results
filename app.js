@@ -455,41 +455,6 @@
     return section('charge', 'inCharge', '<h3>' + title + '</h3><div class="charge-list">' + body + '</div>');
   }
 
-  // ---------------------------------------------------------------------------
-  // Library checkouts (all librarian pages). View B of LIBRARIAN_HANDOFF.md: average yearly checkouts for a balanced
-  // panel (the same libraries every year), so a rise is a real rise. The data job adds this
-  // year's libraries to last year's baseline (handoff §4, 2 July 2026); this copy is shown only if that file is missing.
-  // ---------------------------------------------------------------------------
-  var CIRC_BASELINE = {
-    panel: { n: 107, years: [
-      { year: '2022-23', mean: 5815 },
-      { year: '2023-24', mean: 5900 },
-      { year: '2024-25', mean: 6171 },
-      { year: '2025-26', mean: 6479 }
-    ] }
-  };
-  function circData(live) {
-    var c = live && live.librarian && live.librarian.circulation;
-    return c && c.panel ? c : CIRC_BASELINE;
-  }
-  // Percent change only (no averages on the page): each year vs the year before, same libraries, bars from zero.
-  function circSection(c) {
-    var ys = c.panel.years;
-    var steps = ys.slice(1).map(function (y, k) { return { year: y.year, d: (y.mean / ys[k].mean - 1) * 100 }; });
-    var up = steps.every(function (x) { return x.d > 0; }), down = steps.every(function (x) { return x.d < 0; });
-    var ch = Math.round(steps[steps.length - 1].d);
-    var head = up ? 'Librarians in the U.S. are reporting more checkouts each school year.'
-      : down ? 'Librarians in the U.S. are reporting fewer checkouts each school year.'
-      : 'Compared to last year, librarians in the U.S. are reporting ' +
-        (ch === 0 ? 'about the same number of checkouts.' : Math.abs(ch) + '% ' + (ch > 0 ? 'more' : 'fewer') + ' checkouts.');
-    var max = Math.max.apply(null, steps.map(function (x) { return Math.abs(x.d); })) || 1;
-    var rows = steps.map(function (x) {
-      return '<div class="row"><div class="row-label">' + esc(x.year) + '</div>' +
-        '<div class="row-bar"><div class="fill" style="width:' + (Math.abs(x.d) / max * 82) + '%"></div>' +
-        '<div class="pct">' + (x.d >= 0 ? '+' : '\u2212') + Math.abs(x.d).toFixed(1) + '%</div></div></div>';
-    }).join('');
-    return section('circ', 'circulation', '<h3>' + head + '</h3><div class="rows">' + rows + '</div>');
-  }
 
 
 
@@ -658,11 +623,7 @@
         var keys = BEHIND[(h.match(/id="(\w+)"/) || [])[1]];
         return keys === null || (keys || []).some(function (k) { return k in ANSWERED; });
       });
-      // Every librarian (elementary, MS/HS, district) sees library checkouts: after the policy, see and think
-      // sections if they reported a phone policy (a policy section survived the filter above), otherwise first.
-      var circ = [circSection(circData(live))];
-      var hasPolicy = html.some(function (h) { return /id="(restriction|storage|satisfaction)"/.test(h); });
-      html = hasPolicy ? html.concat(circ) : circ.concat(html);
+      if (!html.length) html = ['<section class="q"><p class="empty">There are no results to compare for the questions you answered.</p></section>'];
     }
     var box = document.getElementById('sections');
     box.className = 'sections aud-' + AUD + (LIB ? ' lib' : '');
@@ -682,10 +643,11 @@
   }
 
   if (AUD === 'educator') document.title = 'Compare my classroom · Screens in Schools';
-  // A librarian page with none of the linked answers (district librarians answer none of them) has no
-  // "your school" to compare, so the masthead says what the page shows instead.
-  if (LIB && Object.keys(ANSWERED).length === 0) {
-    var LIB_TITLE = 'What do school librarians report?';
+  // A librarian page with only opinion sections (Your View and/or AI: district and elementary librarians, or anyone
+  // who skipped the policy and use questions) has no "your school" to compare, so the masthead says what it shows.
+  var VIEW_ONLY = ['view_screentime', 'view_hardcopy', 'view_ban_hw', 'view_ban_device'];
+  if (LIB && Object.keys(ANSWERED).every(function (k) { return VIEW_ONLY.indexOf(k) >= 0; })) {
+    var LIB_TITLE = 'What are educators at other schools saying?';
     document.title = LIB_TITLE + ' · Screens in Schools';
     var mast = document.querySelector('.masthead h1');
     if (mast) mast.textContent = LIB_TITLE;
