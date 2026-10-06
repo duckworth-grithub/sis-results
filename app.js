@@ -231,7 +231,7 @@
   var GENERIC = !LIB && Object.keys(P).length === 0;
   var NOUN = AUD === 'student' ? 'students' : 'educators';
   // "Your View" figures come from one school level's educators, so their headings name it.
-  var LEVEL_EDU = AUD === 'elementary' ? (LIB ? 'elementary librarians' : 'elementary educators') : 'MS/HS educators';
+  var LEVEL_EDU = AUD === 'elementary' ? (LIB ? 'elementary librarians' : 'elementary educators') : 'educators';
 
   // ---------------------------------------------------------------------------
   // Helpers
@@ -495,7 +495,7 @@
 
   // MS/HS only: aggregate approval per AI use (QID110). No comparison, no YOU, nothing from the URL.
   function aiSection(q) {
-    var title = (LIB ? 'Librarians' : 'MS/HS educators') + ' think students should be allowed to use AI to…';
+    var title = (LIB ? 'Librarians' : 'Educators') + ' think students should be allowed to use AI to…';
     var rows = q && q.rows ? Object.keys(q.rows).map(function (k) { return { label: k, pct: r0(q.rows[k]) }; }) : [];
     if (!rows.length) return emptySection('aiUse', title);
     rows.sort(function (a, b) { return b.pct - a.pct; });
@@ -624,7 +624,7 @@
         barsSection('restriction', WHEN_T, WHEN, LAST_WHEN, null, LAST_WHEN_HEAD, null, true),
         barsSection('storage', WHERE_T, WHERE, LAST_WHERE, null, LAST_WHERE_HEAD, null, true),
         satisfactionSection(LQ('policy_satisf'), P.policy_satisf),
-        compareSection('usage', 'MS/HS educators say how many students are...', [
+        compareSection('usage', 'Educators say how many students are...', [
           scaleRow('...on phones for personal reasons during class', Q('use_phone_class'), P.use_phone_class),
           scaleRow('...on phones between classes', Q('use_between'), P.use_between),
           scaleRow('...on laptops for personal reasons during class', Q('use_laptop_class'), P.use_laptop_class)
