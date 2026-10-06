@@ -592,13 +592,13 @@
         ]),
         barsSection('storage', WHERE_T, WHERE, LAST_WHERE, null, LAST_WHERE_HEAD, {
             // Student survey (QID14) wording, shortened
-            'Phones cannot be brought into school at all': 'Leave their phones at home',
-            'Centralized collection': 'Put their phones in one place at the beginning of the day',
-            'Yondr pouches or similar': 'Keep their phones in a pouch that gets locked',
-            'Lockers only': 'Keep their phones in their lockers all day',
-            'Classroom collection': 'Put their phones in a designated area during each class',
-            "'No show' (out of sight)": 'Keep their phones out of sight',
-            'No school-wide policy': 'There is no school-wide policy'
+            'Phones cannot be brought into school at all': 'Left at home',
+            'Centralized collection': 'Collected at the start of the day',
+            'Yondr pouches or similar': 'Locked in a pouch',
+            'Lockers only': 'In lockers all day',
+            'Classroom collection': 'Collected in each class',
+            "'No show' (out of sight)": 'Kept out of sight',
+            'No school-wide policy': 'No school-wide rule'
           }, true),
         wyrSection([Q('wyr_read'), Q('wyr_homework')]),
         useCardsSection('Students say...', [
