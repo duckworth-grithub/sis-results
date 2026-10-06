@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-06T21:36:54Z",
+ "generated_at": "2026-10-06T21:51:18Z",
  "min_n": 0,
  "audiences": {
   "student": {
@@ -19,28 +19,6 @@
      "options": {
       "Do more homework on a computer": 68.2,
       "Do more homework on paper": 31.8
-     }
-    },
-    "policy_when": {
-     "kind": "choice",
-     "n": 22,
-     "options": {
-      "Bell-to-bell": 45.5,
-      "Schedule-based restriction": 50.0,
-      "No school-wide restriction": 4.5
-     }
-    },
-    "policy_where": {
-     "kind": "choice",
-     "n": 22,
-     "options": {
-      "Phones cannot be brought into school at all": 0.0,
-      "Centralized collection": 9.1,
-      "Yondr pouches or similar": 9.1,
-      "Lockers only": 13.6,
-      "Classroom collection": 31.8,
-      "'No show' (out of sight)": 22.7,
-      "No school-wide policy": 13.6
      }
     },
     "use_phone_class": {
@@ -88,15 +66,6 @@
       "A few times per week": 31.8,
       "Most days of the week": 9.1,
       "Every day": 9.1
-     }
-    },
-    "policy_strict": {
-     "kind": "choice",
-     "n": 22,
-     "options": {
-      "More strict": 22.7,
-      "Just right": 40.9,
-      "Less strict": 36.4
      }
     }
    }
@@ -246,46 +215,6 @@
   "educator": {
    "n": 134,
    "questions": {
-    "policy_when": {
-     "kind": "choice",
-     "n": 27,
-     "options": {
-      "Bell-to-bell": 44.4,
-      "Schedule-based restriction": 25.9,
-      "No school-wide restriction": 29.6
-     }
-    },
-    "policy_where": {
-     "kind": "choice",
-     "n": 27,
-     "options": {
-      "Phones cannot be brought into school at all": 18.5,
-      "Centralized collection": 33.3,
-      "Yondr pouches or similar": 14.8,
-      "Lockers only": 14.8,
-      "Classroom collection": 7.4,
-      "'No show' (out of sight)": 0.0,
-      "No school-wide policy": 11.1
-     }
-    },
-    "policy_enforce": {
-     "kind": "scale",
-     "n": 25,
-     "mean": 2.56,
-     "dist": [
-      12.0,
-      16.0,
-      40.0,
-      16.0,
-      4.0,
-      0.0,
-      4.0,
-      0.0,
-      4.0,
-      0.0,
-      4.0
-     ]
-    },
     "use_between": {
      "kind": "scale",
      "n": 27,
@@ -357,17 +286,6 @@
       0.0,
       14.8
      ]
-    },
-    "policy_strict": {
-     "kind": "choice",
-     "n": 27,
-     "options": {
-      "Much more restrictive": 25.9,
-      "A little more restrictive": 25.9,
-      "The policy is just right": 25.9,
-      "A little less restrictive": 18.5,
-      "Much less restrictive": 3.7
-     }
     },
     "view_screentime": {
      "kind": "choice",
@@ -445,6 +363,39 @@
       "Write the first draft of an essay": 22.2,
       "Revise an essay they drafted on their own": 22.2,
       "Summarize books/texts instead of reading them": 22.2
+     }
+    },
+    "view_screentime": {
+     "kind": "choice",
+     "n": 7,
+     "options": {
+      "Too low": 42.9,
+      "About right": 57.1,
+      "Too high": 0.0
+     }
+    },
+    "view_hardcopy": {
+     "kind": "choice",
+     "n": 7,
+     "options": {
+      "Yes": 71.4,
+      "No": 28.6
+     }
+    },
+    "view_ban_hw": {
+     "kind": "choice",
+     "n": 7,
+     "options": {
+      "Yes": 42.9,
+      "No": 57.1
+     }
+    },
+    "view_ban_device": {
+     "kind": "choice",
+     "n": 7,
+     "options": {
+      "Yes": 71.4,
+      "No": 28.6
      }
     }
    }
