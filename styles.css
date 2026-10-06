@@ -129,21 +129,15 @@ h1 { font-size: clamp(26px, 4vw, 34px); line-height: 1.15; font-weight: 700; mar
    Elementary device access: medium grey (the AVERAGE colour). Student WHEN/WHERE: all brand green. */
 #access .row-bar .fill { background: var(--avg) !important; }
 .src-note { margin: 18px 0 0; font-size: 13px; line-height: 1.5; color: var(--muted-2); }
-/* Educator and librarian WHEN/WHERE: last school year's figures, data only, grey like device access. */
-.sections:not(.aud-student) #restriction .row-bar .fill, .sections:not(.aud-student) #storage .row-bar .fill { background: var(--avg) !important; }
+/* Educator and librarian WHEN/WHERE: last school year's figures, styled like the student charts: light grey with
+   the most common answer green and tagged MOST COMMON. */
+.sections:not(.aud-student) #restriction .row-bar .fill, .sections:not(.aud-student) #storage .row-bar .fill { background: var(--bar) !important; }
+.sections:not(.aud-student) #restriction .row.popular .row-bar .fill, .sections:not(.aud-student) #storage .row.popular .row-bar .fill { background: var(--green) !important; }
 .sections:not(.aud-student) #restriction .row-bar .pct, .sections:not(.aud-student) #storage .row-bar .pct {
-  color: var(--avg) !important; font-size: 14px !important; font-weight: 400 !important; }
-.sections:not(.aud-student) #restriction .row-label, .sections:not(.aud-student) #storage .row-label {
-  font-weight: 400 !important; color: var(--muted) !important; }
-.aud-student #restriction .row-bar .fill, .aud-student #storage .row-bar .fill { background: var(--bar) !important; }
-.aud-student #restriction .row.popular .row-bar .fill, .aud-student #storage .row.popular .row-bar .fill { background: var(--green) !important; }
-#access .row-bar .pct { color: var(--avg) !important; }
-.aud-student #restriction .row-bar .pct, .aud-student #storage .row-bar .pct { color: var(--muted-2) !important; }
-.aud-student #restriction .row.popular .row-bar .pct, .aud-student #storage .row.popular .row-bar .pct {
+  color: var(--muted-2) !important; font-size: 14px !important; font-weight: 400 !important; }
+.sections:not(.aud-student) #restriction .row.popular .row-bar .pct, .sections:not(.aud-student) #storage .row.popular .row-bar .pct {
   color: var(--green) !important; font-weight: 700 !important; font-size: 15px !important; }
-#access .row-bar .pct, .aud-student #restriction .row-bar .pct, .aud-student #storage .row-bar .pct {
-  font-size: 14px !important; font-weight: 400 !important; }
-#access .row-label, .aud-student #restriction .row-label, .aud-student #storage .row-label {
+.sections:not(.aud-student) #restriction .row-label, .sections:not(.aud-student) #storage .row-label {
   font-weight: 400 !important; color: var(--muted) !important; }
 
 .pop-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: var(--green); white-space: nowrap; }

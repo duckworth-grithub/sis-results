@@ -36,9 +36,9 @@
   var LAST_WHERE = { fixed: true, options: {
     'Phones cannot be brought into school at all': 2, 'Centralized collection': 5, 'Yondr pouches or similar': 6,
     'Classroom collection': 12, 'Lockers only': 19, "'No show' (out of sight)": 49, 'No school-wide policy': 6 } };
-  var LAST_WHEN_HEAD = 'Last school year, <span class="n">69%</span> of schools reported having a bell-to-bell phone policy.';
-  var LAST_WHERE_HEAD = 'Last school year, <span class="n">49%</span> of schools reported having a \u2018no show\u2019 policy, where students keep phones out of sight.';
-  var LAST_NOTE = 'Based on data from the 92,256 U.S. educators surveyed in the 2025-26 school year.';
+  var LAST_WHEN_HEAD = 'Last school year, <span class="n">69%</span> of schools reported having a bell-to-bell phone policy.*';
+  var LAST_WHERE_HEAD = 'Last school year, <span class="n">49%</span> of schools reported having a \u2018no show\u2019 policy, where students keep phones out of sight.*';
+  var LAST_NOTE = '* Both charts are based on data from the 92,256 U.S. educators surveyed in the 2025-26 school year.';
   var TEACHER = [
     ['Never', 'never see a teacher on their phone in class', 0],
     ['Once per week', 'see a teacher on their phone about once a week', 1],
@@ -601,8 +601,8 @@
       ];
     } else if (AUD === 'educator') {
       html = [
-        barsSection('restriction', WHEN_T, WHEN, LAST_WHEN, null, LAST_WHEN_HEAD),
-        barsSection('storage', WHERE_T, WHERE, LAST_WHERE, null, LAST_WHERE_HEAD),
+        barsSection('restriction', WHEN_T, WHEN, LAST_WHEN, null, LAST_WHEN_HEAD, null, true),
+        barsSection('storage', WHERE_T, WHERE, LAST_WHERE, null, LAST_WHERE_HEAD, null, true),
         satisfactionSection(Q('policy_satisf'), P.policy_satisf),
         compareSection('usage', 'Educators report how many students are...', [
           scaleRow('...using phones during class', Q('use_phone_class'), P.use_phone_class),
@@ -615,8 +615,8 @@
       ];
     } else {
       html = [
-        barsSection('restriction', WHEN_T, WHEN, LAST_WHEN, null, LAST_WHEN_HEAD),
-        barsSection('storage', WHERE_T, WHERE, LAST_WHERE, null, LAST_WHERE_HEAD),
+        barsSection('restriction', WHEN_T, WHEN, LAST_WHEN, null, LAST_WHEN_HEAD, null, true),
+        barsSection('storage', WHERE_T, WHERE, LAST_WHERE, null, LAST_WHERE_HEAD, null, true),
         barsSection('access', 'During the school day, how do your students access computers/tablets?', ACCESS, Q('tech_access'), P.tech_access,
           'Schools differ on how students access devices.'),
         boxesSection('usage', [
