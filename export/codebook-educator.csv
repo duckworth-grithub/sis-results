@@ -75,17 +75,6 @@ e_tech_access,QID20,multi,elementary,tech_access,2,Cart or library checkout,
 e_tech_access,QID20,multi,elementary,tech_access,3,Computer lab,
 e_tech_access,QID20,multi,elementary,tech_access,4,Bring your own device,
 e_tech_access,QID20,multi,elementary,tech_access,5,No device access,
-e_tech_take_home,QID21,scale,elementary,tech_take_home,0,0,0%-100% dropdown published as 0-10
-e_tech_take_home,QID21,scale,elementary,tech_take_home,10,1,0%-100% dropdown published as 0-10
-e_tech_take_home,QID21,scale,elementary,tech_take_home,20,2,0%-100% dropdown published as 0-10
-e_tech_take_home,QID21,scale,elementary,tech_take_home,30,3,0%-100% dropdown published as 0-10
-e_tech_take_home,QID21,scale,elementary,tech_take_home,40,4,0%-100% dropdown published as 0-10
-e_tech_take_home,QID21,scale,elementary,tech_take_home,50,5,0%-100% dropdown published as 0-10
-e_tech_take_home,QID21,scale,elementary,tech_take_home,60,6,0%-100% dropdown published as 0-10
-e_tech_take_home,QID21,scale,elementary,tech_take_home,70,7,0%-100% dropdown published as 0-10
-e_tech_take_home,QID21,scale,elementary,tech_take_home,80,8,0%-100% dropdown published as 0-10
-e_tech_take_home,QID21,scale,elementary,tech_take_home,90,9,0%-100% dropdown published as 0-10
-e_tech_take_home,QID21,scale,elementary,tech_take_home,100,10,0%-100% dropdown published as 0-10
 e_tech_screen_read,QID22,scale,elementary,tech_screen_read,0,0,0%-100% dropdown published as 0-10
 e_tech_screen_read,QID22,scale,elementary,tech_screen_read,10,1,0%-100% dropdown published as 0-10
 e_tech_screen_read,QID22,scale,elementary,tech_screen_read,20,2,0%-100% dropdown published as 0-10

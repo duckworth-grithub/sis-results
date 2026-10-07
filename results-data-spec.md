@@ -33,13 +33,14 @@ Student: QID2 `wyr_read`, QID3 `wyr_homework`, QID16 `use_phone_class` (scale), 
 QID18 `use_teacher_phone`.
 
 Not pulled (Oct 6, 2026): the WHEN/WHERE answers (every report shows last school year's figures instead), "should the
-policy be stricter" (student QID20, educator QID68) and enforcement (educator QID63).
+policy be stricter" (student QID20, educator QID68), enforcement (educator QID63) and device take-home
+(educator QID21; its codes became 1–7 frequencies on Oct 7, 2026).
 
 Educator (MS/HS → `educator`): QID64 `use_between` (scale), QID65 `use_phone_class` (scale), QID66 `use_laptop_class`
 (scale), QID67 `policy_satisf` (scale), QID49 `view_screentime`, QID51 `view_hardcopy`, QID52 `view_ban_hw`, QID53
 `view_ban_device`, QID110 `view_ai` (matrix).
 
-Educator (elementary → `elementary`): QID20 `tech_access` (multi), QID21 `tech_take_home` (scale), QID22
+Educator (elementary → `elementary`): QID20 `tech_access` (multi), QID22
 `tech_screen_read` (scale), QID23 `tech_screen_hw` (scale), QID25 `use_instr_personal`, QID26 `use_instr_other`,
 QID27 `use_noninstr`, QID36 `view_screentime`, QID38 `view_hardcopy`, QID39 `view_ban_hw`, QID40 `view_ban_device`.
 

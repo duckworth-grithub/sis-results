@@ -80,7 +80,6 @@ EDU = {
     "e_view_ai_ms": ("QID110", "matrix", AI_USES, MS),  # e_view_AI in Qualtrics; MS/HS block only
     # Elementary educators
     "e_tech_access": ("QID20", "multi", ACCESS, EL),
-    "e_tech_take_home": ("QID21", "scale", None, EL),
     "e_tech_screen_read": ("QID22", "scale", None, EL),
     "e_tech_screen_hw": ("QID23", "scale", None, EL),
     "e_use_instr_personal": ("QID25", "choice", HOURS, EL),
