@@ -511,17 +511,17 @@
   // shares the survey landing page, never the results page.
   var SHARE_URL = 'https://screensinschools.org';
   var SHARE = {
-    student: { head: 'Help us reach every school',
+    student: { head: 'Help us reach every school!',
       sub: 'Invite students at other schools to take the 5-minute survey.',
       sms: 'I just took this 5-min survey. It asks what you think about phones and laptops at school, and you get entered into a giveaway: ',
       subject: 'What do you think about tech in schools?',
       email: 'I just took this 5-min survey. It asks what you think about phones and laptops at school, and you get entered to win a gift card: ' },
-    educator: { head: 'Help us reach every school',
+    educator: { head: 'Help us reach every school!',
       sub: 'Invite educators at other schools to take the 5-minute survey.',
       sms: 'I just took this 5-min survey about device policies. What do you think about tech use in schools? Take the survey here: ',
       subject: 'How are screens impacting your students?',
       email: 'State leaders need to hear directly from educators.\n\nI just took this 5-min survey: ' },
-    librarian: { head: 'Help us reach every school',
+    librarian: { head: 'Help us reach every school!',
       sub: 'Invite librarians at other schools to take the 5-minute survey.',
       sms: 'I just took this 5-min survey about device policies. What do you think about tech use in schools? Take the survey here: ',
       subject: 'How are screens impacting reading?',
