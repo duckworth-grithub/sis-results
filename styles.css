@@ -128,7 +128,7 @@ h1 { font-size: clamp(26px, 4vw, 34px); line-height: 1.15; font-weight: 700; mar
 /* Data-only bar charts, no comparison: every label and percentage plain, no highlight.
    Elementary device access: medium grey (the AVERAGE colour). */
 #access .row-bar .fill { background: var(--avg) !important; }
-.src-note { margin: 18px 0 0; font-size: 13px; line-height: 1.5; color: var(--muted-2); }
+.src-note { margin: 20px 0 0; font-size: 15px; line-height: 1.5; color: var(--ink); }
 /* WHEN/WHERE on every report: last school year's figures, light grey with the most common answer green and
    tagged MOST COMMON. */
 #restriction .row-bar .fill, #storage .row-bar .fill { background: var(--bar) !important; }

@@ -682,7 +682,7 @@
       if (!isNaN(d)) note = 'This report reflects survey data from ' +
         // Whose answers the report's live sections use (librarian reports use librarians' own answers).
         (AUD === 'student' ? 'students' : LIB ? 'librarians' : 'educators and administrators') + ' as of ' +
-        d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) + '.';
+        d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) + '. Data collection will continue through the 2026-27 school year.';
     }
     if (!live) note = 'Sample data. Live results will appear here once enough responses are in.';
     document.getElementById('as-of').textContent = note;
