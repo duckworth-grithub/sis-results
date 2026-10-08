@@ -150,11 +150,7 @@ Test links locally (`python3 -m http.server`, then open http://localhost:8000 pl
   in the survey they are 0%–100% dropdowns like the other scales, and the design shows them as YOU% vs AVERAGE%.
 - `MIN_N` (workflow env, default 0): 0 means never suppress. Set it above 0 to withhold questions with fewer answers.
 - Only the whitelisted QIDs are requested (`embeddedDataIds: []`), and rows are reduced to those QIDs immediately after download. Nothing row-level is written to disk; logs print counts only.
-- From the librarian survey only the checkouts questions are pulled: QID258 (school or district), QID403 (print and
-  digital separate?), and the per-year boxes QID405 (total), QID275 (print), QID404 (digital). The boxes are turned into
-  numbers as each row is read; text in them is discarded. Rules (handoff §2): school-level only; zero, blank or
-  non-numeric = missing; small values kept; print + digital: a year counts if either is filled, and a blank half counts as 0. The
-  handoff's `tk` rule isn't applied, because it needs free-text fields this job never pulls. Year boxes: _1 = 2026-27
-  (so far, partial), _2 = 2025-26 … _5 = 2022-23. The balanced panel uses 2022-23 to 2025-26; 2026-27 (partial) is
-  not published. The combined figures are last year's baseline (`CIRC_BASELINE` in the export) plus this year's.
+- From the librarian survey only the questions the librarian reports show are pulled: satisfaction (QID130), the AI
+  matrix (QID419) and Your View (QID414, QID416–418). Library checkouts are no longer pulled or published; the reports
+  stopped showing them in Oct 2026.
 - Still to confirm with the live survey: that `distributionChannel` is populated for the anonymous link.

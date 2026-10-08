@@ -25,8 +25,8 @@ Anything not listed here never leaves Qualtrics. Answer codes and labels for eve
 
 Librarians (SV_9BO9iR0YKZ2lVie) see the educator pages and compare themselves with educators (links in the README).
 Their satisfaction (QID130, recodes 0–100 like QID67), AI approval (QID419, same codes as QID110) and Your View
-(QID414 screen time, QID416–418 yes/no; asked of elementary-only librarians) are published as audience `librarian` and shown on librarian reports in place of educators' figures. Their library checkouts are also
-exported, under the top-level `librarian` key (below).
+(QID414 screen time, QID416–418 yes/no; asked of elementary-only librarians) are published as audience `librarian` and shown on librarian reports in place of educators' figures. Library checkouts
+are not pulled (the reports stopped showing them in Oct 2026).
 
 ## Fields pulled
 Student: QID2 `wyr_read`, QID3 `wyr_homework`, QID16 `use_phone_class` (scale), QID17 `use_laptop_class` (scale),
@@ -46,25 +46,9 @@ QID27 `use_noninstr`, QID36 `view_screentime`, QID38 `view_hardcopy`, QID39 `vie
 
 Routing only, never published: QID44 `e_role_level`.
 
-Librarian (checkouts only): QID258 `l_role_level` (1 school, 0 district: excluded), QID403 `l_circ_split_s`, and the
-per-year number boxes QID405 `l_circ_school_total`, QID275 `l_circ_school_print`, QID404 `l_circ_school_digital`.
-
-## Library checkouts (`librarian.circulation`)
-Last year's figures (LIBRARIAN_HANDOFF.md §4, July 2, 2026 export) are a fixed base; each run adds this year's
-school libraries on top. Nothing is ever swapped out. Sums and counts combine exactly; medians can't be combined
-from published figures, so the combined views carry means only.
-```json
-"librarian": { "circulation": {
-  "source": "last year's and this year's Screens in Schools librarian surveys", "partial": "2025-26",
-  "baseline": { "export": "2026-07-02", "panel_n": 107 }, "added": { "libraries": 90, "panel": 90 },
-  "all":   [ { "year": "2022-23", "n": 199, "total": 1132266, "mean": 5690 }, "…" ],
-  "panel": { "n": 197, "years": [ { "year": "2022-23", "mean": 5676, "change": 0.0 }, "…" ] }
-} }
-```
-- `all` (handoff view A): libraries that reported each year, last year's plus this year's; n varies by year.
-- `panel` (view B): last year's 107 libraries plus this year's libraries that reported all of 2022-23 to 2025-26;
-  `change` = % vs 2022-23. The page shows only year-over-year % change, worked out from `mean` (no averages shown).
-- The page always shows `panel`; the baseline copy in app.js is used only if the data file has no `librarian` key.
+Librarian (→ `librarian`): QID130 `l_policy_satisf` (scale), QID419 `l_ai_allow` (matrix), QID414 `l_view_screentime`,
+QID416 `l_view_hardcopy`, QID417 `l_view_ban_hw`, QID418 `l_view_ban_laptops`. Nothing else from the librarian survey
+leaves Qualtrics.
 
 ## Output shape
 ```json

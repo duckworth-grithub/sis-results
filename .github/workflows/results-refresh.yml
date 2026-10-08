@@ -1,6 +1,6 @@
 # Secrets to add in repo Settings → Secrets and variables → Actions:
 #   QUALTRICS_TOKEN, QUALTRICS_DATACENTER (yul1), SURVEY_TEEN (SV_6LFWjsZ51O8XInY), SURVEY_EDUCATOR (SV_bxUuSACfns11z5s),
-#   SURVEY_LIBRARIAN (SV_9BO9iR0YKZ2lVie; library checkouts only)
+#   SURVEY_LIBRARIAN (SV_9BO9iR0YKZ2lVie; librarian satisfaction, AI and Your View)
 name: Refresh results data
 on:
   schedule:
