@@ -607,7 +607,7 @@
             'Phones cannot be brought into school at all': 'Left at home',
             'Centralized collection': 'Collected at the start of the day',
             'Yondr pouches or similar': 'Locked in a pouch',
-            'Lockers only': 'In lockers all day',
+            'Lockers only': 'In lockers',
             'Classroom collection': 'Collected in each class',
             "'No show' (out of sight)": 'Kept out of sight',
             'No school-wide policy': 'No school-wide rule'
