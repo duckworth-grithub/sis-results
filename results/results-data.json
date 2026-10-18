@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-17T09:55:24Z",
+ "generated_at": "2026-10-18T10:08:15Z",
  "min_n": 0,
  "audiences": {
   "student": {
@@ -28,7 +28,7 @@
    }
   },
   "educator": {
-   "n": 2,
+   "n": 4,
    "questions": {
     "use_between": null,
     "use_phone_class": null,
