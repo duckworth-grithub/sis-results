@@ -1,48 +1,48 @@
 {
- "generated_at": "2026-10-20T10:42:16Z",
+ "generated_at": "2026-10-21T10:52:52Z",
  "min_n": 0,
  "audiences": {
   "student": {
-   "n": 2,
+   "n": 3,
    "questions": {
     "wyr_read": {
      "kind": "choice",
-     "n": 2,
+     "n": 3,
      "options": {
-      "Read things in hard copy": 50.0,
-      "Read things on a screen": 50.0
+      "Read things in hard copy": 66.7,
+      "Read things on a screen": 33.3
      }
     },
     "wyr_homework": {
      "kind": "choice",
-     "n": 2,
+     "n": 3,
      "options": {
-      "Do more homework on a computer": 50.0,
-      "Do more homework on paper": 50.0
+      "Do more homework on a computer": 66.7,
+      "Do more homework on paper": 33.3
      }
     },
     "use_phone_class": {
      "kind": "scale",
-     "n": 2,
-     "mean": 4.5,
+     "n": 3,
+     "mean": 6.33,
      "dist": [
       0.0,
       0.0,
       0.0,
-      50.0,
+      33.3,
       0.0,
       0.0,
-      50.0,
+      33.3,
       0.0,
       0.0,
       0.0,
-      0.0
+      33.3
      ]
     },
     "use_laptop_class": {
      "kind": "scale",
-     "n": 2,
-     "mean": 7.0,
+     "n": 3,
+     "mean": 8.0,
      "dist": [
       0.0,
       0.0,
@@ -51,19 +51,19 @@
       0.0,
       0.0,
       0.0,
-      100.0,
+      66.7,
       0.0,
       0.0,
-      0.0
+      33.3
      ]
     },
     "use_teacher_phone": {
      "kind": "choice",
-     "n": 2,
+     "n": 3,
      "options": {
       "Never": 0.0,
-      "Once per week": 50.0,
-      "A few times per week": 50.0,
+      "Once per week": 66.7,
+      "A few times per week": 33.3,
       "Most days of the week": 0.0,
       "Every day": 0.0
      }
@@ -71,89 +71,89 @@
    }
   },
   "elementary": {
-   "n": 41,
+   "n": 81,
    "questions": {
     "tech_access": {
      "kind": "multi",
-     "n": 41,
+     "n": 81,
      "options": {
-      "1:1 devices": 92.7,
-      "Cart or library checkout": 2.4,
-      "Computer lab": 0.0,
-      "Bring your own device": 2.4,
-      "No device access": 2.4
+      "1:1 devices": 95.1,
+      "Cart or library checkout": 1.2,
+      "Computer lab": 3.7,
+      "Bring your own device": 2.5,
+      "No device access": 1.2
      }
     },
     "tech_screen_read": {
      "kind": "scale",
-     "n": 41,
-     "mean": 3.07,
+     "n": 81,
+     "mean": 3.54,
      "dist": [
-      17.1,
-      26.8,
-      14.6,
-      9.8,
-      2.4,
-      2.4,
-      7.3,
-      4.9,
-      12.2,
-      0.0,
-      2.4
+      12.3,
+      17.3,
+      14.8,
+      14.8,
+      2.5,
+      12.3,
+      7.4,
+      7.4,
+      7.4,
+      1.2,
+      2.5
      ]
     },
     "tech_screen_hw": {
      "kind": "scale",
-     "n": 41,
-     "mean": 0.93,
+     "n": 81,
+     "mean": 1.07,
      "dist": [
-      73.2,
-      9.8,
-      7.3,
-      2.4,
+      67.9,
+      9.9,
+      7.4,
+      4.9,
+      2.5,
+      1.2,
       0.0,
+      2.5,
+      1.2,
       0.0,
-      0.0,
-      2.4,
-      2.4,
-      0.0,
-      2.4
+      2.5
      ]
     },
     "use_instr_personal": {
      "kind": "choice",
-     "n": 41,
+     "n": 81,
      "options": {
-      "None": 9.8,
-      "Up to 1 hour": 63.4,
-      "1 to 2 hours": 17.1,
-      "2 to 3 hours": 4.9,
-      "3 to 4 hours": 2.4,
-      "4 to 5 hours": 2.4,
+      "None": 7.4,
+      "Up to 1 hour": 60.5,
+      "1 to 2 hours": 16.0,
+      "2 to 3 hours": 9.9,
+      "3 to 4 hours": 3.7,
+      "4 to 5 hours": 2.5,
       "More than 5 hours": 0.0
      }
     },
     "use_instr_other": {
      "kind": "choice",
-     "n": 41,
+     "n": 81,
      "options": {
-      "None": 34.1,
-      "Up to 1 hour": 51.2,
-      "1 to 2 hours": 9.8,
-      "2 to 3 hours": 4.9,
-      "3 to 4 hours": 0.0,
-      "4 to 5 hours": 0.0,
+      "None": 21.0,
+      "Up to 1 hour": 59.3,
+      "1 to 2 hours": 8.6,
+      "2 to 3 hours": 7.4,
+      "3 to 4 hours": 2.5,
+      "4 to 5 hours": 1.2,
       "More than 5 hours": 0.0
      }
     },
     "use_noninstr": {
      "kind": "choice",
-     "n": 41,
+     "n": 81,
      "options": {
-      "None": 65.9,
-      "Up to 1 hour": 26.8,
+      "None": 54.3,
+      "Up to 1 hour": 39.5,
       "1 to 2 hours": 4.9,
-      "2 to 3 hours": 2.4,
+      "2 to 3 hours": 1.2,
       "3 to 4 hours": 0.0,
       "4 to 5 hours": 0.0,
       "More than 5 hours": 0.0
@@ -161,165 +161,192 @@
     },
     "view_screentime": {
      "kind": "choice",
-     "n": 41,
+     "n": 81,
      "options": {
-      "Too low": 4.9,
-      "About right": 61.0,
-      "Too high": 34.1
+      "Too low": 3.7,
+      "About right": 55.6,
+      "Too high": 40.7
      }
     },
     "view_hardcopy": {
      "kind": "choice",
-     "n": 41,
+     "n": 81,
      "options": {
-      "Yes": 63.4,
-      "No": 36.6
+      "Yes": 64.2,
+      "No": 35.8
      }
     },
     "view_ban_hw": {
      "kind": "choice",
-     "n": 41,
+     "n": 81,
      "options": {
-      "Yes": 73.2,
-      "No": 26.8
+      "Yes": 65.4,
+      "No": 34.6
      }
     },
     "view_ban_device": {
      "kind": "choice",
-     "n": 41,
+     "n": 81,
      "options": {
-      "Yes": 61.0,
-      "No": 39.0
+      "Yes": 66.7,
+      "No": 33.3
      }
     }
    }
   },
   "educator": {
-   "n": 88,
+   "n": 172,
    "questions": {
     "use_between": {
      "kind": "scale",
-     "n": 76,
+     "n": 149,
      "mean": 3.91,
      "dist": [
-      18.4,
-      23.7,
-      1.3,
-      9.2,
-      5.3,
-      11.8,
-      2.6,
-      5.3,
-      5.3,
-      9.2,
-      7.9
+      21.5,
+      20.1,
+      2.0,
+      8.7,
+      3.4,
+      13.4,
+      2.7,
+      5.4,
+      6.0,
+      10.1,
+      6.7
      ]
     },
     "use_phone_class": {
      "kind": "scale",
-     "n": 76,
-     "mean": 2.05,
+     "n": 149,
+     "mean": 2.43,
      "dist": [
-      27.6,
-      34.2,
-      7.9,
-      9.2,
-      5.3,
-      5.3,
-      2.6,
-      3.9,
-      1.3,
-      0.0,
-      2.6
+      27.5,
+      27.5,
+      6.7,
+      9.4,
+      6.0,
+      9.4,
+      3.4,
+      3.4,
+      2.7,
+      2.7,
+      1.3
      ]
     },
     "use_laptop_class": {
      "kind": "scale",
-     "n": 76,
-     "mean": 4.26,
+     "n": 149,
+     "mean": 4.81,
      "dist": [
-      9.2,
-      10.5,
-      13.2,
-      13.2,
-      7.9,
-      15.8,
-      2.6,
-      11.8,
-      6.6,
-      3.9,
-      5.3
+      5.4,
+      13.4,
+      8.7,
+      8.7,
+      8.1,
+      15.4,
+      4.7,
+      14.8,
+      10.1,
+      5.4,
+      5.4
      ]
     },
     "policy_satisf": {
      "kind": "scale",
-     "n": 76,
-     "mean": 6.99,
+     "n": 149,
+     "mean": 6.52,
      "dist": [
-      11.8,
-      2.6,
-      3.9,
-      3.9,
-      2.6,
-      2.6,
-      1.3,
-      9.2,
-      9.2,
-      19.7,
-      32.9
+      14.8,
+      3.4,
+      3.4,
+      4.0,
+      4.0,
+      4.0,
+      2.7,
+      5.4,
+      13.4,
+      17.4,
+      27.5
      ]
     },
     "view_screentime": {
      "kind": "choice",
-     "n": 76,
+     "n": 149,
      "options": {
       "Too low": 1.3,
-      "About right": 42.1,
-      "Too high": 56.6
+      "About right": 37.6,
+      "Too high": 61.1
      }
     },
     "view_hardcopy": {
      "kind": "choice",
-     "n": 76,
+     "n": 149,
      "options": {
-      "Yes": 50.0,
-      "No": 50.0
+      "Yes": 54.4,
+      "No": 45.6
      }
     },
     "view_ban_hw": {
      "kind": "choice",
-     "n": 76,
+     "n": 149,
      "options": {
-      "Yes": 46.1,
-      "No": 53.9
+      "Yes": 49.0,
+      "No": 51.0
      }
     },
     "view_ban_device": {
      "kind": "choice",
-     "n": 76,
+     "n": 149,
      "options": {
-      "Yes": 77.6,
-      "No": 22.4
+      "Yes": 81.9,
+      "No": 18.1
      }
     },
     "view_ai": {
      "kind": "matrix",
-     "n": 76,
+     "n": 149,
      "rows": {
-      "Look up facts": 55.3,
-      "Get explanations of difficult concepts": 78.9,
-      "Write the first draft of an essay": 3.9,
-      "Revise an essay they drafted on their own": 32.9,
-      "Summarize books/texts instead of reading them": 6.6
+      "Look up facts": 57.7,
+      "Get explanations of difficult concepts": 74.5,
+      "Write the first draft of an essay": 5.4,
+      "Revise an essay they drafted on their own": 38.9,
+      "Summarize books/texts instead of reading them": 6.0
      }
     }
    }
   },
   "librarian": {
-   "n": 0,
+   "n": 1,
    "questions": {
-    "policy_satisf": null,
-    "view_ai": null,
+    "policy_satisf": {
+     "kind": "scale",
+     "n": 1,
+     "mean": 10.0,
+     "dist": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      100.0
+     ]
+    },
+    "view_ai": {
+     "kind": "matrix",
+     "n": 1,
+     "rows": {
+      "Look up facts": 0.0,
+      "Get explanations of difficult concepts": 100.0,
+      "Write the first draft of an essay": 0.0,
+      "Revise an essay they drafted on their own": 100.0,
+      "Summarize books/texts instead of reading them": 100.0
+     }
+    },
     "view_screentime": null,
     "view_hardcopy": null,
     "view_ban_hw": null,
