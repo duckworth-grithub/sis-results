@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-26T11:55:52Z",
+ "generated_at": "2026-10-27T11:18:35Z",
  "min_n": 0,
  "audiences": {
   "student": {
@@ -195,83 +195,83 @@
    }
   },
   "educator": {
-   "n": 253,
+   "n": 306,
    "questions": {
     "use_between": {
      "kind": "scale",
-     "n": 200,
-     "mean": 3.7,
+     "n": 205,
+     "mean": 3.75,
      "dist": [
-      20.5,
-      23.5,
-      4.5,
-      9.0,
-      3.0,
-      11.0,
-      2.0,
-      4.0,
-      6.0,
-      9.5,
-      7.0
+      20.0,
+      23.4,
+      4.4,
+      8.8,
+      2.9,
+      11.2,
+      2.4,
+      3.9,
+      6.3,
+      9.8,
+      6.8
      ]
     },
     "use_phone_class": {
      "kind": "scale",
-     "n": 200,
-     "mean": 2.33,
+     "n": 205,
+     "mean": 2.36,
      "dist": [
-      29.0,
-      26.5,
-      8.0,
-      10.0,
-      5.5,
-      8.0,
-      4.0,
-      2.5,
-      3.0,
+      28.3,
+      26.3,
+      8.8,
+      9.8,
+      5.4,
+      7.8,
+      4.4,
+      2.9,
+      2.9,
       2.0,
       1.5
      ]
     },
     "use_laptop_class": {
      "kind": "scale",
-     "n": 200,
-     "mean": 4.86,
+     "n": 205,
+     "mean": 4.89,
      "dist": [
-      5.0,
-      11.0,
-      12.0,
-      8.0,
-      8.5,
-      15.0,
-      5.0,
-      13.0,
-      11.5,
-      5.0,
-      6.0
+      4.9,
+      10.7,
+      11.7,
+      8.3,
+      8.3,
+      15.1,
+      5.4,
+      13.2,
+      11.2,
+      5.4,
+      5.9
      ]
     },
     "policy_satisf": {
      "kind": "scale",
-     "n": 200,
-     "mean": 6.55,
+     "n": 205,
+     "mean": 6.57,
      "dist": [
-      14.5,
-      3.0,
-      3.0,
-      5.0,
-      3.0,
-      6.0,
-      2.5,
-      5.0,
-      12.0,
-      17.0,
-      29.0
+      14.1,
+      2.9,
+      2.9,
+      4.9,
+      2.9,
+      6.8,
+      2.4,
+      4.9,
+      12.2,
+      17.1,
+      28.8
      ]
     },
     "view_screentime": {
      "kind": "choice",
-     "n": 200,
+     "n": 205,
      "options": {
       "Too low": 1.0,
       "About right": 38.0,
@@ -280,23 +280,23 @@
     },
     "view_hardcopy": {
      "kind": "choice",
-     "n": 200,
+     "n": 205,
      "options": {
-      "Yes": 53.0,
-      "No": 47.0
+      "Yes": 54.1,
+      "No": 45.9
      }
     },
     "view_ban_hw": {
      "kind": "choice",
-     "n": 200,
+     "n": 205,
      "options": {
-      "Yes": 49.0,
-      "No": 51.0
+      "Yes": 48.8,
+      "No": 51.2
      }
     },
     "view_ban_device": {
      "kind": "choice",
-     "n": 200,
+     "n": 205,
      "options": {
       "Yes": 82.0,
       "No": 18.0
@@ -304,53 +304,82 @@
     },
     "view_ai": {
      "kind": "matrix",
-     "n": 200,
+     "n": 205,
      "rows": {
-      "Look up facts": 55.0,
-      "Get explanations of difficult concepts": 73.0,
-      "Write the first draft of an essay": 4.0,
-      "Revise an essay they drafted on their own": 41.0,
-      "Summarize books/texts instead of reading them": 7.0
+      "Look up facts": 54.6,
+      "Get explanations of difficult concepts": 73.2,
+      "Write the first draft of an essay": 3.9,
+      "Revise an essay they drafted on their own": 42.0,
+      "Summarize books/texts instead of reading them": 6.8
      }
     }
    }
   },
   "librarian": {
-   "n": 1,
+   "n": 19,
    "questions": {
     "policy_satisf": {
      "kind": "scale",
-     "n": 1,
-     "mean": 10.0,
+     "n": 17,
+     "mean": 7.71,
      "dist": [
       0.0,
       0.0,
       0.0,
       0.0,
+      5.9,
+      23.5,
       0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      100.0
+      5.9,
+      11.8,
+      35.3,
+      17.6
      ]
     },
     "view_ai": {
      "kind": "matrix",
-     "n": 1,
+     "n": 17,
      "rows": {
-      "Look up facts": 0.0,
-      "Get explanations of difficult concepts": 100.0,
-      "Write the first draft of an essay": 0.0,
-      "Revise an essay they drafted on their own": 100.0,
-      "Summarize books/texts instead of reading them": 100.0
+      "Look up facts": 52.9,
+      "Get explanations of difficult concepts": 82.4,
+      "Write the first draft of an essay": 11.8,
+      "Revise an essay they drafted on their own": 35.3,
+      "Summarize books/texts instead of reading them": 17.6
      }
     },
-    "view_screentime": null,
-    "view_hardcopy": null,
-    "view_ban_hw": null,
-    "view_ban_device": null
+    "view_screentime": {
+     "kind": "choice",
+     "n": 2,
+     "options": {
+      "Too low": 0.0,
+      "About right": 50.0,
+      "Too high": 50.0
+     }
+    },
+    "view_hardcopy": {
+     "kind": "choice",
+     "n": 2,
+     "options": {
+      "Yes": 50.0,
+      "No": 50.0
+     }
+    },
+    "view_ban_hw": {
+     "kind": "choice",
+     "n": 2,
+     "options": {
+      "Yes": 100.0,
+      "No": 0.0
+     }
+    },
+    "view_ban_device": {
+     "kind": "choice",
+     "n": 2,
+     "options": {
+      "Yes": 50.0,
+      "No": 50.0
+     }
+    }
    }
   }
  }
