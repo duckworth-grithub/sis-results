@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-10T13:59:34Z",
+ "generated_at": "2026-11-10T14:55:56Z",
  "min_n": 0,
  "audiences": {
   "student": {
@@ -195,14 +195,14 @@
    }
   },
   "educator": {
-   "n": 1163,
+   "n": 1164,
    "questions": {
     "use_between": {
      "kind": "scale",
-     "n": 672,
-     "mean": 3.74,
+     "n": 673,
+     "mean": 3.73,
      "dist": [
-      22.6,
+      22.7,
       22.0,
       6.7,
       6.7,
@@ -211,21 +211,21 @@
       2.1,
       4.3,
       4.9,
-      11.2,
+      11.1,
       8.3
      ]
     },
     "use_phone_class": {
      "kind": "scale",
-     "n": 672,
-     "mean": 2.11,
+     "n": 673,
+     "mean": 2.1,
      "dist": [
-      34.8,
+      34.9,
       25.0,
       9.4,
       8.8,
       4.2,
-      6.0,
+      5.9,
       2.4,
       3.0,
       2.2,
@@ -235,68 +235,68 @@
     },
     "use_laptop_class": {
      "kind": "scale",
-     "n": 672,
+     "n": 673,
      "mean": 4.18,
      "dist": [
       10.3,
       14.9,
-      10.6,
+      10.5,
       11.3,
       6.8,
       13.5,
-      5.4,
+      5.5,
       10.1,
       7.9,
-      5.4,
+      5.3,
       3.9
      ]
     },
     "policy_satisf": {
      "kind": "scale",
-     "n": 672,
+     "n": 673,
      "mean": 7.11,
      "dist": [
-      10.9,
+      10.8,
       2.1,
       2.5,
       3.4,
       1.8,
       7.6,
       2.4,
-      5.7,
+      5.6,
       13.2,
       15.8,
-      34.7
+      34.8
      ]
     },
     "view_screentime": {
      "kind": "choice",
-     "n": 672,
+     "n": 673,
      "options": {
       "Too low": 1.2,
-      "About right": 43.9,
-      "Too high": 54.9
+      "About right": 43.8,
+      "Too high": 55.0
      }
     },
     "view_hardcopy": {
      "kind": "choice",
-     "n": 672,
+     "n": 673,
      "options": {
-      "Yes": 53.7,
-      "No": 46.3
+      "Yes": 53.8,
+      "No": 46.2
      }
     },
     "view_ban_hw": {
      "kind": "choice",
-     "n": 672,
+     "n": 673,
      "options": {
-      "Yes": 46.6,
-      "No": 53.4
+      "Yes": 46.7,
+      "No": 53.3
      }
     },
     "view_ban_device": {
      "kind": "choice",
-     "n": 672,
+     "n": 673,
      "options": {
       "Yes": 79.6,
       "No": 20.4
@@ -304,10 +304,10 @@
     },
     "view_ai": {
      "kind": "matrix",
-     "n": 672,
+     "n": 673,
      "rows": {
       "Look up facts": 56.0,
-      "Get explanations of difficult concepts": 72.9,
+      "Get explanations of difficult concepts": 73.0,
       "Write the first draft of an essay": 5.1,
       "Revise an essay they drafted on their own": 36.6,
       "Summarize books/texts instead of reading them": 6.5
