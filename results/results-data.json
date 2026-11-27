@@ -1,69 +1,69 @@
 {
- "generated_at": "2026-11-26T16:04:09Z",
+ "generated_at": "2026-11-27T15:52:54Z",
  "min_n": 0,
  "audiences": {
   "student": {
-   "n": 471,
+   "n": 498,
    "questions": {
     "wyr_read": {
      "kind": "choice",
-     "n": 471,
+     "n": 498,
      "options": {
-      "Read things in hard copy": 65.6,
-      "Read things on a screen": 34.4
+      "Read things in hard copy": 65.9,
+      "Read things on a screen": 34.1
      }
     },
     "wyr_homework": {
      "kind": "choice",
-     "n": 471,
+     "n": 498,
      "options": {
-      "Do more homework on a computer": 51.8,
-      "Do more homework on paper": 48.2
+      "Do more homework on a computer": 50.8,
+      "Do more homework on paper": 49.2
      }
     },
     "use_phone_class": {
      "kind": "scale",
-     "n": 471,
-     "mean": 3.02,
+     "n": 498,
+     "mean": 3.0,
      "dist": [
       21.7,
-      21.0,
-      11.7,
-      10.4,
-      8.1,
-      6.2,
+      21.5,
+      11.2,
+      10.8,
+      8.0,
+      6.0,
       3.6,
-      6.8,
+      6.4,
       4.2,
-      3.2,
-      3.2
+      3.4,
+      3.0
      ]
     },
     "use_laptop_class": {
      "kind": "scale",
-     "n": 471,
-     "mean": 3.99,
+     "n": 498,
+     "mean": 3.97,
      "dist": [
-      11.9,
-      17.6,
-      10.4,
-      11.5,
-      7.9,
-      10.2,
-      7.6,
-      4.9,
-      5.7,
-      4.9,
-      7.4
+      11.6,
+      17.3,
+      11.2,
+      11.4,
+      8.4,
+      9.6,
+      7.8,
+      5.2,
+      5.4,
+      4.6,
+      7.2
      ]
     },
     "use_teacher_phone": {
      "kind": "choice",
-     "n": 471,
+     "n": 498,
      "options": {
-      "Never": 17.2,
-      "Once per week": 20.0,
-      "A few times per week": 36.7,
+      "Never": 17.1,
+      "Once per week": 19.9,
+      "A few times per week": 36.9,
       "Most days of the week": 16.1,
       "Every day": 10.0
      }
@@ -195,7 +195,7 @@
    }
   },
   "educator": {
-   "n": 2702,
+   "n": 2758,
    "questions": {
     "use_between": {
      "kind": "scale",
