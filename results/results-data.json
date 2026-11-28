@@ -1,71 +1,71 @@
 {
- "generated_at": "2026-11-27T15:52:54Z",
+ "generated_at": "2026-11-28T14:47:52Z",
  "min_n": 0,
  "audiences": {
   "student": {
-   "n": 498,
+   "n": 521,
    "questions": {
     "wyr_read": {
      "kind": "choice",
-     "n": 498,
+     "n": 521,
      "options": {
-      "Read things in hard copy": 65.9,
-      "Read things on a screen": 34.1
+      "Read things in hard copy": 64.9,
+      "Read things on a screen": 35.1
      }
     },
     "wyr_homework": {
      "kind": "choice",
-     "n": 498,
+     "n": 521,
      "options": {
-      "Do more homework on a computer": 50.8,
-      "Do more homework on paper": 49.2
+      "Do more homework on a computer": 52.4,
+      "Do more homework on paper": 47.6
      }
     },
     "use_phone_class": {
      "kind": "scale",
-     "n": 498,
-     "mean": 3.0,
+     "n": 521,
+     "mean": 2.99,
      "dist": [
+      22.1,
       21.7,
-      21.5,
-      11.2,
-      10.8,
-      8.0,
-      6.0,
-      3.6,
-      6.4,
+      10.7,
+      10.6,
+      7.9,
+      6.1,
+      3.8,
+      6.7,
       4.2,
-      3.4,
-      3.0
+      3.3,
+      2.9
      ]
     },
     "use_laptop_class": {
      "kind": "scale",
-     "n": 498,
-     "mean": 3.97,
+     "n": 521,
+     "mean": 3.98,
      "dist": [
-      11.6,
-      17.3,
-      11.2,
-      11.4,
+      11.9,
+      17.1,
+      10.9,
+      11.7,
       8.4,
       9.6,
-      7.8,
-      5.2,
-      5.4,
-      4.6,
-      7.2
+      7.5,
+      5.0,
+      6.0,
+      4.4,
+      7.5
      ]
     },
     "use_teacher_phone": {
      "kind": "choice",
-     "n": 498,
+     "n": 521,
      "options": {
-      "Never": 17.1,
-      "Once per week": 19.9,
-      "A few times per week": 36.9,
-      "Most days of the week": 16.1,
-      "Every day": 10.0
+      "Never": 16.5,
+      "Once per week": 19.6,
+      "A few times per week": 37.4,
+      "Most days of the week": 15.7,
+      "Every day": 10.7
      }
     }
    }
@@ -195,16 +195,16 @@
    }
   },
   "educator": {
-   "n": 2758,
+   "n": 2795,
    "questions": {
     "use_between": {
      "kind": "scale",
-     "n": 1409,
+     "n": 1410,
      "mean": 3.73,
      "dist": [
-      19.7,
+      19.6,
       22.5,
-      8.0,
+      8.1,
       7.3,
       4.0,
       8.3,
@@ -217,8 +217,8 @@
     },
     "use_phone_class": {
      "kind": "scale",
-     "n": 1409,
-     "mean": 2.21,
+     "n": 1410,
+     "mean": 2.2,
      "dist": [
       31.2,
       26.0,
@@ -235,8 +235,8 @@
     },
     "use_laptop_class": {
      "kind": "scale",
-     "n": 1409,
-     "mean": 4.28,
+     "n": 1410,
+     "mean": 4.27,
      "dist": [
       10.3,
       13.3,
@@ -253,7 +253,7 @@
     },
     "policy_satisf": {
      "kind": "scale",
-     "n": 1409,
+     "n": 1410,
      "mean": 6.86,
      "dist": [
       10.7,
@@ -265,22 +265,22 @@
       2.8,
       6.6,
       11.7,
-      15.4,
-      31.2
+      15.5,
+      31.1
      ]
     },
     "view_screentime": {
      "kind": "choice",
-     "n": 1409,
+     "n": 1410,
      "options": {
       "Too low": 0.9,
-      "About right": 42.0,
-      "Too high": 57.1
+      "About right": 42.1,
+      "Too high": 57.0
      }
     },
     "view_hardcopy": {
      "kind": "choice",
-     "n": 1409,
+     "n": 1410,
      "options": {
       "Yes": 53.2,
       "No": 46.8
@@ -288,7 +288,7 @@
     },
     "view_ban_hw": {
      "kind": "choice",
-     "n": 1409,
+     "n": 1410,
      "options": {
       "Yes": 46.5,
       "No": 53.5
@@ -296,7 +296,7 @@
     },
     "view_ban_device": {
      "kind": "choice",
-     "n": 1409,
+     "n": 1410,
      "options": {
       "Yes": 80.3,
       "No": 19.7
@@ -304,7 +304,7 @@
     },
     "view_ai": {
      "kind": "matrix",
-     "n": 1409,
+     "n": 1410,
      "rows": {
       "Look up facts": 54.5,
       "Get explanations of difficult concepts": 71.1,
